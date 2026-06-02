@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Política de Privacidad — DondeBailar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0D0D11;
+    --surface:#16161D;
+    --border:#2A2A35;
+    --text:#ECECEF;
+    --text-strong:#FFFFFF;
+    --muted:#A8A8B3;
+    --primary:#FF4D5E;
+    --accent:#F5C04A;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Manrope',ui-sans-serif,sans-serif;
+    font-size:17px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:740px;
+    margin:0 auto;
+    padding:72px 24px 96px;
+  }
+  header{
+    margin-bottom:8px;
+  }
+  .wordmark{
+    font-family:'Unbounded',sans-serif;
+    font-weight:600;
+    font-size:clamp(30px,7vw,44px);
+    letter-spacing:-0.01em;
+    line-height:1.05;
+    margin:0;
+    color:var(--text-strong);
+  }
+  .wordmark .b{color:var(--primary);}
+  .smile{display:block;height:10px;width:170px;margin:6px 0 0 2px;}
+  h1.doc-title{
+    font-family:'Unbounded',sans-serif;
+    font-weight:500;
+    font-size:clamp(20px,4vw,26px);
+    color:var(--text-strong);
+    margin:34px 0 6px;
+    letter-spacing:-0.01em;
+  }
+  .meta{
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.7;
+    margin:0 0 8px;
+  }
+  .meta strong{color:var(--text);font-weight:600;}
+  .rule{
+    border:0;height:1px;
+    background:linear-gradient(90deg,var(--accent),transparent 80%);
+    margin:28px 0 36px;
+  }
+  h2{
+    font-family:'Manrope',sans-serif;
+    font-weight:700;
+    font-size:20px;
+    color:var(--text-strong);
+    margin:44px 0 12px;
+    padding-left:14px;
+    border-left:3px solid var(--primary);
+    line-height:1.3;
+  }
+  h2 .num{color:var(--accent);font-weight:700;margin-right:8px;}
+  p{margin:0 0 16px;}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(245,192,74,.35);}
+  a:hover{border-bottom-color:var(--accent);}
+  strong{color:var(--text-strong);font-weight:600;}
+  ul{margin:0 0 16px;padding-left:22px;}
+  li{margin:0 0 8px;}
+  .note{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-left:3px solid var(--accent);
+    border-radius:10px;
+    padding:14px 18px;
+    color:var(--muted);
+    font-size:15px;
+    margin:0 0 16px;
+  }
+  .ph{
+    color:var(--primary);
+    background:rgba(255,77,94,.10);
+    padding:1px 6px;border-radius:5px;
+    font-weight:600;font-size:.95em;
+  }
+  footer{
+    margin-top:64px;padding-top:24px;
+    border-top:1px solid var(--border);
+    color:var(--muted);font-size:14px;
+  }
+  @media (max-width:560px){
+    .wrap{padding:48px 18px 72px;}
+    body{font-size:16px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="wordmark">Donde<span class="b">Bailar</span></p>
+    <svg class="smile" viewBox="0 0 170 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M2 4 Q85 12 168 4" stroke="#F5C04A" stroke-width="2.6" stroke-linecap="round"/>
+    </svg>
+    <h1 class="doc-title">Política de Privacidad</h1>
+    <p class="meta">
+      <strong>Última actualización:</strong> 2 de junio de 2026<br>
+      <strong>Responsable:</strong> Roberto Del Cid<br>
+      <strong>Aplicación:</strong> DondeBailar (cr.dondebailar.app)<br>
+      <strong>Contacto:</strong> roberto.delcid@gmail.com
+    </p>
+  </header>
+
+  <hr class="rule">
+
+  <p class="note">Documento de partida. Antes de publicarlo, revisalo con asesoría legal —
+  sobre todo las secciones de pagos/suscripciones— y reemplazá lo marcado en
+  <span class="ph">rojo</span>.</p>
+
+  <h2><span class="num">1.</span>Introducción</h2>
+  <p>Esta Política de Privacidad describe cómo DondeBailar ("la app") recopila, usa y comparte información cuando usás la aplicación. Al usar DondeBailar aceptás las prácticas descritas acá.</p>
+
+  <h2><span class="num">2.</span>Información que recopilamos</h2>
+  <p><strong>Información de cuenta.</strong> Cuando creás una cuenta, recopilamos tu dirección de correo electrónico y la información de tu perfil (como el nombre que ingresás). La autenticación y el almacenamiento se manejan a través de Supabase.</p>
+  <p><strong>Actividad en la app.</strong> Guardamos tus favoritos (eventos y entidades que marcás) asociados a tu cuenta, para poder mostrártelos.</p>
+  <p><strong>Información de compras y suscripciones.</strong> Si te suscribís a la versión premium, procesamos información sobre tu suscripción (estado, fecha de vencimiento, identificador de la transacción) a través de Google Play y RevenueCat. No recibimos ni almacenamos los datos de tu tarjeta o medio de pago: eso lo maneja Google Play directamente.</p>
+  <p><strong>Identificador de publicidad.</strong> La app muestra anuncios mediante Google AdMob, que puede usar el identificador de publicidad de tu dispositivo y datos relacionados para mostrar y medir anuncios.</p>
+  <p><strong>Datos de diagnóstico y rendimiento.</strong> Usamos Firebase Crashlytics para detectar fallos. Esto recopila reportes de errores, información del dispositivo y datos de diagnóstico cuando la app se cierra inesperadamente.</p>
+  <p><strong>Ubicación.</strong> <span class="ph">[VERIFICAR: la app muestra ubicaciones de eventos y lugares en un mapa, pero no recopila la ubicación de tu dispositivo / solo usa tu ubicación si le das permiso. Ajustá esta frase según lo que realmente haga la app.]</span></p>
+
+  <h2><span class="num">3.</span>Cómo usamos la información</h2>
+  <ul>
+    <li>Crear y mantener tu cuenta y autenticarte.</li>
+    <li>Guardar y mostrar tus favoritos.</li>
+    <li>Procesar y gestionar tu suscripción premium y desactivar los anuncios para usuarios premium.</li>
+    <li>Mostrar y medir anuncios (usuarios no premium).</li>
+    <li>Detectar y corregir fallos y mejorar la estabilidad de la app.</li>
+  </ul>
+
+  <h2><span class="num">4.</span>Proveedores y terceros</h2>
+  <p>Usamos servicios de terceros que procesan ciertos datos para que la app funcione:</p>
+  <ul>
+    <li><strong>Supabase</strong> — almacenamiento de datos y autenticación. <a href="https://supabase.com/privacy">Política</a></li>
+    <li><strong>Google AdMob</strong> — publicidad. Puede compartir el identificador de publicidad y datos de uso con Google. <a href="https://policies.google.com/privacy">Política</a></li>
+    <li><strong>Firebase Crashlytics (Google)</strong> — reportes de fallos y diagnóstico. <a href="https://firebase.google.com/support/privacy">Política</a></li>
+    <li><strong>RevenueCat</strong> — gestión de suscripciones. <a href="https://www.revenuecat.com/privacy">Política</a></li>
+    <li><strong>Google Play Billing (Google)</strong> — procesamiento de pagos. <a href="https://policies.google.com/privacy">Política</a></li>
+  </ul>
+  <p>No vendemos tu información personal.</p>
+
+  <h2><span class="num">5.</span>Publicidad</h2>
+  <p>DondeBailar muestra anuncios a través de Google AdMob a los usuarios de la versión gratuita. AdMob puede usar identificadores y datos del dispositivo para personalizar y medir anuncios. Podés gestionar las preferencias de anuncios personalizados desde la configuración de tu dispositivo Android (Configuración → Google → Anuncios). Los usuarios con suscripción premium activa no ven anuncios.</p>
+
+  <h2><span class="num">6.</span>Suscripciones y pagos</h2>
+  <p>La versión premium se ofrece como una suscripción gestionada por Google Play. Los pagos y las renovaciones los procesa Google Play; podés gestionar o cancelar tu suscripción desde Google Play en cualquier momento.</p>
+  <p class="note"><span class="ph">[Completar con los términos de la suscripción: planes, precios, renovación automática y política de reembolsos. Revisar con asesoría legal.]</span></p>
+
+  <h2><span class="num">7.</span>Retención y eliminación de datos</h2>
+  <p>Conservamos tu información mientras tu cuenta esté activa.</p>
+  <p>Podés <strong>eliminar tu cuenta y tus datos directamente desde la app</strong>, en <strong>Perfil → Eliminar cuenta</strong>. Esto borra de forma permanente tu cuenta, tu perfil y tus favoritos.</p>
+  <p>Los registros de compras y suscripciones se conservan según corresponda para cumplir con obligaciones legales, contables y fiscales.</p>
+
+  <h2><span class="num">8.</span>Seguridad</h2>
+  <p>La información se transmite mediante conexiones cifradas (HTTPS) y se almacena en la infraestructura de nuestros proveedores. Ningún sistema es 100% seguro, pero tomamos medidas razonables para proteger tus datos.</p>
+
+  <h2><span class="num">9.</span>Menores de edad</h2>
+  <p>DondeBailar no está dirigida a menores de <span class="ph">[13/18]</span> años y no recopilamos a sabiendas información de menores. <span class="ph">[Ajustar según el público objetivo declarado en Play.]</span></p>
+
+  <h2><span class="num">10.</span>Cambios a esta política</h2>
+  <p>Podemos actualizar esta política ocasionalmente. Publicaremos la versión vigente en esta misma URL con su fecha de actualización.</p>
+
+  <h2><span class="num">11.</span>Contacto</h2>
+  <p>Si tenés preguntas sobre esta política, escribinos a <a href="mailto:roberto.delcid@gmail.com">roberto.delcid@gmail.com</a>.</p>
+
+  <footer>
+    DondeBailar · cr.dondebailar.app
+  </footer>
+
+</div>
+</body>
+</html>
