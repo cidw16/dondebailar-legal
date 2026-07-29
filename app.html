@@ -8,6 +8,10 @@
 <link rel="canonical" href="https://cidw16.github.io/dondebailar-legal/app.html">
 <meta name="theme-color" content="#F2F2F5">
 
+<!-- Los metadatos quedan FIJOS EN ESPAÑOL a propósito: Google y WhatsApp leen
+     el HTML crudo, así que cambiarlos por JS no serviría de nada. El cambio de
+     idioma de abajo es solo para lo que ve la persona. -->
+
 <!-- Open Graph -->
 <meta property="og:title" content="DondeBailar — Eventos de salsa y bachata en Costa Rica">
 <meta property="og:description" content="Todos los eventos de baile latino de Costa Rica en una sola app. Salsa, bachata, socials y conciertos. Descubrí qué hay hoy y guardá tus favoritos.">
@@ -62,14 +66,25 @@
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:560px;margin:0 auto;padding:56px 22px 48px;text-align:center;}
+  .wrap{max-width:560px;margin:0 auto;padding:56px 22px 48px;text-align:center;position:relative;}
+
+  /* Toggle de idioma: discreto, arriba a la derecha. */
+  .lang{position:absolute;top:18px;right:22px;display:flex;align-items:center;gap:2px;
+    font-size:13px;font-weight:700;letter-spacing:.4px;color:#9A9AA3;user-select:none;}
+  .lang button{
+    background:none;border:0;padding:4px 5px;margin:0;cursor:pointer;color:inherit;
+    font:inherit;letter-spacing:inherit;border-radius:6px;
+  }
+  .lang button.on{color:var(--ink);}
+  .lang button:hover{color:var(--ink);}
+  .lang .sep{opacity:.5;}
 
   .wordmark{font-size:clamp(34px,9vw,46px);font-weight:800;letter-spacing:-1.4px;line-height:1;margin:0;}
   .wordmark .b{color:var(--primary);}
   .smile{display:block;height:9px;width:min(210px,60vw);margin:9px auto 0;}
 
   h1{font-size:clamp(30px,8vw,42px);font-weight:800;letter-spacing:-1px;line-height:1.12;margin:40px 0 14px;}
-  .sub{color:var(--muted);font-size:clamp(16px,4.2vw,18.5px);margin:0 auto;max-width:30ch;}
+  .sub{color:var(--muted);font-size:clamp(16px,4.2vw,18.5px);margin:0 auto;max-width:32ch;}
 
   .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:32px 0 4px;}
   .btn{
@@ -100,6 +115,10 @@
 <body>
 <div class="wrap">
 
+  <div class="lang" role="group" aria-label="Idioma / Language">
+    <button type="button" id="btn-es" data-lang="es">ES</button><span class="sep">|</span><button type="button" id="btn-en" data-lang="en">EN</button>
+  </div>
+
   <header>
     <p class="wordmark">Donde<span class="b">Bailar</span></p>
     <svg class="smile" viewBox="0 0 210 9" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -107,31 +126,89 @@
     </svg>
   </header>
 
-  <h1>No te pierdas ni una noche</h1>
-  <p class="sub">Todos los eventos de salsa, bachata y baile latino de Costa Rica, en una sola app.</p>
+  <h1 data-es="No te pierdas ni una noche"
+      data-en="Never miss a night out">No te pierdas ni una noche</h1>
+
+  <p class="sub"
+     data-es="Todos los eventos de salsa, bachata y baile latino de Costa Rica, en una sola app."
+     data-en="Every salsa, bachata and Latin dance event in Costa Rica, in one app.">Todos los eventos de salsa, bachata y baile latino de Costa Rica, en una sola app.</p>
 
   <!-- Los href quedan en "#" a propósito: Roberto pega los enlaces reales
-       de App Store y Google Play cuando la app esté publicada en cada tienda. -->
+       de App Store y Google Play cuando la app esté publicada en cada tienda.
+       "App Store" y "Google Play" son nombres propios: no se traducen. -->
   <div class="cta">
     <a class="btn" href="#" data-comment="pendiente: link de App Store cuando la app esté publicada">App Store</a>
     <a class="btn" href="#" data-comment="pendiente: link de Google Play cuando la app esté publicada">Google Play</a>
   </div>
-  <p class="pronto">Muy pronto en las tiendas.</p>
+  <p class="pronto"
+     data-es="Muy pronto en las tiendas."
+     data-en="Coming soon to the stores.">Muy pronto en las tiendas.</p>
 
   <ul class="features">
-    <li><span class="ico" aria-hidden="true">📅</span><span>Filtrá por fecha: hoy, este finde o el día que quieras</span></li>
-    <li><span class="ico" aria-hidden="true">❤️</span><span>Guardá tus favoritos y recibí avisos si algo cambia</span></li>
-    <li><span class="ico" aria-hidden="true">📍</span><span>Academias, orquestas y salones de todo el país</span></li>
+    <li><span class="ico" aria-hidden="true">📅</span><span
+      data-es="Filtrá por fecha: hoy, este finde o el día que quieras"
+      data-en="Filter by date: today, this weekend, or any day you pick">Filtrá por fecha: hoy, este finde o el día que quieras</span></li>
+    <li><span class="ico" aria-hidden="true">❤️</span><span
+      data-es="Guardá tus favoritos y recibí avisos si algo cambia"
+      data-en="Save favorites and get notified if anything changes">Guardá tus favoritos y recibí avisos si algo cambia</span></li>
+    <li><span class="ico" aria-hidden="true">📍</span><span
+      data-es="Academias, orquestas y salones de todo el país"
+      data-en="Dance academies, orchestras and venues across the country">Academias, orquestas y salones de todo el país</span></li>
   </ul>
 
   <footer>
-    <a href="soporte.html">Soporte</a> ·
-    <a href="index.html">Política de Privacidad</a> ·
-    <a href="eliminar-cuenta.html">Eliminar cuenta</a>
+    <a href="soporte.html" data-es="Soporte" data-en="Support">Soporte</a> ·
+    <a href="index.html" data-es="Política de Privacidad" data-en="Privacy Policy">Política de Privacidad</a> ·
+    <a href="eliminar-cuenta.html" data-es="Eliminar cuenta" data-en="Delete Account">Eliminar cuenta</a>
     <br>
     <a class="mail" href="mailto:support@novaaisolutionscr.com">support@novaaisolutionscr.com</a>
   </footer>
 
 </div>
+
+<script>
+(function () {
+  var CLAVE = 'db_lang';
+  var nodos = document.querySelectorAll('[data-es]');
+  var botones = document.querySelectorAll('.lang button');
+
+  function aplicar(lang) {
+    for (var i = 0; i < nodos.length; i++) {
+      var t = nodos[i].getAttribute('data-' + lang);
+      if (t) nodos[i].textContent = t;
+    }
+    for (var j = 0; j < botones.length; j++) {
+      var esteEs = botones[j].getAttribute('data-lang') === lang;
+      botones[j].classList.toggle('on', esteEs);
+      botones[j].setAttribute('aria-pressed', esteEs ? 'true' : 'false');
+    }
+    // El atributo del HTML crudo se queda en "es" (es lo que leen los
+    // crawlers); acá se actualiza en caliente solo para lectores de pantalla.
+    document.documentElement.lang = lang;
+  }
+
+  function elegir(lang) {
+    try { localStorage.setItem(CLAVE, lang); } catch (e) {}
+    aplicar(lang);
+  }
+
+  var guardado = null;
+  try { guardado = localStorage.getItem(CLAVE); } catch (e) {}
+
+  // Default ESPAÑOL: solo se va a inglés si el navegador NO está en español.
+  var idioma = (navigator.language || navigator.userLanguage || 'es').toLowerCase();
+  var inicial = guardado === 'en' || guardado === 'es'
+    ? guardado
+    : (idioma.indexOf('es') === 0 ? 'es' : 'en');
+
+  aplicar(inicial);
+
+  for (var k = 0; k < botones.length; k++) {
+    botones[k].addEventListener('click', function () {
+      elegir(this.getAttribute('data-lang'));
+    });
+  }
+})();
+</script>
 </body>
 </html>
