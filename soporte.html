@@ -7,6 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Los metadatos y el lang del <html> quedan FIJOS EN ESPAÑOL a propósito:
+     los crawlers leen el HTML crudo, así que traducirlos por JS no serviría.
+     El cambio de idioma de abajo es solo para lo que ve la persona. -->
 <style>
   :root{
     --bg:#0D0D11;
@@ -29,7 +32,7 @@
     line-height:1.75;
     -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:740px;margin:0 auto;padding:72px 24px 96px;}
+  .wrap{max-width:740px;margin:0 auto;padding:72px 24px 96px;position:relative;}
   header{margin-bottom:8px;}
   .wordmark{font-family:'Unbounded',sans-serif;font-weight:600;font-size:clamp(30px,7vw,44px);letter-spacing:-0.01em;line-height:1.05;margin:0;color:var(--text-strong);}
   .wordmark .b{color:var(--primary);}
@@ -48,38 +51,67 @@
   li{margin:0 0 8px;}
   .mail{display:inline-block;font-family:'Unbounded',sans-serif;font-weight:500;font-size:clamp(16px,3.4vw,20px);margin:4px 0 8px;}
   footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
-  @media (max-width:560px){.wrap{padding:48px 18px 72px;}body{font-size:16px;}}
+
+  /* Toggle de idioma: discreto, arriba a la derecha. Comparte la elección con
+     app.html mediante la misma clave de localStorage. */
+  .lang{position:absolute;top:22px;right:24px;display:flex;align-items:center;gap:2px;
+    font-size:13px;font-weight:700;letter-spacing:.4px;color:#6E6E7A;user-select:none;}
+  .lang button{background:none;border:0;padding:4px 5px;margin:0;cursor:pointer;color:inherit;
+    font:inherit;letter-spacing:inherit;border-radius:6px;}
+  .lang button.on{color:var(--text-strong);}
+  .lang button:hover{color:var(--text-strong);}
+  .lang .sep{opacity:.5;}
+
+  @media (max-width:560px){.wrap{padding:48px 18px 72px;}body{font-size:16px;}.lang{top:16px;right:18px;}}
 </style>
 </head>
 <body>
 <div class="wrap">
+
+  <div class="lang" role="group" aria-label="Idioma / Language">
+    <button type="button" data-lang="es">ES</button><span class="sep">|</span><button type="button" data-lang="en">EN</button>
+  </div>
 
   <header>
     <p class="wordmark">Donde<span class="b">Bailar</span></p>
     <svg class="smile" viewBox="0 0 170 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <path d="M2 4 Q85 12 168 4" stroke="#F5C04A" stroke-width="2.6" stroke-linecap="round"/>
     </svg>
-    <h1 class="doc-title">Soporte</h1>
+    <h1 class="doc-title" data-es="Soporte" data-en="Support">Soporte</h1>
     <p class="meta">
-      <strong>Responsable:</strong> Roberto Del Cid<br>
-      <strong>Aplicación:</strong> DondeBailar (cr.dondebailar.app)<br>
-      <strong>Contacto:</strong> support@novaaisolutionscr.com
+      <strong data-es="Responsable:" data-en="Owner:">Responsable:</strong> Roberto Del Cid<br>
+      <strong data-es="Aplicación:" data-en="App:">Aplicación:</strong> DondeBailar (cr.dondebailar.app)<br>
+      <strong data-es="Contacto:" data-en="Contact:">Contacto:</strong> support@novaaisolutionscr.com
     </p>
   </header>
 
   <hr class="rule">
 
-  <p>DondeBailar es una app para encontrar eventos, academias, orquestas y salones de baile en Costa Rica.</p>
+  <p data-es="DondeBailar es una app para encontrar eventos, academias, orquestas y salones de baile en Costa Rica."
+     data-en="DondeBailar is Costa Rica's Latin dance events guide.">DondeBailar es una app para encontrar eventos, academias, orquestas y salones de baile en Costa Rica.</p>
 
-  <h2><span class="num">1.</span>¿Problemas, sugerencias, o querés aparecer en el directorio?</h2>
-  <p>Escribinos y te respondemos:</p>
+  <h2><span class="num">1.</span><span
+     data-es="¿Problemas, sugerencias, o querés aparecer en el directorio?"
+     data-en="Having trouble with the app, got a suggestion, or want your academy, orchestra or venue listed in the directory?">¿Problemas, sugerencias, o querés aparecer en el directorio?</span></h2>
+  <p data-es="Escribinos y te respondemos:"
+     data-en="Write to us and we'll get back to you:">Escribinos y te respondemos:</p>
+  <!-- El correo es el mismo en los dos idiomas: no se traduce. -->
   <p class="mail"><a href="mailto:support@novaaisolutionscr.com">support@novaaisolutionscr.com</a></p>
-  <p>Si nos escribís por un problema, ayuda mucho que nos cuentes qué teléfono usás (Android o iPhone) y qué pasó, para poder reproducirlo.</p>
+  <p data-es="Si nos escribís por un problema, ayuda mucho que nos cuentes qué teléfono usás (Android o iPhone) y qué pasó, para poder reproducirlo."
+     data-en="When reporting an issue, please tell us if you're on Android or iPhone and what happened, so we can reproduce it.">Si nos escribís por un problema, ayuda mucho que nos cuentes qué teléfono usás (Android o iPhone) y qué pasó, para poder reproducirlo.</p>
 
-  <h2><span class="num">2.</span>Tu cuenta y tus datos</h2>
+  <h2><span class="num">2.</span><span
+     data-es="Tu cuenta y tus datos"
+     data-en="Your account and your data">Tu cuenta y tus datos</span></h2>
   <ul>
-    <li><a href="https://cidw16.github.io/dondebailar-legal/">Política de Privacidad</a> — qué información recopilamos y cómo la usamos.</li>
-    <li><a href="https://cidw16.github.io/dondebailar-legal/eliminar-cuenta.html">Eliminación de cuenta</a> — cómo borrar tu cuenta y tus datos.</li>
+    <li><a href="https://cidw16.github.io/dondebailar-legal/"
+           data-es="Política de Privacidad" data-en="Privacy Policy">Política de Privacidad</a><span
+           data-es=" — qué información recopilamos y cómo la usamos."
+           data-en=" — what information we collect and how we use it."> — qué información recopilamos y cómo la usamos.</span></li>
+    <li><a href="https://cidw16.github.io/dondebailar-legal/eliminar-cuenta.html"
+           data-es="Eliminación de cuenta" data-en="Delete Account">Eliminación de cuenta</a><span
+           data-es=" — cómo borrar tu cuenta y tus datos."
+           data-en=" — how to delete your account and your data."> — cómo borrar tu cuenta y tus datos.</span></li>
   </ul>
 
   <footer>
@@ -87,5 +119,50 @@
   </footer>
 
 </div>
+
+<script>
+(function () {
+  var CLAVE = 'db_lang';
+  var nodos = document.querySelectorAll('[data-es]');
+  var botones = document.querySelectorAll('.lang button');
+
+  function aplicar(lang) {
+    for (var i = 0; i < nodos.length; i++) {
+      var t = nodos[i].getAttribute('data-' + lang);
+      if (t) nodos[i].textContent = t;
+    }
+    for (var j = 0; j < botones.length; j++) {
+      var esteEs = botones[j].getAttribute('data-lang') === lang;
+      botones[j].classList.toggle('on', esteEs);
+      botones[j].setAttribute('aria-pressed', esteEs ? 'true' : 'false');
+    }
+    // El atributo del HTML crudo se queda en "es" (es lo que leen los
+    // crawlers); acá se actualiza en caliente solo para lectores de pantalla.
+    document.documentElement.lang = lang;
+  }
+
+  function elegir(lang) {
+    try { localStorage.setItem(CLAVE, lang); } catch (e) {}
+    aplicar(lang);
+  }
+
+  var guardado = null;
+  try { guardado = localStorage.getItem(CLAVE); } catch (e) {}
+
+  // Default ESPAÑOL: solo se va a inglés si el navegador NO está en español.
+  var idioma = (navigator.language || navigator.userLanguage || 'es').toLowerCase();
+  var inicial = guardado === 'en' || guardado === 'es'
+    ? guardado
+    : (idioma.indexOf('es') === 0 ? 'es' : 'en');
+
+  aplicar(inicial);
+
+  for (var k = 0; k < botones.length; k++) {
+    botones[k].addEventListener('click', function () {
+      elegir(this.getAttribute('data-lang'));
+    });
+  }
+})();
+</script>
 </body>
 </html>
