@@ -187,9 +187,16 @@
        data-es="Dejá de perseguir flyers en historias de Instagram. Enterate de qué hay hoy, dónde queda y a qué hora empieza — todo en un solo lugar."
        data-en="Stop chasing flyers in Instagram stories. Find out what's on tonight, where it is and when it starts — all in one place.">Dejá de perseguir flyers en historias de Instagram. Enterate de qué hay hoy, dónde queda y a qué hora empieza — todo en un solo lugar.</p>
 
-    <!-- Cuando la app esté publicada, estos dos <div class="store"> pasan a
-         <a class="store" href="URL"> y el texto de arriba ("Pronto en") se
-         cambia por "Descargá en". "App Store" y "Google Play" son nombres
+    <!-- Cuando la app esté publicada hay que convertir CUATRO botones, no dos.
+         Están en dos bloques .cta:
+           · los DOS de acá, en el <header>;
+           · los DOS del <section class="cierre">, al final de la página.
+         Los cuatro dicen "Pronto en". Si se convierten solo estos, los otros
+         dos quedan muertos y nadie se entera hasta que un usuario los toque.
+
+         En cada uno: el div pasa a <a class="store" href="URL"> y el
+         "Pronto en" / "Coming soon to" del <span class="s"> se cambia por
+         "Descargá en" / "Download on". "App Store" y "Google Play" son nombres
          propios: no se traducen. -->
     <div class="cta">
       <div class="store">
@@ -298,6 +305,8 @@
     <p class="lede"
        data-es="Estamos afinando los últimos detalles antes de publicarla en las tiendas. Volvé en unos días y ya va a estar disponible."
        data-en="We're polishing the last details before publishing it to the stores. Come back in a few days and it'll be available.">Estamos afinando los últimos detalles antes de publicarla en las tiendas. Volvé en unos días y ya va a estar disponible.</p>
+    <!-- Estos son los otros DOS de los cuatro: el par del header está más
+         arriba, con la explicación completa. No conviertas uno sin el otro. -->
     <div class="cta">
       <div class="store">
         <span><span class="s" data-es="Pronto en" data-en="Coming soon to">Pronto en</span><br><span class="n">App Store</span></span>
