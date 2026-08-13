@@ -40,18 +40,30 @@
 <meta name="twitter:description" content="Todos los eventos de baile latino de Costa Rica en una sola app. Salsa, bachata, socials y conciertos.">
 <meta name="twitter:image" content="https://dondebailar.net/og.png">
 
+<!-- JSON-LD. Ojo: es JSON estricto y NO admite comentarios adentro, por eso
+     las aclaraciones van acá afuera.
+
+     · operatingSystem dice SOLO iOS porque es lo unico publicado. Cuando
+       Google Play apruebe el acceso a produccion, pasa a "iOS, Android".
+       Antes decia "iOS, Android" y era falso.
+     · aggregateRating NO se pone: la app todavia no tiene resenas y
+       declarar una inventada es motivo de penalizacion de Google.
+     · offers va en 0 USD porque la descarga es gratis de verdad. Google lo
+       pide para que el rich result de MobileApplication se arme. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "MobileApplication",
   "name": "DondeBailar",
   "description": "Todos los eventos de baile latino de Costa Rica en una sola app. Salsa, bachata, socials y conciertos.",
-  "operatingSystem": "iOS, Android",
+  "operatingSystem": "iOS",
   "applicationCategory": "LifestyleApplication",
   "inLanguage": "es",
   "url": "https://dondebailar.net/app.html",
+  "installUrl": "https://apps.apple.com/cr/app/dondebailar/id6790503762",
   "image": "https://dondebailar.net/og.png",
-  "author": { "@type": "Person", "name": "Roberto Del Cid" }
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Organization", "name": "Roberto Del Cid" }
 }
 </script>
 
