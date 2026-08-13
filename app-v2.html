@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DondeBailar — Eventos de salsa y bachata en Costa Rica</title>
+<meta name="description" content="Todos los eventos de baile latino de Costa Rica en una sola app. Salsa, bachata, socials y conciertos. Descubrí qué hay hoy y guardá tus favoritos.">
+
+<!-- ⚠ canonical y og:url apuntan a app.html, NO a app-v2.html, A PROPÓSITO.
+     Este archivo es la versión en construcción del rediseño y va a REEMPLAZAR
+     a app.html por rename. Declarar app.html como canónica evita que Google
+     indexe las dos como contenido duplicado, y hace que el swap final NO
+     tenga que tocar ninguna de estas dos etiquetas.
+     Deliberadamente NO se puso <meta name="robots" content="noindex">: sería
+     lo ortodoxo para una página de staging, pero es una línea que hay que
+     acordarse de borrar en el swap, y si se olvida deja la landing real
+     invisible para Google. El canonical logra lo mismo sin ese riesgo. -->
+<link rel="canonical" href="https://dondebailar.net/app.html">
+<meta name="theme-color" content="#0D0D11">
+
+<!-- Los metadatos quedan FIJOS EN ESPAÑOL a propósito: Google y WhatsApp leen
+     el HTML crudo, así que cambiarlos por JS no serviría de nada. El cambio de
+     idioma de abajo es solo para lo que ve la persona. -->
+
+<!-- Open Graph -->
+<meta property="og:title" content="DondeBailar — Eventos de salsa y bachata en Costa Rica">
+<meta property="og:description" content="Todos los eventos de baile latino de Costa Rica en una sola app. Salsa, bachata, socials y conciertos. Descubrí qué hay hoy y guardá tus favoritos.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dondebailar.net/app.html">
+<meta property="og:image" content="https://dondebailar.net/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="DondeBailar — todos los eventos de baile latino de Costa Rica en una sola app">
+<meta property="og:locale" content="es_CR">
+<meta property="og:site_name" content="DondeBailar">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DondeBailar — Eventos de salsa y bachata en Costa Rica">
+<meta name="twitter:description" content="Todos los eventos de baile latino de Costa Rica en una sola app. Salsa, bachata, socials y conciertos.">
+<meta name="twitter:image" content="https://dondebailar.net/og.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  "name": "DondeBailar",
+  "description": "Todos los eventos de baile latino de Costa Rica en una sola app. Salsa, bachata, socials y conciertos.",
+  "operatingSystem": "iOS, Android",
+  "applicationCategory": "LifestyleApplication",
+  "inLanguage": "es",
+  "url": "https://dondebailar.net/app.html",
+  "image": "https://dondebailar.net/og.png",
+  "author": { "@type": "Person", "name": "Roberto Del Cid" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PARÁ 1: ESQUELETO SIN ESTILOS. Todavía NO hay <style>.
+     Las clases ya están puestas para que el CSS del punto 3 se enganche sin
+     tocar el marcado. La página se ve sin formato a propósito.
+     ═══════════════════════════════════════════════════════════════════════ -->
+
+<style>
+  /* ═══════════════════════════════════════════════════════════════════════
+     PALETA DEL REDISEÑO. Nombres NUEVOS con prefijo --v2- a proposito.
+     El diseño viejo usaba --primary para el coral #FF4D5E y --accent para el
+     ambar; acá el ambar y el azul son los protagonistas y el coral queda
+     reducido al wordmark. Reutilizar aquellos nombres con estos valores
+     haria que el proximo que lea el archivo crea que --primary sigue siendo
+     el coral. Los viejos NO se redefinen: se reemplazan.
+     ═══════════════════════════════════════════════════════════════════════ */
+  :root{
+    --v2-fondo:#08080A;
+    --v2-fondo-alt:#0C0C10;
+    --v2-tinta:#F2F2F5;
+    --v2-tinta-media:#B9B9C4;
+    --v2-tinta-tenue:#84848F;
+
+    --v2-ambar:#F0A93C;
+    --v2-ambar-fuerte:#FFC061;
+    --v2-azul:#3E86C8;
+    --v2-azul-fuerte:#6FB6F0;
+
+    /* El coral sobrevive SOLO en el wordmark: es identidad de marca y es el
+       mismo rojo del splash de la app. No se usa en ningun otro lado. */
+    --v2-coral:#FF4D5E;
+
+    --v2-vidrio:rgba(255,255,255,.055);
+    --v2-vidrio-borde:rgba(255,255,255,.14);
+    --v2-linea:rgba(255,255,255,.10);
+
+    --v2-ancho:1180px;
+    --v2-radio:26px;
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--v2-fondo);
+    color:var(--v2-tinta);
+    font-family:'Manrope',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img{max-width:100%;height:auto;display:block;}
+
+  h1,h2,h3,.wordmark{font-family:'Unbounded',sans-serif;letter-spacing:-.02em;}
+
+  /* ── Toggle de idioma ─────────────────────────────────────────────────── */
+  .lang{
+    position:absolute;top:20px;right:24px;z-index:6;display:flex;align-items:center;gap:2px;
+    font-size:13px;font-weight:700;letter-spacing:.4px;color:var(--v2-tinta-tenue);user-select:none;
+  }
+  .lang button{
+    background:none;border:0;padding:4px 5px;margin:0;cursor:pointer;color:inherit;
+    font:inherit;letter-spacing:inherit;border-radius:6px;
+  }
+  .lang button.on{color:var(--v2-tinta);}
+  .lang button:hover{color:var(--v2-tinta);}
+  .lang .sep{opacity:.5;}
+
+  /* ── Andamiaje de seccion ─────────────────────────────────────────────────
+     Cada seccion trae su propio resplandor con ::before. Van con z-index:0 y
+     el contenido con z-index:1, para que el blur nunca tape el texto. */
+  header.hero, main > section{
+    position:relative;
+    padding:clamp(64px,9vw,110px) 24px;
+    overflow:hidden;
+  }
+  header.hero > *, main > section > *{position:relative;z-index:1;}
+  header.hero::before, main > section::before{
+    content:'';position:absolute;z-index:0;border-radius:50%;
+    filter:blur(150px);pointer-events:none;
+  }
+
+  /* Rejilla de dos columnas, comun a "que es", "que hace" y "por que". */
+  .dos-columnas{
+    max-width:var(--v2-ancho);margin:0 auto;
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:clamp(28px,4vw,56px);align-items:center;
+  }
+
+  /* ══ 1 · HERO ═════════════════════════════════════════════════════════ */
+  header.hero{
+    background:linear-gradient(115deg,#1A1206 0%,var(--v2-fondo) 52%);
+    padding-top:clamp(54px,7vw,76px);
+  }
+  /* El mockup trae un arco decorativo y NO se implementa a proposito: con la
+     foto sangrando al borde no le queda lienzo, y lo poco que asomaba chocaba
+     con el toggle ES|EN de la esquina. No lo repongas mirando el PNG. */
+  header.hero::before{
+    width:760px;height:760px;top:-320px;left:-280px;
+    background:rgba(240,169,60,.30);
+  }
+  .hero-inner{
+    max-width:var(--v2-ancho);margin:0 auto;
+    display:grid;grid-template-columns:1fr 1.15fr;
+    gap:clamp(32px,5vw,64px);align-items:center;
+  }
+  .wordmark{
+    font-size:clamp(21px,2.4vw,25px);font-weight:800;letter-spacing:-.8px;
+    line-height:1;margin:0;color:#FFF;
+  }
+  .wordmark .b{color:var(--v2-coral);}
+  .smile{display:block;height:7px;width:min(132px,34vw);margin:7px 0 0;}
+
+  .badge{
+    display:inline-flex;align-items:center;gap:9px;margin:clamp(30px,5vw,48px) 0 22px;
+    border:1px solid rgba(240,169,60,.34);background:rgba(240,169,60,.08);
+    border-radius:999px;padding:7px 16px;font-size:12px;font-weight:700;
+    color:var(--v2-ambar-fuerte);letter-spacing:.05em;
+  }
+  .pulse{
+    width:7px;height:7px;border-radius:50%;background:var(--v2-ambar-fuerte);
+    box-shadow:0 0 0 0 rgba(255,192,97,.75);animation:p 2.2s infinite;
+  }
+  @keyframes p{70%{box-shadow:0 0 0 9px rgba(255,192,97,0)}100%{box-shadow:0 0 0 0 rgba(255,192,97,0)}}
+  @media (prefers-reduced-motion:reduce){.pulse{animation:none;}}
+
+  /* El h1 se mide contra SU COLUMNA, no contra el viewport: .hero-texto es
+     un container y el tamaño va en cqw. Con vw el titulo se rompia en tres
+     lineas entre 901 y 1200px, porque ahi la columna se angosta mucho mas
+     rapido de lo que baja la fuente. En cqw eso no puede pasar: la fuente
+     y el ancho disponible son la MISMA variable. */
+  .hero-texto{container-type:inline-size;}
+
+  /* EL TOPE DE 53px NO ES UN CAPRICHO Y NO LO SUBAS A 62.
+     El titular en ingles, "Where to Dance in Costa Rica", necesita 9.76px de
+     columna por cada px de fuente para caer en DOS lineas; o sea, fuente <=
+     0.1025 x ancho de columna. A 62px pediria 605px y la columna izquierda de
+     .hero-inner mide 519px: rompe en TRES. A 53px entra. El espanol aguanta
+     hasta 61px, asi que mirando solo el ES uno cree que 62 funciona.
+
+     El 10cqw sale de esa misma cuenta, con un margen chico debajo del 10.25.
+     Va en cqw y no en vw porque el h1 compite contra SU COLUMNA, no contra el
+     viewport: con vw se rompia en tres lineas entre 901 y 1200px, donde la
+     columna se angosta mucho mas rapido de lo que baja la fuente.
+
+     Un max-width en ch aca NO sirve: 15ch son 860px, mas ancho que la columna,
+     asi que la regla no llegaria a aplicarse nunca. */
+  h1{
+    font-size:clamp(27px,10cqw,53px);font-weight:700;line-height:1.06;
+    margin:0;color:#FFF;
+  }
+  /* La foto se sale del contenedor de 1180px hasta tocar el borde derecho
+     del lienzo. El margen negativo es la distancia del borde derecho del
+     contenedor al del viewport: la mitad del sobrante mas el padding de 24px.
+     max(0px,...) evita que se vuelva positivo por debajo de 1228px de ancho.
+     El overflow:hidden de la seccion recorta lo que sobra, y por eso el
+     redondeo de la derecha se pierde a proposito: la foto muere en el borde. */
+  /* La sangria se hace ENSANCHANDO la imagen, no con margin-right negativo.
+     Cuando esto era un <picture> el margen negativo alcanzaba, porque un
+     contenedor con width:auto lo absorbe y crece. Un <img> es un elemento
+     reemplazado: con width:100% queda clavado al ancho de la celda y el
+     margen negativo solo le quita espacio a la derecha, sin ensancharlo.
+     El sobrante lo recorta el overflow:hidden de la seccion, y por eso el
+     redondeo de la derecha se pierde a proposito. */
+  .hero-foto{
+    display:block;
+    width:calc(100% + max(0px, (100vw - 48px - var(--v2-ancho)) / 2 + 24px));
+    max-width:none;
+    border-radius:18px 0 0 18px;
+  }
+
+  /* ══ 2 · ¿QUE ES ESTO? ════════════════════════════════════════════════ */
+  .que-es{background:linear-gradient(160deg,#150E04 0%,var(--v2-fondo) 60%);}
+  /* Mas fuerte y mas concentrado que el resto: .42 de opacidad y 110px de
+     blur, contra el blur(150px) que traen los demas por la regla compartida. */
+  .que-es::before{
+    width:680px;height:680px;top:-120px;left:-200px;
+    background:rgba(240,169,60,.34);
+    filter:blur(90px);
+  }
+  /* Glassmorphism: fondo translucido + blur de lo que hay detras + borde
+     claro de un pixel + un resplandor interno arriba que simula el canto. */
+  .tarjeta-glass{
+    background:var(--v2-vidrio);
+    -webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);
+    border:1px solid var(--v2-vidrio-borde);
+    border-radius:var(--v2-radio);
+    padding:clamp(30px,4vw,52px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 24px 60px rgba(0,0,0,.45);
+  }
+  .tarjeta-glass h2{
+    font-size:clamp(30px,4vw,46px);font-weight:600;line-height:1.1;
+    margin:0 0 20px;color:#FFF;
+  }
+  .tarjeta-glass p{margin:0;color:var(--v2-tinta-media);font-size:15.5px;line-height:1.7;}
+  .que-es-foto{width:100%;border-radius:16px;}
+
+  /* ══ 3 · QUE HACE ═════════════════════════════════════════════════════ */
+  .que-hace{background:linear-gradient(200deg,#050B14 0%,var(--v2-fondo) 55%);}
+  .que-hace::before{
+    width:720px;height:720px;bottom:-300px;left:-260px;
+    background:rgba(62,134,200,.26);
+  }
+  /* Solo esta seccion: el panel se lleva mas ancho que el titulo. Las otras
+     dos que usan .dos-columnas (que-es y por-que) siguen en 1fr 1fr. */
+  .que-hace .dos-columnas{grid-template-columns:1fr 1.35fr;}
+  .que-hace h2{
+    font-size:clamp(30px,4vw,46px);font-weight:600;margin:0;color:#FFF;
+  }
+  /* Borde luminoso: un gradiente vive en el padding-box y el panel real se
+     pinta encima con background-clip. Es un borde de 1px que cambia de color
+     a lo largo del recorrido, cosa que border-color solo no puede hacer. */
+  .panel-luminoso{
+    position:relative;border-radius:var(--v2-radio);
+    padding:clamp(28px,3.4vw,44px);
+    background:
+      linear-gradient(#0E1218,#0E1218) padding-box,
+      linear-gradient(140deg,rgba(255,255,255,.42),rgba(255,255,255,.05) 42%,rgba(111,182,240,.34)) border-box;
+    border:1px solid transparent;
+    box-shadow:0 24px 70px rgba(0,0,0,.5);
+    display:flex;flex-direction:column;gap:clamp(22px,2.6vw,32px);
+  }
+  .feature .ico{width:26px;height:26px;color:var(--v2-tinta);opacity:.9;margin-bottom:12px;}
+  .feature h3{font-size:17px;font-weight:600;margin:0 0 7px;color:#FFF;}
+  .feature p{margin:0;color:var(--v2-tinta-media);font-size:14.5px;line-height:1.6;}
+
+  /* ══ 4 · DESCARGALA ═══════════════════════════════════════════════════ */
+  .descargala{background:var(--v2-fondo);}
+  .descargala::before{width:0;height:0;}   /* seccion sin resplandor, a proposito */
+  .descargala h2{
+    max-width:var(--v2-ancho);margin:0 auto clamp(28px,4vw,44px);
+    font-size:clamp(30px,4vw,46px);font-weight:600;color:#FFF;
+  }
+  .tiendas{
+    max-width:var(--v2-ancho);margin:0 auto;
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:clamp(16px,2vw,26px);
+  }
+  .store{
+    display:flex;flex-direction:column;justify-content:flex-end;
+    min-height:clamp(150px,17vw,200px);
+    background:linear-gradient(165deg,#15151B,#0B0B0F);
+    border:1px solid var(--v2-linea);
+    border-radius:20px;
+    padding:clamp(22px,2.6vw,32px);
+    color:var(--v2-tinta);text-decoration:none;
+  }
+  .store-nombre{font-family:'Unbounded',sans-serif;font-size:17px;font-weight:600;color:#FFF;}
+  .store-bajada{margin-top:8px;font-size:14px;color:var(--v2-tinta-media);}
+  /* SOLO el <a>. El <div> de Google Play no recibe ni cursor ni hover: no es
+     clicable y no debe parecerlo. Ver el comentario del marcado. */
+  a.store{color:inherit;cursor:pointer;transition:border-color .18s,background .18s,transform .18s;}
+  a.store:hover{
+    border-color:rgba(255,255,255,.28);
+    background:linear-gradient(165deg,#1B1B22,#101016);
+    transform:translateY(-2px);
+  }
+  a.store:focus-visible{outline:2px solid var(--v2-ambar-fuerte);outline-offset:3px;}
+  @media (prefers-reduced-motion:reduce){a.store{transition:none;}a.store:hover{transform:none;}}
+
+  /* ══ 5 · POR QUE EXISTE ═══════════════════════════════════════════════ */
+  .por-que{background:linear-gradient(150deg,#050B14 0%,var(--v2-fondo) 58%);}
+  .por-que::before{
+    width:700px;height:700px;top:-180px;left:-240px;
+    background:rgba(62,134,200,.28);
+  }
+  .por-que-texto h2{
+    font-size:clamp(30px,4vw,46px);font-weight:600;line-height:1.1;
+    margin:0 0 22px;color:#FFF;max-width:9ch;
+  }
+  .por-que-texto p{margin:0 0 16px;color:var(--v2-tinta-media);font-size:15px;line-height:1.7;}
+  .por-que-texto p:last-child{margin-bottom:0;}
+  .por-que-foto{width:100%;border-radius:16px;}
+
+  /* ══ 6 · CONTACTO ═════════════════════════════════════════════════════ */
+  .contacto{background:var(--v2-fondo);}
+  .contacto::before{
+    width:640px;height:640px;top:-260px;right:-220px;left:auto;
+    background:rgba(62,134,200,.24);
+  }
+  .contacto h2{
+    max-width:var(--v2-ancho);margin:0 auto;
+    font-size:clamp(30px,4vw,46px);font-weight:600;color:#FFF;
+  }
+  /* El bloque de Soporte arranca al 60% del ancho, como el mockup. El
+     padding-left sobre el mismo contenedor de 1180px es lo que lo corre sin
+     sacarlo de la rejilla; en el corte de 900px se anula. */
+  .contacto-item{
+    max-width:var(--v2-ancho);margin:clamp(30px,5vw,56px) auto 0;
+    padding-left:45%;
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .contacto-rotulo{font-family:'Unbounded',sans-serif;font-size:16px;font-weight:600;color:#FFF;}
+  .contacto-item a{
+    color:var(--v2-tinta-media);text-decoration:none;font-size:15px;
+    border-bottom:1px solid rgba(185,185,196,.35);align-self:flex-start;
+  }
+  .contacto-item a:hover{color:var(--v2-tinta);border-bottom-color:var(--v2-tinta);}
+
+  /* ══ FOOTER ═══════════════════════════════════════════════════════════ */
+  footer{
+    max-width:var(--v2-ancho);margin:0 auto;
+    padding:30px 24px 56px;border-top:1px solid var(--v2-linea);
+    color:var(--v2-tinta-tenue);font-size:14px;line-height:1.9;
+  }
+  footer a{color:var(--v2-tinta-tenue);text-decoration:none;border-bottom:1px solid rgba(132,132,143,.32);}
+  footer a:hover{color:var(--v2-tinta);border-bottom-color:var(--v2-tinta);}
+  .mail{display:inline-block;margin-top:8px;}
+
+
+  /* ══════════════════════════════════════════════════════════════════════
+     RESPONSIVE. El mockup es 1366 fijo; la mayoria del trafico es movil.
+     ══════════════════════════════════════════════════════════════════════ */
+  @media (max-width:900px){
+    .hero-inner,.dos-columnas{grid-template-columns:1fr;}
+    /* En "que es" y "por que" el texto va PRIMERO en movil: la foto es
+       decorativa y no debe empujar el mensaje abajo del pliegue. */
+    .que-es .tarjeta-glass,.por-que .por-que-texto{order:1;}
+    .que-es-foto,.por-que-foto{order:2;}
+    .por-que-texto h2{max-width:none;}
+    /* Debajo de 900px los tres efectos de escritorio se revierten: el arco
+       estorba en una columna angosta, el contacto vuelve a la izquierda y la
+       foto vuelve a quedar contenida con sus cuatro esquinas redondeadas. */
+    .contacto-item{padding-left:0;}
+    .hero-foto{width:100%;border-radius:18px;}
+  }
+  @media (max-width:640px){
+    body{font-size:16px;}
+    .tiendas{grid-template-columns:1fr;}
+    .store{min-height:0;}
+    header.hero,main > section{padding-left:20px;padding-right:20px;}
+    footer{padding-left:20px;padding-right:20px;}
+    .lang{right:18px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="lang" role="group" aria-label="Idioma / Language">
+  <button type="button" id="btn-es" data-lang="es">ES</button><span class="sep">|</span><button type="button" id="btn-en" data-lang="en">EN</button>
+</div>
+
+<!-- ══ 1 · HERO ══════════════════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-texto">
+    <p class="wordmark">Donde<span class="b">Bailar</span></p>
+    <svg class="smile" viewBox="0 0 210 9" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M3 4 Q105 12 207 4" stroke="#F5C04A" stroke-width="3.2" stroke-linecap="round"/>
+    </svg>
+
+    <p class="badge"><span class="pulse"></span><span
+      data-es="YA DISPONIBLE PARA IPHONE"
+      data-en="NOW AVAILABLE FOR IPHONE">YA DISPONIBLE PARA IPHONE</span></p>
+
+    <!-- La marca es el wordmark "DondeBailar", todo junto, y esa no se traduce
+         ni lleva tilde. Esta frase separada NO es la marca: es una oracion, y
+         "Donde" interrogativo indirecto lleva tilde. No la saques. -->
+    <h1 data-es="Dónde bailar en Costa Rica"
+        data-en="Where to Dance in Costa Rica">Dónde bailar en Costa Rica</h1>
+
+    </div>
+
+    <!-- WebP SOLO, sin respaldo JPG y sin <picture>: los JPG equivalentes
+         pesaban 417 992 bytes contra 214 344, casi el doble, para cubrir
+         navegadores que ya no existen. Si algun dia hace falta el respaldo,
+         hay que volver a envolver los tres en <picture> con <source>. -->
+    <img class="hero-foto" src="capturas/hero-calle.webp" width="1600" height="893"
+         alt="Una persona mira la pantalla de inicio de DondeBailar en su teléfono, en una calle con luces al anochecer"
+         data-es-alt="Una persona mira la pantalla de inicio de DondeBailar en su teléfono, en una calle con luces al anochecer"
+         data-en-alt="A person looks at the DondeBailar home screen on their phone, on a street lit at dusk">
+  </div>
+</header>
+
+<main>
+
+  <!-- ══ 2 · ¿QUÉ ES ESTO? ═══════════════════════════════════════════════ -->
+  <section id="que-es" class="que-es">
+    <div class="dos-columnas">
+      <div class="tarjeta-glass">
+        <h2 data-es="¿Qué es esto?" data-en="What is this?">¿Qué es esto?</h2>
+        <p data-es="La agenda del baile latino en Costa Rica. Salsa, bachata, merengue y más: eventos de la semana, salones con su noche fija y orquestas en vivo, todo en un solo lugar y al día."
+           data-en="The Latin dance calendar for Costa Rica. Salsa, bachata, merengue and more: this week's events, venues with their regular night and live orchestras, all in one place and up to date.">La agenda del baile latino en Costa Rica. Salsa, bachata, merengue y más: eventos de la semana, salones con su noche fija y orquestas en vivo, todo en un solo lugar y al día.</p>
+      </div>
+
+      <img class="que-es-foto" src="capturas/mesa-cafe.webp" width="1200" height="805"
+           alt="Un teléfono sobre una mesa de madera, junto a una taza de café, en la terraza de un local con luces colgantes"
+           data-es-alt="Un teléfono sobre una mesa de madera, junto a una taza de café, en la terraza de un local con luces colgantes"
+           data-en-alt="A phone on a wooden table beside a coffee cup, on the terrace of a venue strung with lights">
+    </div>
+  </section>
+
+  <!-- ══ 3 · QUÉ HACE ════════════════════════════════════════════════════ -->
+  <section id="que-hace" class="que-hace">
+    <div class="dos-columnas">
+      <h2 data-es="Qué hace" data-en="What it does">Qué hace</h2>
+
+      <div class="panel-luminoso">
+        <div class="feature">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>
+          </svg>
+          <h3 data-es="Todo en un solo lugar" data-en="Everything in one place">Todo en un solo lugar</h3>
+          <p data-es="Eventos con fecha, salones con su noche fija y orquestas en vivo, en una sola agenda."
+             data-en="Events with dates, venues with their regular night and live orchestras, in a single calendar.">Eventos con fecha, salones con su noche fija y orquestas en vivo, en una sola agenda.</p>
+        </div>
+
+        <div class="feature">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 21.5s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10.2" r="2.6"/>
+          </svg>
+          <h3 data-es="Cerca de vos" data-en="Near you">Cerca de vos</h3>
+          <p data-es="Ordená por distancia y encontrá qué hay cerca para bailar esta noche."
+             data-en="Sort by distance and find what is nearby to dance tonight.">Ordená por distancia y encontrá qué hay cerca para bailar esta noche.</p>
+        </div>
+
+        <div class="feature">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2.5 4 6v6c0 4.6 3.3 8.4 8 9.5 4.7-1.1 8-4.9 8-9.5V6z"/>
+          </svg>
+          <h3 data-es="No te lo perdás" data-en="Don't miss it">No te lo perdás</h3>
+          <p data-es="Seguí tus lugares y orquestas favoritas y recordá los eventos que no querés perderte."
+             data-en="Follow your favorite venues and orchestras, and set reminders for the events you don't want to miss.">Seguí tus lugares y orquestas favoritas y recordá los eventos que no querés perderte.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 4 · DESCARGALA ══════════════════════════════════════════════════ -->
+  <section id="descargala" class="descargala">
+    <h2 data-es="Descargala" data-en="Get the app">Descargala</h2>
+
+    <!-- ASIMETRÍA DELIBERADA, no un descuido: Apple es <a> y Google es <div>.
+         iOS 1.0.1 está publicada; Android todavía espera la aprobación de
+         acceso a producción de Google Play.
+
+         Cuando Play apruebe se convierte UN botón —el de acá abajo—: el div
+         pasa a <a class="store" href="URL" target="_blank" rel="noopener"> y
+         "Muy pronto" / "Coming very soon" se cambia por la bajada real.
+         En el diseño viejo eran CUATRO botones en dos bloques y ese fue el
+         motivo del commit ab9d2ab; este rediseño los reduce a DOS, en un solo
+         bloque. Ya no hay un par escondido al final de la página.
+
+         cursor:pointer y :hover van sobre a.store, NUNCA sobre .store: un div
+         que parece clicable promete un tap que no existe. -->
+    <div class="tiendas">
+      <a class="store" href="https://apps.apple.com/cr/app/dondebailar/id6790503762" target="_blank" rel="noopener">
+        <span class="store-nombre">App Store</span>
+        <span class="store-bajada"
+              data-es="Para iPhone y iPad. Descarga gratuita."
+              data-en="For iPhone and iPad. Free download.">Para iPhone y iPad. Descarga gratuita.</span>
+      </a>
+
+      <div class="store">
+        <span class="store-nombre">Google Play</span>
+        <span class="store-bajada"
+              data-es="Para Android. Muy pronto."
+              data-en="For Android. Coming very soon.">Para Android. Muy pronto.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 5 · POR QUÉ EXISTE ══════════════════════════════════════════════ -->
+  <section id="por-que" class="por-que">
+    <div class="dos-columnas">
+      <div class="por-que-texto">
+        <h2 data-es="Por qué existe" data-en="Why it exists">Por qué existe</h2>
+        <p data-es="La información de dónde bailar está repartida entre historias de Instagram, grupos de WhatsApp y flyers que se pierden a los dos días. DondeBailar la junta en un solo lugar y la mantiene al día."
+           data-en="Information about where to dance is scattered across Instagram stories, WhatsApp groups and flyers that vanish within two days. DondeBailar brings it together in one place and keeps it up to date.">La información de dónde bailar está repartida entre historias de Instagram, grupos de WhatsApp y flyers que se pierden a los dos días. DondeBailar la junta en un solo lugar y la mantiene al día.</p>
+        <p data-es="Cada salón, cada orquesta y cada evento pasan por revisión antes de aparecer. Si está acá, alguien lo confirmó: la fecha, el lugar y la hora."
+           data-en="Every venue, every orchestra and every event goes through review before it appears. If it is here, someone confirmed it: the date, the place and the time.">Cada salón, cada orquesta y cada evento pasan por revisión antes de aparecer. Si está acá, alguien lo confirmó: la fecha, el lugar y la hora.</p>
+      </div>
+
+      <img class="por-que-foto" src="capturas/calle-local.webp" width="1200" height="805"
+           alt="Una persona con el teléfono en la mano frente a un local de música en vivo, con gente en la vereda al anochecer"
+           data-es-alt="Una persona con el teléfono en la mano frente a un local de música en vivo, con gente en la vereda al anochecer"
+           data-en-alt="A person holding their phone outside a live music venue, with people on the sidewalk at dusk">
+    </div>
+  </section>
+
+  <!-- ══ 6 · CONTACTO ════════════════════════════════════════════════════ -->
+  <section id="contacto" class="contacto">
+    <h2 data-es="Contacto" data-en="Contact">Contacto</h2>
+    <p class="contacto-item">
+      <span class="contacto-rotulo" data-es="Soporte" data-en="Support">Soporte</span>
+      <a href="https://dondebailar.net/soporte.html">dondebailar.net/soporte.html</a>
+    </p>
+  </section>
+
+</main>
+
+<!-- ══ FOOTER LEGAL ════════════════════════════════════════════════════════
+     NO está en el mockup y NO es opcional: es requisito de tienda. Sin estos
+     tres links la página no se puede publicar.
+
+     Los tres apuntan a privacidad.html y NO a index.html. Hoy los dos archivos
+     son IDÉNTICOS BYTE A BYTE (verificado con cmp) y el diseño viejo mezclaba
+     los dos destinos: el footer iba a index.html y el link del cuerpo a
+     privacidad.html. Acá se unifica a privacidad.html.
+     Queda anotado: cuál de los dos archivos sobrevive se decide en el paso 5
+     (mudar la landing a la raíz), que no va antes de que 0.7.14 esté
+     publicada, porque los binarios en la calle tienen PRIVACY_URL clavado a
+     la raíz. -->
+<footer>
+  <a href="soporte.html" data-es="Soporte" data-en="Support">Soporte</a> ·
+  <a href="privacidad.html" data-es="Política de Privacidad" data-en="Privacy Policy">Política de Privacidad</a> ·
+  <a href="eliminar-cuenta.html" data-es="Eliminar cuenta" data-en="Delete Account">Eliminar cuenta</a>
+  <br>
+  <a class="mail" href="mailto:support@novaaisolutionscr.com">support@novaaisolutionscr.com</a>
+</footer>
+
+<script>
+(function () {
+  var CLAVE = 'db_lang';
+  var nodos = document.querySelectorAll('[data-es]');
+  var conAlt = document.querySelectorAll('[data-es-alt]');
+  var botones = document.querySelectorAll('.lang button');
+
+  function aplicar(lang) {
+    for (var i = 0; i < nodos.length; i++) {
+      var t = nodos[i].getAttribute('data-' + lang);
+      if (t) nodos[i].textContent = t;
+    }
+    // Los alt de las fotos también se traducen: los lee un lector de pantalla.
+    for (var a = 0; a < conAlt.length; a++) {
+      var alt = conAlt[a].getAttribute('data-' + lang + '-alt');
+      if (alt) conAlt[a].setAttribute('alt', alt);
+    }
+    for (var j = 0; j < botones.length; j++) {
+      var esteEs = botones[j].getAttribute('data-lang') === lang;
+      botones[j].classList.toggle('on', esteEs);
+      botones[j].setAttribute('aria-pressed', esteEs ? 'true' : 'false');
+    }
+    // El atributo del HTML crudo se queda en "es" (es lo que leen los
+    // crawlers); acá se actualiza en caliente solo para lectores de pantalla.
+    document.documentElement.lang = lang;
+  }
+
+  function elegir(lang) {
+    try { localStorage.setItem(CLAVE, lang); } catch (e) {}
+    aplicar(lang);
+  }
+
+  var guardado = null;
+  try { guardado = localStorage.getItem(CLAVE); } catch (e) {}
+
+  // Default ESPAÑOL: solo se va a inglés si el navegador NO está en español.
+  var idioma = (navigator.language || navigator.userLanguage || 'es').toLowerCase();
+  var inicial = guardado === 'en' || guardado === 'es'
+    ? guardado
+    : (idioma.indexOf('es') === 0 ? 'es' : 'en');
+
+  aplicar(inicial);
+
+  for (var k = 0; k < botones.length; k++) {
+    botones[k].addEventListener('click', function () {
+      elegir(this.getAttribute('data-lang'));
+    });
+  }
+})();
+</script>
+</body>
+</html>
