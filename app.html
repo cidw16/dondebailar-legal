@@ -153,6 +153,16 @@
   .cierre .lede{margin-left:auto;margin-right:auto;}
   .cierre .cta{justify-content:center;}
 
+  /* Link a la política, VISIBLE en el cuerpo y no solo en el pie. Existe
+     porque esta página va a pasar a la raíz del sitio, y ahí los binarios
+     viejos de la app —que llevan PRIVACY_URL clavado a la raíz— van a
+     aterrizar acá en vez de en la política. Que el camino esté a la vista
+     es lo que evita que ese usuario quede sin salida. NO lo muevas al pie. */
+  .legal{margin:28px 0 0;font-size:14px;color:var(--muted);}
+  .legal a{color:var(--muted);border-bottom:1px solid rgba(168,168,179,.45);
+    text-decoration:none;}
+  .legal a:hover{color:var(--ink);border-bottom-color:var(--ink);}
+
   footer{position:relative;z-index:1;border-top:1px solid var(--border);
     padding:32px 0 52px;color:var(--muted);font-size:14px;line-height:1.9;}
   footer a{color:var(--muted);text-decoration:none;border-bottom:1px solid rgba(168,168,179,.3);}
@@ -315,6 +325,17 @@
         <span><span class="s" data-es="Pronto en" data-en="Coming soon to">Pronto en</span><br><span class="n">Google Play</span></span>
       </div>
     </div>
+
+    <!-- Apunta a privacidad.html y NO a index.html a propósito: cuando esta
+         página pase a la raíz, `index.html` va a SER esta misma página y un
+         link a index.html apuntaría a sí mismo. -->
+    <p class="legal">
+      <span data-es="Antes de instalarla, podés leer nuestra "
+            data-en="Before installing, you can read our ">Antes de instalarla, podés leer nuestra </span><a
+        href="privacidad.html"
+        data-es="Política de Privacidad" data-en="Privacy Policy">Política de Privacidad</a><span
+        data-es="." data-en=".">.</span>
+    </p>
   </section>
 
   <footer>
