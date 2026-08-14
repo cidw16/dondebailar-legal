@@ -209,26 +209,6 @@ y es un commit propio: así lo que pide marcha atrás es un rename y no una
 reconstrucción. No confundir con el paso 5, que es mover la landing a la
 raíz; esto es solo reemplazar el archivo viejo por el nuevo.
 
-## PROYECTO APARTE — el de mayor impacto y el más caro
-
-### D8 · Publicar los datos de Supabase como páginas web
-
-Salones con su noche fija, orquestas con su residencia, eventos con fecha.
-Páginas generadas desde la base, una por provincia o por ritmo.
-
-**Por qué es lo que más mueve la aguja:** hoy la landing dice que *existe una
-app que responde* "dónde bailar en Costa Rica". Estas páginas **responderían
-la pregunta**. Eso es lo que un buscador puede rankear y lo que una IA puede
-citar; una landing de producto, no.
-
-Y el hueco está a la vista: las fuentes que hoy rankean para esa búsqueda son
-**de 2014 y de 2023**. El contenido que ya tenemos en la base está más al día
-que todo lo que hay publicado.
-
-Es un proyecto, no un ítem: pide generación de páginas, una decisión sobre
-dónde se hospedan y sobre cada cuánto se regeneran. Se anota acá para que no
-se pierda entre los arreglos chicos, no para hacerlo la semana que viene.
-
 ## Lo que pesa más que todo lo anterior junto, y no es trabajo de repo
 
 **Las menciones de terceros.** Que una nota de prensa local, un foro de baile
@@ -239,3 +219,15 @@ todos los ítems técnicos de esta lista sumados.
 igual porque el riesgo real es el contrario: pasar semanas puliendo
 `sitemap.xml` y JSON-LD sintiendo que se avanza, mientras lo que de verdad
 mueve el ranking nunca se empieza porque no se parece a programar.
+
+---
+
+# Descartado
+
+Lo que se evaluó y NO se va a hacer. Está acá para que no reaparezca como
+idea nueva dentro de seis meses.
+
+- **Publicar la agenda como páginas web** (salones, orquestas y eventos
+  generados desde Supabase, por provincia o por ritmo). Se evaluó y se
+  descartó: **canibaliza la app** y **expone a raspado el único activo que la
+  diferencia**, que son los datos curados a mano.
