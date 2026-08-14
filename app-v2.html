@@ -147,7 +147,18 @@
   .lang button{
     background:none;border:0;padding:4px 5px;margin:0;cursor:pointer;color:inherit;
     font:inherit;letter-spacing:inherit;border-radius:6px;
+    display:inline-flex;align-items:center;gap:6px;
   }
+  /* El borde de 1px hace falta: la franja de arriba de la bandera de Costa
+     Rica es azul oscuro y la de EE.UU. tiene blanco en los bordes; sobre el
+     fondo casi negro, sin borde la silueta se pierde. */
+  .lang .bandera{
+    width:16px;height:auto;flex:none;border-radius:2px;
+    box-shadow:0 0 0 1px rgba(255,255,255,.22);
+  }
+  /* La bandera del idioma que NO esta activo se atenua, igual que su texto. */
+  .lang button:not(.on) .bandera{opacity:.55;}
+  .lang button:hover .bandera{opacity:1;}
   .lang button.on{color:var(--v2-tinta);}
   .lang button:hover{color:var(--v2-tinta);}
   .lang .sep{opacity:.5;}
@@ -445,8 +456,24 @@
 </head>
 <body>
 
+<!-- Banderas en SVG INLINE y no emoji, y esto no es preferencia: en Windows
+     los emoji de bandera NO renderizan. Chrome en Windows dibuja el par de
+     letras del codigo de region —"CR", "US"— en vez del dibujo, asi que el
+     toggle habria quedado leyendo "CR ES | US EN". Verificado renderizando.
+
+     ES lleva la de COSTA RICA, no la de España: la app es costarricense y el
+     texto esta en voseo tico. EN lleva la de Estados Unidos.
+
+     Las dos van en el mismo viewBox 30x18 para que se vean parejas en fila,
+     aunque la de EE.UU. sea 10:19 en la realidad. A 16px de ancho la
+     diferencia no se percibe y la alternativa —dos banderas de distinta
+     proporcion pegadas— si se nota.
+     La de EE.UU. va SIN las 50 estrellas: a este tamaño serian una mancha.
+
+     aria-hidden en las dos: el texto ES/EN ya dice cual es, y el lector de
+     pantalla no gana nada anunciando una bandera. -->
 <div class="lang" role="group" aria-label="Idioma / Language">
-  <button type="button" id="btn-es" data-lang="es">ES</button><span class="sep">|</span><button type="button" id="btn-en" data-lang="en">EN</button>
+  <button type="button" id="btn-es" data-lang="es"><svg class="bandera" viewBox="0 0 30 18" aria-hidden="true"><rect width="30" height="18" fill="#0033A0"/><rect y="3" width="30" height="12" fill="#FFFFFF"/><rect y="6" width="30" height="6" fill="#CE1126"/></svg>ES</button><span class="sep">|</span><button type="button" id="btn-en" data-lang="en"><svg class="bandera" viewBox="0 0 30 18" aria-hidden="true"><rect width="30" height="18" fill="#FFFFFF"/><g fill="#B31942"><rect width="30" height="1.385"/><rect y="2.769" width="30" height="1.385"/><rect y="5.538" width="30" height="1.385"/><rect y="8.308" width="30" height="1.385"/><rect y="11.077" width="30" height="1.385"/><rect y="13.846" width="30" height="1.385"/><rect y="16.615" width="30" height="1.385"/></g><rect width="12" height="9.692" fill="#0A3161"/></svg>EN</button>
 </div>
 
 <!-- ══ 1 · HERO ══════════════════════════════════════════════════════════ -->
