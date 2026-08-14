@@ -102,6 +102,19 @@
        mismo rojo del splash de la app. No se usa en ningun otro lado. */
     --v2-coral:#FF4D5E;
 
+    /* ── D1 · SOLO EL HERO ───────────────────────────────────────────────
+       Direccion sobria en azul profundo, y esta acotada A LA PRIMERA SECCION
+       A PROPOSITO. El resto de la pagina conserva la paleta anterior: el
+       ambar de "¿Que es esto?", los azules de que-hace / por-que / contacto,
+       los grises y el fondo #08080A. La alternancia calido-frio del mockup
+       se mantiene de la segunda seccion en adelante.
+       Estos tres tokens llevan -hero- en el nombre justamente para que no se
+       repartan por el resto de la hoja. Si los vas a usar en otra seccion,
+       es una decision de diseño, no un atajo de nombres. */
+    --v2-hero-fondo:#0A1024;
+    --v2-hero-halo:rgba(58,102,200,.20);
+    --v2-hero-acento:#9FBEF0;
+
     --v2-vidrio:rgba(255,255,255,.055);
     --v2-vidrio-borde:rgba(255,255,255,.14);
     --v2-linea:rgba(255,255,255,.10);
@@ -162,7 +175,7 @@
 
   /* ══ 1 · HERO ═════════════════════════════════════════════════════════ */
   header.hero{
-    background:linear-gradient(115deg,#1A1206 0%,var(--v2-fondo) 52%);
+    background:linear-gradient(115deg,var(--v2-hero-fondo) 0%,var(--v2-fondo) 52%);
     padding-top:clamp(54px,7vw,76px);
   }
   /* El mockup trae un arco decorativo y NO se implementa a proposito: con la
@@ -170,7 +183,7 @@
      con el toggle ES|EN de la esquina. No lo repongas mirando el PNG. */
   header.hero::before{
     width:760px;height:760px;top:-320px;left:-280px;
-    background:rgba(240,169,60,.30);
+    background:var(--v2-hero-halo);
   }
   .hero-inner{
     max-width:var(--v2-ancho);margin:0 auto;
@@ -186,15 +199,15 @@
 
   .badge{
     display:inline-flex;align-items:center;gap:9px;margin:clamp(30px,5vw,48px) 0 22px;
-    border:1px solid rgba(240,169,60,.34);background:rgba(240,169,60,.08);
+    border:1px solid rgba(120,160,235,.28);background:rgba(80,120,200,.07);
     border-radius:999px;padding:7px 16px;font-size:12px;font-weight:700;
-    color:var(--v2-ambar-fuerte);letter-spacing:.05em;
+    color:var(--v2-hero-acento);letter-spacing:.05em;
   }
   .pulse{
-    width:7px;height:7px;border-radius:50%;background:var(--v2-ambar-fuerte);
-    box-shadow:0 0 0 0 rgba(255,192,97,.75);animation:p 2.2s infinite;
+    width:7px;height:7px;border-radius:50%;background:var(--v2-hero-acento);
+    box-shadow:0 0 0 0 rgba(159,190,240,.75);animation:p 2.2s infinite;
   }
-  @keyframes p{70%{box-shadow:0 0 0 9px rgba(255,192,97,0)}100%{box-shadow:0 0 0 0 rgba(255,192,97,0)}}
+  @keyframes p{70%{box-shadow:0 0 0 9px rgba(159,190,240,0)}100%{box-shadow:0 0 0 0 rgba(159,190,240,0)}}
   @media (prefers-reduced-motion:reduce){.pulse{animation:none;}}
 
   /* El h1 se mide contra SU COLUMNA, no contra el viewport: .hero-texto es
@@ -275,8 +288,19 @@
     background:rgba(62,134,200,.26);
   }
   /* Solo esta seccion: el panel se lleva mas ancho que el titulo. Las otras
-     dos que usan .dos-columnas (que-es y por-que) siguen en 1fr 1fr. */
-  .que-hace .dos-columnas{grid-template-columns:1fr 1.35fr;}
+     dos que usan .dos-columnas (que-es y por-que) siguen en 1fr 1fr.
+
+     VA DENTRO DE min-width:901px Y NO SUELTA, Y ESTO IMPORTA: un media query
+     no aporta especificidad, asi que .que-hace .dos-columnas (0,2,0) le gana
+     a la regla del breakpoint (0,1,0) aunque matchMedia de true. Suelta, esta
+     linea pisaba el colapso a una columna y la seccion se quedaba en DOS
+     columnas en el telefono: a 390px daba un titulo de 131px y un panel de
+     176px. Encerrandola en el rango complementario los dos bloques no se
+     solapan y no hay pelea que ganar.
+     Si agregas otra regla anidada sobre .dos-columnas, ponela aca adentro. */
+  @media (min-width:901px){
+    .que-hace .dos-columnas{grid-template-columns:1fr 1.35fr;}
+  }
   .que-hace h2{
     font-size:clamp(30px,4vw,46px);font-weight:600;margin:0;color:#FFF;
   }
@@ -319,6 +343,18 @@
     color:var(--v2-tinta);text-decoration:none;
   }
   .store-nombre{font-family:'Unbounded',sans-serif;font-size:17px;font-weight:600;color:#FFF;}
+  /* 120x40 es el tamaño nativo del SVG de Apple y respeta el minimo de su
+     guia. Los dos valores van EXPLICITOS y hace falta el align-self:
+     .store es un flex en columna con align-items:stretch por defecto, asi que
+     un img en block con width:auto se estiraba a todo el ancho de la tarjeta
+     —511px a 1366— y deformaba el badge. Deformarlo esta prohibido por la
+     guia de Apple, ademas de verse mal. */
+  .store-badge{display:block;width:120px;height:40px;align-self:flex-start;}
+  /* El badge mide 40px de alto y el titulo de texto de Google unos 22, asi que
+     sin esto la tarjeta de Apple quedaba 12px mas alta que la otra en movil,
+     donde no hay min-height que lo tape. Igualar la caja del titulo las deja
+     parejas en cualquier ancho. */
+  .store-nombre{min-height:40px;display:flex;align-items:center;}
   .store-bajada{margin-top:8px;font-size:14px;color:var(--v2-tinta-media);}
   /* SOLO el <a>. El <div> de Google Play no recibe ni cursor ni hover: no es
      clicable y no debe parecerlo. Ver el comentario del marcado. */
@@ -517,13 +553,33 @@
          cursor:pointer y :hover van sobre a.store, NUNCA sobre .store: un div
          que parece clicable promete un tap que no existe. -->
     <div class="tiendas">
+      <!-- El badge OFICIAL de Apple, bajado de su API de marketing
+           (toolbox.marketingtools.apple.com) y hospedado acá: nada de hotlink.
+           Variante BLANCA porque el fondo es oscuro, que es lo que pide la
+           guia de Apple. NO se recrea ni se redibuja ni se le cambian los
+           colores: se usa el archivo tal cual viene.
+           El badge YA DICE "Descargalo en el App Store", asi que reemplaza al
+           titulo de texto en vez de sumarse: repetirlo seria redundante.
+           Tiene una version por idioma y el toggle le cambia el src. -->
       <a class="store" href="https://apps.apple.com/cr/app/dondebailar/id6790503762" target="_blank" rel="noopener">
-        <span class="store-nombre">App Store</span>
+        <img class="store-badge" src="badges/app-store-es.svg" width="120" height="40"
+             data-es-src="badges/app-store-es.svg" data-en-src="badges/app-store-en.svg"
+             alt="Descargalo en el App Store"
+             data-es-alt="Descargalo en el App Store"
+             data-en-alt="Download on the App Store">
         <span class="store-bajada"
               data-es="Para iPhone y iPad. Descarga gratuita."
               data-en="For iPhone and iPad. Free download.">Para iPhone y iPad. Descarga gratuita.</span>
       </a>
 
+      <!-- ACA NO VA EL BADGE DE GOOGLE PLAY, y no es un olvido.
+           El badge oficial dice "Disponible en Google Play" y la guia de marca
+           de Google exige que enlace a la ficha de la app. La app NO esta
+           publicada en Play todavia: no hay ficha a la que enlazar, y el badge
+           le estaria prometiendo al usuario una descarga que no existe.
+           Queda como texto con "Muy pronto" hasta que Play apruebe. Ese dia:
+           bajar el badge de play.google.com/intl/es/badges/, ponerlo en
+           badges/, convertir este <div> en <a> y borrar este comentario. -->
       <div class="store">
         <span class="store-nombre">Google Play</span>
         <span class="store-bajada"
@@ -587,6 +643,7 @@
   var CLAVE = 'db_lang';
   var nodos = document.querySelectorAll('[data-es]');
   var conAlt = document.querySelectorAll('[data-es-alt]');
+  var conSrc = document.querySelectorAll('[data-es-src]');
   var botones = document.querySelectorAll('.lang button');
 
   function aplicar(lang) {
@@ -598,6 +655,12 @@
     for (var a = 0; a < conAlt.length; a++) {
       var alt = conAlt[a].getAttribute('data-' + lang + '-alt');
       if (alt) conAlt[a].setAttribute('alt', alt);
+    }
+    // El badge de Apple viene en un archivo por idioma: el texto está DENTRO
+    // del SVG, así que traducirlo es cambiarle el src.
+    for (var b = 0; b < conSrc.length; b++) {
+      var src = conSrc[b].getAttribute('data-' + lang + '-src');
+      if (src) conSrc[b].setAttribute('src', src);
     }
     for (var j = 0; j < botones.length; j++) {
       var esteEs = botones[j].getAttribute('data-lang') === lang;
