@@ -332,7 +332,21 @@
   .feature h3{font-size:17px;font-weight:600;margin:0 0 7px;color:#FFF;}
   .feature p{margin:0;color:var(--v2-tinta-media);font-size:14.5px;line-height:1.6;}
 
-  /* ══ 4 · DESCARGALA ═══════════════════════════════════════════════════ */
+  /* ══ 4 · POR QUE EXISTE ═══════════════════════════════════════════════ */
+  .por-que{background:linear-gradient(150deg,#050B14 0%,var(--v2-fondo) 58%);}
+  .por-que::before{
+    width:700px;height:700px;top:-180px;left:-240px;
+    background:rgba(62,134,200,.28);
+  }
+  .por-que-texto h2{
+    font-size:clamp(30px,4vw,46px);font-weight:600;line-height:1.1;
+    margin:0 0 22px;color:#FFF;max-width:9ch;
+  }
+  .por-que-texto p{margin:0 0 16px;color:var(--v2-tinta-media);font-size:15px;line-height:1.7;}
+  .por-que-texto p:last-child{margin-bottom:0;}
+  .por-que-foto{width:100%;border-radius:16px;}
+
+  /* ══ 5 · DESCARGALA ═══════════════════════════════════════════════════ */
   .descargala{background:var(--v2-fondo);}
   .descargala::before{width:0;height:0;}   /* seccion sin resplandor, a proposito */
   .descargala h2{
@@ -377,20 +391,6 @@
   }
   a.store:focus-visible{outline:2px solid var(--v2-ambar-fuerte);outline-offset:3px;}
   @media (prefers-reduced-motion:reduce){a.store{transition:none;}a.store:hover{transform:none;}}
-
-  /* ══ 5 · POR QUE EXISTE ═══════════════════════════════════════════════ */
-  .por-que{background:linear-gradient(150deg,#050B14 0%,var(--v2-fondo) 58%);}
-  .por-que::before{
-    width:700px;height:700px;top:-180px;left:-240px;
-    background:rgba(62,134,200,.28);
-  }
-  .por-que-texto h2{
-    font-size:clamp(30px,4vw,46px);font-weight:600;line-height:1.1;
-    margin:0 0 22px;color:#FFF;max-width:9ch;
-  }
-  .por-que-texto p{margin:0 0 16px;color:var(--v2-tinta-media);font-size:15px;line-height:1.7;}
-  .por-que-texto p:last-child{margin-bottom:0;}
-  .por-que-foto{width:100%;border-radius:16px;}
 
   /* ══ 6 · CONTACTO ═════════════════════════════════════════════════════ */
   .contacto{background:var(--v2-fondo);}
@@ -562,7 +562,26 @@
     </div>
   </section>
 
-  <!-- ══ 4 · DESCARGALA ══════════════════════════════════════════════════ -->
+
+  <!-- ══ 4 · POR QUÉ EXISTE ══════════════════════════════════════════════ -->
+  <section id="por-que" class="por-que">
+    <div class="dos-columnas">
+      <div class="por-que-texto">
+        <h2 data-es="Por qué existe" data-en="Why it exists">Por qué existe</h2>
+        <p data-es="La información de dónde bailar está repartida entre historias de Instagram, grupos de WhatsApp y flyers que se pierden a los dos días. DondeBailar la junta en un solo lugar y la mantiene al día."
+           data-en="Information about where to dance is scattered across Instagram stories, WhatsApp groups and flyers that vanish within two days. DondeBailar brings it together in one place and keeps it up to date.">La información de dónde bailar está repartida entre historias de Instagram, grupos de WhatsApp y flyers que se pierden a los dos días. DondeBailar la junta en un solo lugar y la mantiene al día.</p>
+        <p data-es="Cada salón, cada orquesta y cada evento pasan por revisión antes de aparecer. Si está acá, alguien lo confirmó: la fecha, el lugar y la hora."
+           data-en="Every venue, every orchestra and every event goes through review before it appears. If it is here, someone confirmed it: the date, the place and the time.">Cada salón, cada orquesta y cada evento pasan por revisión antes de aparecer. Si está acá, alguien lo confirmó: la fecha, el lugar y la hora.</p>
+      </div>
+
+      <img class="por-que-foto" src="capturas/calle-local.webp" width="1200" height="805"
+           alt="Una persona con el teléfono en la mano frente a un local de música en vivo, con gente en la vereda al anochecer"
+           data-es-alt="Una persona con el teléfono en la mano frente a un local de música en vivo, con gente en la vereda al anochecer"
+           data-en-alt="A person holding their phone outside a live music venue, with people on the sidewalk at dusk">
+    </div>
+  </section>
+
+  <!-- ══ 5 · DESCARGALA ══════════════════════════════════════════════════ -->
   <section id="descargala" class="descargala">
     <h2 data-es="Descargala" data-en="Get the app">Descargala</h2>
 
@@ -613,24 +632,6 @@
               data-es="Para Android. Muy pronto."
               data-en="For Android. Coming very soon.">Para Android. Muy pronto.</span>
       </div>
-    </div>
-  </section>
-
-  <!-- ══ 5 · POR QUÉ EXISTE ══════════════════════════════════════════════ -->
-  <section id="por-que" class="por-que">
-    <div class="dos-columnas">
-      <div class="por-que-texto">
-        <h2 data-es="Por qué existe" data-en="Why it exists">Por qué existe</h2>
-        <p data-es="La información de dónde bailar está repartida entre historias de Instagram, grupos de WhatsApp y flyers que se pierden a los dos días. DondeBailar la junta en un solo lugar y la mantiene al día."
-           data-en="Information about where to dance is scattered across Instagram stories, WhatsApp groups and flyers that vanish within two days. DondeBailar brings it together in one place and keeps it up to date.">La información de dónde bailar está repartida entre historias de Instagram, grupos de WhatsApp y flyers que se pierden a los dos días. DondeBailar la junta en un solo lugar y la mantiene al día.</p>
-        <p data-es="Cada salón, cada orquesta y cada evento pasan por revisión antes de aparecer. Si está acá, alguien lo confirmó: la fecha, el lugar y la hora."
-           data-en="Every venue, every orchestra and every event goes through review before it appears. If it is here, someone confirmed it: the date, the place and the time.">Cada salón, cada orquesta y cada evento pasan por revisión antes de aparecer. Si está acá, alguien lo confirmó: la fecha, el lugar y la hora.</p>
-      </div>
-
-      <img class="por-que-foto" src="capturas/calle-local.webp" width="1200" height="805"
-           alt="Una persona con el teléfono en la mano frente a un local de música en vivo, con gente en la vereda al anochecer"
-           data-es-alt="Una persona con el teléfono en la mano frente a un local de música en vivo, con gente en la vereda al anochecer"
-           data-en-alt="A person holding their phone outside a live music venue, with people on the sidewalk at dusk">
     </div>
   </section>
 
