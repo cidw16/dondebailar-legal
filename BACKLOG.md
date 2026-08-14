@@ -125,3 +125,117 @@ Resolverlo de verdad pide dos URLs (`/es/` y `/en/`) con contenido servido, no
 un toggle de cliente. Es un cambio de arquitectura del sitio, no un ajuste.
 **No hay número que lo justifique todavía**: sin analítica no se sabe cuánto
 tráfico en inglés hay. Se anota y se espera.
+
+---
+
+# Que la landing se pueda ENCONTRAR
+
+Los cuatro ítems de arriba son de higiene del sitio. Esto es otra cosa: hoy
+**`dondebailar.net` no está indexado**. Una búsqueda del dominio no lo
+devuelve. Todo lo que sigue está en el orden en que hay que hacerlo, y las
+dependencias están escritas porque hacerlo al revés es tirar trabajo.
+
+## BLOQUEANTES — van primero
+
+### D1 · Alta en Google Search Console y solicitud de indexación
+
+**El sitio no está indexado. Sin esto, nada de lo demás sirve**: se puede
+tener el mejor `sitemap.xml`, el JSON-LD perfecto y las páginas más rápidas,
+y Google no las va a mirar porque no sabe que el dominio existe.
+
+Es **gratis** y es de las pocas cosas de esta lista que no dependen de nada.
+No tiene excusa para no estar hecho.
+
+Dependencias: **ninguna**. Se puede hacer hoy.
+
+### D2 · Paso 5: la raíz pasa a servir la landing
+
+Hoy `dondebailar.net` **es la política de privacidad**. Quien busque la marca
+y llegue a la raíz cae en un texto legal, no en la app.
+
+Es el problema más caro de los que se pueden arreglar sin escribir código
+nuevo: no importa cuánto se optimice `app.html` si la puerta de entrada del
+dominio muestra otra cosa.
+
+**DEPENDE de que 0.7.14 esté publicada.** Los binarios que ya están en la
+calle llevan `PRIVACY_URL` clavado a la raíz: si la raíz deja de ser la
+política antes de que esos binarios se retiren, esos usuarios se quedan sin
+poder llegar a ella. No se adelanta.
+
+## DESPUÉS DEL PASO 5 — porque las URLs cambian
+
+Los dos que siguen describen URLs. Si se escriben antes del paso 5, listan
+direcciones que van a dejar de existir y hay que rehacerlos enteros.
+
+### D3 · `robots.txt` y `sitemap.xml`
+
+**No existe ninguno de los dos.** Es el ítem 2 de arriba, con el detalle
+medido. Va acá en el orden porque su dependencia es el paso 5.
+
+### D4 · `llms.txt`
+
+Un archivo que declara de qué trata el sitio para que lo lean los motores de
+IA. **Es un estándar propuesto y ningún motor confirmó que lo siga.**
+
+Diez minutos de trabajo, sin ninguna garantía de que sirva. **Va último a
+propósito**: si se hace primero, se siente productivo y no mueve nada. Que
+sea barato no lo hace prioritario.
+
+## INDEPENDIENTES — no esperan a nadie
+
+### D5 · `canonical` y `og:url` en las cuatro páginas legales
+
+Es el **ítem 1** de arriba. Prioridad al duplicado exacto: `index.html` y
+`privacidad.html` son idénticos byte a byte y ninguno declara cuál es el
+bueno.
+
+### D6 · El `author` del JSON-LD tiene que coincidir con App Store Connect
+
+Hoy `app-v2.html` declara `"author": {"@type":"Organization","name":"Roberto
+Del Cid"}`. El mail del pie es `support@novaaisolutionscr.com`, o sea de Nova
+AI Solutions CR.
+
+**Hay que verificar cuál de los dos figura como desarrollador en la ficha del
+App Store** y usar ese, textual. Un dato estructurado que no coincide con la
+tienda es peor que no tenerlo: le dice a Google que la página y la ficha son
+de dueños distintos.
+
+No se puede resolver desde el repo: hay que mirar App Store Connect.
+
+### D7 · El swap `app-v2.html` → `app.html`
+
+Pendiente. Va **después de verificar el rediseño sobre la página publicada**,
+y es un commit propio: así lo que pide marcha atrás es un rename y no una
+reconstrucción. No confundir con el paso 5, que es mover la landing a la
+raíz; esto es solo reemplazar el archivo viejo por el nuevo.
+
+## PROYECTO APARTE — el de mayor impacto y el más caro
+
+### D8 · Publicar los datos de Supabase como páginas web
+
+Salones con su noche fija, orquestas con su residencia, eventos con fecha.
+Páginas generadas desde la base, una por provincia o por ritmo.
+
+**Por qué es lo que más mueve la aguja:** hoy la landing dice que *existe una
+app que responde* "dónde bailar en Costa Rica". Estas páginas **responderían
+la pregunta**. Eso es lo que un buscador puede rankear y lo que una IA puede
+citar; una landing de producto, no.
+
+Y el hueco está a la vista: las fuentes que hoy rankean para esa búsqueda son
+**de 2014 y de 2023**. El contenido que ya tenemos en la base está más al día
+que todo lo que hay publicado.
+
+Es un proyecto, no un ítem: pide generación de páginas, una decisión sobre
+dónde se hospedan y sobre cada cuánto se regeneran. Se anota acá para que no
+se pierda entre los arreglos chicos, no para hacerlo la semana que viene.
+
+## Lo que pesa más que todo lo anterior junto, y no es trabajo de repo
+
+**Las menciones de terceros.** Que una nota de prensa local, un foro de baile
+o una cuenta con audiencia enlacen a `dondebailar.net` mueve más la aguja que
+todos los ítems técnicos de esta lista sumados.
+
+**No es trabajo de repositorio y no hay commit que lo resuelva.** Se anota
+igual porque el riesgo real es el contrario: pasar semanas puliendo
+`sitemap.xml` y JSON-LD sintiendo que se avanza, mientras lo que de verdad
+mueve el ranking nunca se empieza porque no se parece a programar.
