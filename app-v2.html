@@ -275,8 +275,19 @@
     background:rgba(62,134,200,.26);
   }
   /* Solo esta seccion: el panel se lleva mas ancho que el titulo. Las otras
-     dos que usan .dos-columnas (que-es y por-que) siguen en 1fr 1fr. */
-  .que-hace .dos-columnas{grid-template-columns:1fr 1.35fr;}
+     dos que usan .dos-columnas (que-es y por-que) siguen en 1fr 1fr.
+
+     VA DENTRO DE min-width:901px Y NO SUELTA, Y ESTO IMPORTA: un media query
+     no aporta especificidad, asi que .que-hace .dos-columnas (0,2,0) le gana
+     a la regla del breakpoint (0,1,0) aunque matchMedia de true. Suelta, esta
+     linea pisaba el colapso a una columna y la seccion se quedaba en DOS
+     columnas en el telefono: a 390px daba un titulo de 131px y un panel de
+     176px. Encerrandola en el rango complementario los dos bloques no se
+     solapan y no hay pelea que ganar.
+     Si agregas otra regla anidada sobre .dos-columnas, ponela aca adentro. */
+  @media (min-width:901px){
+    .que-hace .dos-columnas{grid-template-columns:1fr 1.35fr;}
+  }
   .que-hace h2{
     font-size:clamp(30px,4vw,46px);font-weight:600;margin:0;color:#FFF;
   }
