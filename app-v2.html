@@ -79,12 +79,14 @@
 
 <style>
   /* ═══════════════════════════════════════════════════════════════════════
-     PALETA DEL REDISEÑO. Nombres NUEVOS con prefijo --v2- a proposito.
-     El diseño viejo usaba --primary para el coral #FF4D5E y --accent para el
-     ambar; acá el ambar y el azul son los protagonistas y el coral queda
-     reducido al wordmark. Reutilizar aquellos nombres con estos valores
-     haria que el proximo que lea el archivo crea que --primary sigue siendo
-     el coral. Los viejos NO se redefinen: se reemplazan.
+     PALETA. Nombres NUEVOS con prefijo --v2- y --w1- a proposito.
+     El diseño viejo usaba --primary para el coral #FF4D5E y --accent para un
+     ambar que YA NO EXISTE: el sistema de color es W1 y esta descrito mas
+     abajo, donde se definen los halos. El coral queda reducido al wordmark y
+     es el unico color saturado de la pagina.
+     Reutilizar los nombres viejos con estos valores haria que el proximo que
+     lea el archivo crea que --primary sigue siendo el coral. NO se redefinen:
+     se reemplazan.
      ═══════════════════════════════════════════════════════════════════════ */
   :root{
     --v2-fondo:#08080A;
@@ -93,27 +95,18 @@
     --v2-tinta-media:#B9B9C4;
     --v2-tinta-tenue:#84848F;
 
-    --v2-ambar:#F0A93C;
-    --v2-ambar-fuerte:#FFC061;
-    --v2-azul:#3E86C8;
-    --v2-azul-fuerte:#6FB6F0;
+    /* Los dos colores de W1, en componentes RGB sueltos: asi cada seccion
+       compone su rgba() cambiando SOLO el alfa, que es lo unico que varia. */
+    --w1-dorado:240,169,60;
+    --w1-azul:58,102,200;
 
     /* El coral sobrevive SOLO en el wordmark: es identidad de marca y es el
        mismo rojo del splash de la app. No se usa en ningun otro lado. */
     --v2-coral:#FF4D5E;
 
-    /* ── D1 · SOLO EL HERO ───────────────────────────────────────────────
-       Direccion sobria en azul profundo, y esta acotada A LA PRIMERA SECCION
-       A PROPOSITO. El resto de la pagina conserva la paleta anterior: el
-       ambar de "¿Que es esto?", los azules de que-hace / por-que / contacto,
-       los grises y el fondo #08080A. La alternancia calido-frio del mockup
-       se mantiene de la segunda seccion en adelante.
-       Estos tres tokens llevan -hero- en el nombre justamente para que no se
-       repartan por el resto de la hoja. Si los vas a usar en otra seccion,
-       es una decision de diseño, no un atajo de nombres. */
-    --v2-hero-fondo:#0A1024;
-    --v2-hero-halo:rgba(58,102,200,.20);
-    --v2-hero-acento:#9FBEF0;
+    /* Acento frio: la pildora del hero y el foco del boton de Apple. No es
+       un resplandor, es texto y contorno. */
+    --v2-acento:#9FBEF0;
 
     --v2-vidrio:rgba(255,255,255,.055);
     --v2-vidrio-borde:rgba(255,255,255,.14);
@@ -172,9 +165,60 @@
     overflow:hidden;
   }
   header.hero > *, main > section > *{position:relative;z-index:1;}
-  header.hero::before, main > section::before{
-    content:'';position:absolute;z-index:0;border-radius:50%;
-    filter:blur(150px);pointer-events:none;
+  /* ═══════════════════════════════════════════════════════════════════════
+     SISTEMA DE COLOR W1
+
+     El color de fondo sigue un recorrido azul -> dorado en el centro -> azul
+     -> negro. Son DOS halos por seccion y no un color interpolado, porque
+     interpolar azul y dorado en RGB pasa por un gris verdoso; dos luces sobre
+     negro se suman y lo evitan. Si se agrega una seccion, se le asignan sus
+     dos opacidades siguiendo la curva, no se inventa un color nuevo.
+
+     El dorado va SIEMPRE arriba a la izquierda y el azul SIEMPRE abajo a la
+     derecha, con la misma geometria en todas las secciones. Lo unico que
+     cambia de una a otra es el alfa de cada uno. Cuando un alfa es .00 el
+     pseudo-elemento no se genera (content:none) en vez de quedar invisible:
+     asi no hay cajas fantasma en el arbol.
+     ═══════════════════════════════════════════════════════════════════════ */
+  /* EL CRITERIO DEL TAMAÑO: el halo se dimensiona contra la dimension MAYOR
+     de la seccion. No hay un factor fijo, y por eso los dos rangos no salen
+     de multiplicar uno por el otro.
+
+     En escritorio la seccion es mas ANCHA que alta —1366 x 597— asi que manda
+     el ancho: halo 1170 sobre 1366 = 0.86.
+     En movil se da vuelta —390 x 627— y manda el ALTO: halo 720 sobre 627 =
+     1.15, y de paso cruza todo el ancho del viewport, que es lo que hace falta
+     cuando la seccion es angosta y alta.
+
+     El error de las vueltas anteriores fue escalar el movil por el ANCHO: daba
+     300px, o sea 0.48 del alto, y el halo quedaba como una mancha en la
+     esquina en vez de iluminar la seccion.
+
+     Si cambian las proporciones de las secciones, se recalcula con este
+     criterio, no con el factor de la vez pasada. El blur SIEMPRE acompaña al
+     diametro: si se cambia uno sin el otro, el borde del circulo se hace
+     visible y deja de parecer luz. */
+  header.hero::before, main > section::before,
+  header.hero::after,  main > section::after{
+    content:'';position:absolute;z-index:0;pointer-events:none;
+    width:1170px;height:1170px;border-radius:50%;filter:blur(250px);
+  }
+  /* dorado, arriba a la izquierda */
+  header.hero::before, main > section::before{left:-430px;top:-470px;}
+  /* azul, abajo a la derecha */
+  header.hero::after,  main > section::after{right:-430px;bottom:-500px;}
+
+  /* Movil: dimensionado contra el ALTO, que es la dimension mayor acá. Va
+     pegado a la regla de escritorio y no al final del archivo, para que se
+     vean juntos los dos juegos: misma especificidad y este viene despues,
+     asi que gana en su rango. */
+  @media (max-width:900px){
+    header.hero::before, main > section::before,
+    header.hero::after,  main > section::after{
+      width:720px;height:720px;filter:blur(155px);
+    }
+    header.hero::before, main > section::before{left:-300px;top:-330px;}
+    header.hero::after,  main > section::after{right:-300px;bottom:-350px;}
   }
 
   /* Rejilla de dos columnas, comun a "que es", "que hace" y "por que". */
@@ -186,16 +230,15 @@
 
   /* ══ 1 · HERO ═════════════════════════════════════════════════════════ */
   header.hero{
-    background:linear-gradient(115deg,var(--v2-hero-fondo) 0%,var(--v2-fondo) 52%);
+    background:var(--v2-fondo);
     padding-top:clamp(54px,7vw,76px);
   }
   /* El mockup trae un arco decorativo y NO se implementa a proposito: con la
      foto sangrando al borde no le queda lienzo, y lo poco que asomaba chocaba
      con el toggle ES|EN de la esquina. No lo repongas mirando el PNG. */
-  header.hero::before{
-    width:760px;height:760px;top:-320px;left:-280px;
-    background:var(--v2-hero-halo);
-  }
+  /* Hero — dorado .00 (no se genera) · azul .30 */
+  header.hero::before{content:none;}
+  header.hero::after{background:rgba(var(--w1-azul),.30);}
   .hero-inner{
     max-width:var(--v2-ancho);margin:0 auto;
     display:grid;grid-template-columns:1fr 1.15fr;
@@ -212,10 +255,10 @@
     display:inline-flex;align-items:center;gap:9px;margin:clamp(30px,5vw,48px) 0 22px;
     border:1px solid rgba(120,160,235,.28);background:rgba(80,120,200,.07);
     border-radius:999px;padding:7px 16px;font-size:12px;font-weight:700;
-    color:var(--v2-hero-acento);letter-spacing:.05em;
+    color:var(--v2-acento);letter-spacing:.05em;
   }
   .pulse{
-    width:7px;height:7px;border-radius:50%;background:var(--v2-hero-acento);
+    width:7px;height:7px;border-radius:50%;background:var(--v2-acento);
     box-shadow:0 0 0 0 rgba(159,190,240,.75);animation:p 2.2s infinite;
   }
   @keyframes p{70%{box-shadow:0 0 0 9px rgba(159,190,240,0)}100%{box-shadow:0 0 0 0 rgba(159,190,240,0)}}
@@ -267,14 +310,10 @@
   }
 
   /* ══ 2 · ¿QUE ES ESTO? ════════════════════════════════════════════════ */
-  .que-es{background:linear-gradient(160deg,#150E04 0%,var(--v2-fondo) 60%);}
-  /* Mas fuerte y mas concentrado que el resto: .42 de opacidad y 110px de
-     blur, contra el blur(150px) que traen los demas por la regla compartida. */
-  .que-es::before{
-    width:680px;height:680px;top:-120px;left:-200px;
-    background:rgba(240,169,60,.34);
-    filter:blur(90px);
-  }
+  .que-es{background:var(--v2-fondo);}
+  /* ¿Que es esto? — dorado .16 · azul .20 */
+  .que-es::before{background:rgba(var(--w1-dorado),.16);}
+  .que-es::after{background:rgba(var(--w1-azul),.20);}
   /* Glassmorphism: fondo translucido + blur de lo que hay detras + borde
      claro de un pixel + un resplandor interno arriba que simula el canto. */
   .tarjeta-glass{
@@ -293,11 +332,10 @@
   .que-es-foto{width:100%;border-radius:16px;}
 
   /* ══ 3 · QUE HACE ═════════════════════════════════════════════════════ */
-  .que-hace{background:linear-gradient(200deg,#050B14 0%,var(--v2-fondo) 55%);}
-  .que-hace::before{
-    width:720px;height:720px;bottom:-300px;left:-260px;
-    background:rgba(62,134,200,.26);
-  }
+  .que-hace{background:var(--v2-fondo);}
+  /* Que hace — dorado .30 · azul .06 */
+  .que-hace::before{background:rgba(var(--w1-dorado),.30);}
+  .que-hace::after{background:rgba(var(--w1-azul),.06);}
   /* Solo esta seccion: el panel se lleva mas ancho que el titulo. Las otras
      dos que usan .dos-columnas (que-es y por-que) siguen en 1fr 1fr.
 
@@ -333,11 +371,10 @@
   .feature p{margin:0;color:var(--v2-tinta-media);font-size:14.5px;line-height:1.6;}
 
   /* ══ 4 · POR QUE EXISTE ═══════════════════════════════════════════════ */
-  .por-que{background:linear-gradient(150deg,#050B14 0%,var(--v2-fondo) 58%);}
-  .por-que::before{
-    width:700px;height:700px;top:-180px;left:-240px;
-    background:rgba(62,134,200,.28);
-  }
+  .por-que{background:var(--v2-fondo);}
+  /* Por que existe — dorado .14 · azul .20 */
+  .por-que::before{background:rgba(var(--w1-dorado),.14);}
+  .por-que::after{background:rgba(var(--w1-azul),.20);}
   .por-que-texto h2{
     font-size:clamp(30px,4vw,46px);font-weight:600;line-height:1.1;
     margin:0 0 22px;color:#FFF;max-width:9ch;
@@ -348,7 +385,9 @@
 
   /* ══ 5 · DESCARGALA ═══════════════════════════════════════════════════ */
   .descargala{background:var(--v2-fondo);}
-  .descargala::before{width:0;height:0;}   /* seccion sin resplandor, a proposito */
+  /* Descargala — dorado .04 · azul .26 */
+  .descargala::before{background:rgba(var(--w1-dorado),.04);}
+  .descargala::after{background:rgba(var(--w1-azul),.26);}
   .descargala h2{
     max-width:var(--v2-ancho);margin:0 auto clamp(28px,4vw,44px);
     font-size:clamp(30px,4vw,46px);font-weight:600;color:#FFF;
@@ -389,15 +428,13 @@
     background:linear-gradient(165deg,#1B1B22,#101016);
     transform:translateY(-2px);
   }
-  a.store:focus-visible{outline:2px solid var(--v2-ambar-fuerte);outline-offset:3px;}
+  a.store:focus-visible{outline:2px solid var(--v2-acento);outline-offset:3px;}
   @media (prefers-reduced-motion:reduce){a.store{transition:none;}a.store:hover{transform:none;}}
 
   /* ══ 6 · CONTACTO ═════════════════════════════════════════════════════ */
   .contacto{background:var(--v2-fondo);}
-  .contacto::before{
-    width:640px;height:640px;top:-260px;right:-220px;left:auto;
-    background:rgba(62,134,200,.24);
-  }
+  /* Contacto — negro puro: los dos en .00, ninguno se genera. */
+  .contacto::before,.contacto::after{content:none;}
   .contacto h2{
     max-width:var(--v2-ancho);margin:0 auto;
     font-size:clamp(30px,4vw,46px);font-weight:600;color:#FFF;
