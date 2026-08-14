@@ -209,6 +209,46 @@ y es un commit propio: así lo que pide marcha atrás es un rename y no una
 reconstrucción. No confundir con el paso 5, que es mover la landing a la
 raíz; esto es solo reemplazar el archivo viejo por el nuevo.
 
+## PROYECTO APARTE — NO es de 0.7.14
+
+### D8 · Directorio público en la web
+
+Una página por entidad —salones, academias y orquestas— generada desde
+Supabase, más páginas índice por categoría.
+
+**Qué lleva cada página:** nombre, categoría, dirección, coordenadas,
+contacto público, descripción, logo, y para salones y orquestas el **horario
+recurrente**.
+
+**Qué NO lleva: la tabla `eventos`.** Los eventos con fecha se quedan en la
+app. No es un recorte de alcance para llegar a tiempo: es la línea que
+separa este proyecto del que se descartó, y está al final de este archivo.
+
+**Por qué este sí y la agenda no.** El directorio es **información estable
+que las propias entidades quieren difundir**: un salón quiere que se sepa su
+dirección y su noche fija. Publicarla no le quita nada a nadie. La agenda al
+día, los recordatorios y la proximidad **son la app**, y ahí queda el valor.
+
+**El beneficio principal no es el SEO.** Es que **cada entidad tiene una URL
+propia que puede compartir**: en su bio de Instagram, en su WhatsApp, en un
+flyer. Es la vía más realista de conseguir enlaces entrantes — que es
+justamente lo que la sección de abajo dice que pesa más que todo lo técnico
+junto. Y los pondrían las entidades, no nosotros.
+
+**DEPENDE del paso 5 (D2). Antes no.** Mientras la raíz siga siendo la
+política de privacidad, no tiene sentido colgar un árbol de URLs públicas de
+un dominio cuya puerta de entrada muestra un texto legal.
+
+**NO ENTRA EN 0.7.14.** Es un proyecto con su propio alcance: generación de
+las páginas, dónde se hospedan, cada cuánto se regeneran y qué pasa cuando
+una entidad se da de baja. Se anota para que no se pierda entre los arreglos
+chicos, no para meterlo en el ciclo actual.
+
+Nota de datos, ya verificada contra la base: los campos salen de `entidades`,
+que hoy tiene 26 columnas e incluye `nombre`, `category`, `direccion`,
+`latitud`, `longitud`, `descripcion`, `logo_url`, `horario` y los de contacto
+(`telefono`, `whatsapp`, `email`, `website`, `instagram`, `facebook`,
+`tiktok`). No hace falta modelo nuevo.
 ## Lo que pesa más que todo lo anterior junto, y no es trabajo de repo
 
 **Las menciones de terceros.** Que una nota de prensa local, un foro de baile
