@@ -43,9 +43,12 @@
 <!-- JSON-LD. Ojo: es JSON estricto y NO admite comentarios adentro, por eso
      las aclaraciones van acá afuera.
 
-     · operatingSystem dice SOLO iOS porque es lo unico publicado. Cuando
-       Google Play apruebe el acceso a produccion, pasa a "iOS, Android".
-       Antes decia "iOS, Android" y era falso.
+     · operatingSystem dice "iOS, Android" porque la app esta publicada en
+       LAS DOS tiendas: iOS 1.0.1 y Android en produccion. Estuvo en "iOS"
+       solo mientras Play no habia aprobado el acceso a produccion.
+     · installUrl lleva las DOS fichas, en array. Si alguna vez queda una
+       sola, tiene que ser la de la tienda donde la app este viva: un
+       installUrl que apunta a una ficha inexistente es peor que no tenerlo.
      · aggregateRating NO se pone: la app todavia no tiene resenas y
        declarar una inventada es motivo de penalizacion de Google.
      · offers va en 0 USD porque la descarga es gratis de verdad. Google lo
@@ -56,11 +59,14 @@
   "@type": "MobileApplication",
   "name": "DondeBailar",
   "description": "Todos los eventos de baile latino de Costa Rica en una sola app. Salsa, bachata, socials y conciertos.",
-  "operatingSystem": "iOS",
+  "operatingSystem": "iOS, Android",
   "applicationCategory": "LifestyleApplication",
   "inLanguage": "es",
   "url": "https://dondebailar.net/app.html",
-  "installUrl": "https://apps.apple.com/cr/app/dondebailar/id6790503762",
+  "installUrl": [
+    "https://apps.apple.com/cr/app/dondebailar/id6790503762",
+    "https://play.google.com/store/apps/details?id=cr.dondebailar.app"
+  ],
   "image": "https://dondebailar.net/og.png",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
   "author": { "@type": "Organization", "name": "Roberto Del Cid" }
@@ -405,6 +411,7 @@
     border-radius:20px;
     padding:clamp(22px,2.6vw,32px);
     color:var(--v2-tinta);text-decoration:none;
+    cursor:pointer;transition:border-color .18s,background .18s,transform .18s;
   }
   .store-nombre{font-family:'Unbounded',sans-serif;font-size:17px;font-weight:600;color:#FFF;}
   /* 120x40 es el tamaño nativo del SVG de Apple y respeta el minimo de su
@@ -420,16 +427,17 @@
      parejas en cualquier ancho. */
   .store-nombre{min-height:40px;display:flex;align-items:center;}
   .store-bajada{margin-top:8px;font-size:14px;color:var(--v2-tinta-media);}
-  /* SOLO el <a>. El <div> de Google Play no recibe ni cursor ni hover: no es
-     clicable y no debe parecerlo. Ver el comentario del marcado. */
-  a.store{color:inherit;cursor:pointer;transition:border-color .18s,background .18s,transform .18s;}
-  a.store:hover{
+  /* Antes esto iba sobre a.store y no sobre .store, porque Google Play era un
+     <div> sin enlace y no debía parecer clicable. Los dos son <a> ahora, asi
+     que el prefijo sobra. Si vuelve a haber una tarjeta sin enlace, hay que
+     reponer la separación. */
+  .store:hover{
     border-color:rgba(255,255,255,.28);
     background:linear-gradient(165deg,#1B1B22,#101016);
     transform:translateY(-2px);
   }
-  a.store:focus-visible{outline:2px solid var(--v2-acento);outline-offset:3px;}
-  @media (prefers-reduced-motion:reduce){a.store{transition:none;}a.store:hover{transform:none;}}
+  .store:focus-visible{outline:2px solid var(--v2-acento);outline-offset:3px;}
+  @media (prefers-reduced-motion:reduce){.store{transition:none;}.store:hover{transform:none;}}
 
   /* ══ 6 · CONTACTO ═════════════════════════════════════════════════════ */
   .contacto{background:var(--v2-fondo);}
@@ -523,8 +531,8 @@
     </svg>
 
     <p class="badge"><span class="pulse"></span><span
-      data-es="YA DISPONIBLE PARA IPHONE"
-      data-en="NOW AVAILABLE FOR IPHONE">YA DISPONIBLE PARA IPHONE</span></p>
+      data-es="YA DISPONIBLE EN COSTA RICA"
+      data-en="NOW AVAILABLE IN COSTA RICA">YA DISPONIBLE EN COSTA RICA</span></p>
 
     <!-- La marca es el wordmark "DondeBailar", todo junto, y esa no se traduce
          ni lleva tilde. Esta frase separada NO es la marca: es una oracion, y
@@ -622,19 +630,22 @@
   <section id="descargala" class="descargala">
     <h2 data-es="Descargala" data-en="Get the app">Descargala</h2>
 
-    <!-- ASIMETRÍA DELIBERADA, no un descuido: Apple es <a> y Google es <div>.
-         iOS 1.0.1 está publicada; Android todavía espera la aprobación de
-         acceso a producción de Google Play.
+    <!-- LOS DOS BOTONES SON <a>. Ya no hay asimetría: la app está publicada
+         en las dos tiendas —iOS 1.0.1 y Android en producción, 13 países—.
 
-         Cuando Play apruebe se convierte UN botón —el de acá abajo—: el div
-         pasa a <a class="store" href="URL" target="_blank" rel="noopener"> y
-         "Muy pronto" / "Coming very soon" se cambia por la bajada real.
-         En el diseño viejo eran CUATRO botones en dos bloques y ese fue el
+         Hasta ahora Google Play era un <div> sin enlace porque no había ficha
+         a la que apuntar, y el CSS distinguía a.store de .store para que ese
+         div no pareciera clicable. Esa distinción SE ELIMINÓ junto con el div:
+         no quedaba ningún .store que no fuera un <a>, así que el prefijo era
+         una condición que siempre se cumplía.
+
+         Si algún día vuelve a haber una tarjeta sin enlace —una tienda por
+         salir, por ejemplo— hay que reponer esa separación: un elemento con
+         cursor:pointer y hover promete un tap que no existe.
+
+         En el diseño viejo eran CUATRO botones en dos bloques, y ese fue el
          motivo del commit ab9d2ab; este rediseño los reduce a DOS, en un solo
-         bloque. Ya no hay un par escondido al final de la página.
-
-         cursor:pointer y :hover van sobre a.store, NUNCA sobre .store: un div
-         que parece clicable promete un tap que no existe. -->
+         bloque. Ya no hay un par escondido al final de la página. -->
     <div class="tiendas">
       <!-- El badge OFICIAL de Apple, bajado de su API de marketing
            (toolbox.marketingtools.apple.com) y hospedado acá: nada de hotlink.
@@ -655,20 +666,19 @@
               data-en="For iPhone and iPad. Free download.">Para iPhone y iPad. Descarga gratuita.</span>
       </a>
 
-      <!-- ACA NO VA EL BADGE DE GOOGLE PLAY, y no es un olvido.
-           El badge oficial dice "Disponible en Google Play" y la guia de marca
-           de Google exige que enlace a la ficha de la app. La app NO esta
-           publicada en Play todavia: no hay ficha a la que enlazar, y el badge
-           le estaria prometiendo al usuario una descarga que no existe.
-           Queda como texto con "Muy pronto" hasta que Play apruebe. Ese dia:
-           bajar el badge de play.google.com/intl/es/badges/, ponerlo en
-           badges/, convertir este <div> en <a> y borrar este comentario. -->
-      <div class="store">
+      <!-- Sigue SIN el badge oficial de Google Play, y ahora es solo una
+           decision de diseño, no una restriccion: la app ya esta publicada y
+           el enlace apunta a su ficha, asi que poner el badge seria legitimo.
+           Se mantiene el titulo de texto porque el badge de Play es un PNG a
+           color con proporcion propia, y al lado del de Apple —monocromo,
+           120x40— desbalancea las dos tarjetas. Si algun dia se pone, hay que
+           resolver antes esa diferencia de forma. -->
+      <a class="store" href="https://play.google.com/store/apps/details?id=cr.dondebailar.app" target="_blank" rel="noopener">
         <span class="store-nombre">Google Play</span>
         <span class="store-bajada"
-              data-es="Para Android. Muy pronto."
-              data-en="For Android. Coming very soon.">Para Android. Muy pronto.</span>
-      </div>
+              data-es="Para Android. Descarga gratuita."
+              data-en="For Android. Free download.">Para Android. Descarga gratuita.</span>
+      </a>
     </div>
   </section>
 
