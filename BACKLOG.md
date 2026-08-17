@@ -162,6 +162,44 @@ calle llevan `PRIVACY_URL` clavado a la raíz: si la raíz deja de ser la
 política antes de que esos binarios se retiren, esos usuarios se quedan sin
 poder llegar a ella. No se adelanta.
 
+### D9 · ✅ HECHO (2026-08-17) · Los links a la política, todos relativos
+
+Los tres links internos a la política pasan a `privacidad.html` **relativo**.
+Ninguno a la raíz.
+
+**Por qué no era cosmético.** Hoy `/` y `/privacidad.html` sirven el MISMO
+documento —idénticos al normalizar comentarios y espacios—, así que los tres
+funcionaban. Pero **D2 (paso 5) convierte la raíz en la landing**: el día que
+eso pase, un link a `/` lleva a marketing **sin dar error**. Es el peor modo de
+falla que hay: nada se rompe, ningún 404, nadie se entera. Es exactamente el
+mismo razonamiento que ya está escrito para `PRIVACY_URL` en D2.
+
+**⚠ LOS NÚMEROS DE LÍNEA QUE CIRCULABAN ESTABAN MAL, LOS TRES.** Se anotan los
+medidos para que nadie vuelva a buscar donde no está:
+
+| se decía | qué hay ahí de verdad | dónde estaba el link |
+| --- | --- | --- |
+| `app.html:322` | CSS: `.que-es::before{…}` | **`app.html:711`**, ya relativo |
+| `soporte.html:107` | el párrafo del correo de contacto | **`soporte.html:114`** |
+| `eliminar-cuenta.html:95` | el texto de "Qué se conserva" | **`eliminar-cuenta.html:102`** |
+
+**Y dos de los tres ni siquiera eran links a `privacidad.html`:** `soporte.html`
+y `eliminar-cuenta.html` apuntaban a `https://dondebailar.net/` —la raíz
+absoluta—, no al archivo. `grep -n 'privacidad\.html' *.html` sobre todo el
+repo devolvía **un solo `href` real**, el de `app.html`. El de `app.html` no se
+tocó: ya estaba bien.
+
+**Lección de método, que es lo que sobrevive a este ítem:** el rediseño de
+`app.html` movió cada línea del archivo, así que cualquier número anotado antes
+del rediseño quedó muerto. Los números de línea en un backlog envejecen mal;
+anotar el `grep` que los encuentra envejece bien.
+
+**Lo que NO entra acá:** `soporte.html:118` apunta a
+`https://dondebailar.net/eliminar-cuenta.html`, también absoluto. No se tocó
+porque el paso 5 no cambia esa URL —`eliminar-cuenta.html` se queda donde
+está—, así que no comparte el modo de falla. Queda anotado por si alguna vez se
+unifica el criterio de relativo vs absoluto en todo el sitio.
+
 ## DESPUÉS DEL PASO 5 — porque las URLs cambian
 
 Los dos que siguen describen URLs. Si se escriben antes del paso 5, listan
