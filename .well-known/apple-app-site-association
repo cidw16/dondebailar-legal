@@ -5,7 +5,7 @@
       {
         "appID": "CK5M8XFWWA.cr.dondebailar.app",
         "appIDs": ["CK5M8XFWWA.cr.dondebailar.app"],
-        "paths": ["/evento.html", "/evento.html?*"],
+        "paths": ["/evento.html"],
         "components": [
           {
             "/": "/evento.html",
