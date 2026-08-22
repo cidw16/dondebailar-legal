@@ -1,0 +1,18 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "CK5M8XFWWA.cr.dondebailar.app",
+        "appIDs": ["CK5M8XFWWA.cr.dondebailar.app"],
+        "paths": ["/evento.html", "/evento.html?*"],
+        "components": [
+          {
+            "/": "/evento.html",
+            "comment": "detalle de un evento compartido; el uuid viaja en ?id="
+          }
+        ]
+      }
+    ]
+  }
+}
