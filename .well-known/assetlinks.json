@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "cr.dondebailar.app",
+      "sha256_cert_fingerprints": [
+        "EB:C6:FD:7F:25:30:FA:6C:F0:29:5E:31:59:CE:70:49:32:F9:01:CB:03:CE:87:C1:0E:CB:57:AA:47:88:A8:71"
+      ]
+    }
+  }
+]
