@@ -192,21 +192,51 @@
   var tienda = esIOS ? APP_STORE : PLAY;
   var deepLink = 'dondebailar://evento/' + id;
 
-  // Si la app abre, el navegador queda en segundo plano. Ese es el único
-  // indicio fiable de que el intento funcionó —no hay API que lo diga—, así
-  // que se cancela el salto a la tienda en cuanto la página deja de estar
-  // visible. Sin esto, el usuario vuelve del evento y se encuentra con la
-  // tienda abierta encima.
+  // ── CANCELAR EL SALTO A LA TIENDA SI LA APP YA ABRIÓ ─────────────────
+  //
+  // No hay API que diga "la app abrió". El único indicio es que el navegador
+  // deja de estar al frente. La primera versión escuchaba visibilitychange,
+  // pagehide y blur, y NO ALCANZÓ: en iOS, con el link abierto desde el
+  // navegador embebido de WhatsApp, la app abría y ADEMÁS se abría el App
+  // Store. Reportado en device el 2026-08-23.
+  //
+  // Tres cambios, y el tercero es el que no depende de que dispare ningún
+  // evento:
+  //
+  // 1. `blur` SE FUE. Dispara también cuando iOS muestra un diálogo encima
+  //    —"Cannot Open Page" cuando el esquema propio no resuelve— y eso
+  //    cancelaba el salto justo para el usuario que SÍ necesita la tienda.
+  //    Era un falso cancelar, en el caso que más importa.
+  //
+  // 2. Al vencer el temporizador se vuelve a MIRAR el estado, no solo el
+  //    flag. Si la página ya no está visible, la app abrió, aunque el evento
+  //    nunca haya llegado.
+  //
+  // 3. Y se mide el TIEMPO TRANSCURRIDO. Cuando iOS pasa a otra app congela
+  //    los temporizadores del webview, así que el callback llega tarde. Un
+  //    retraso grande es prueba de que hubo otra app al frente, y es la
+  //    única señal que sigue funcionando dentro de un navegador embebido que
+  //    no reporta visibilidad.
+  //
+  // `cancelado` es de una sola vía: NADA lo vuelve a poner en false. Volver
+  // de la app pone la página visible otra vez, y eso NO debe rearmar el
+  // salto — si no, el usuario vuelve del evento y se encuentra la tienda
+  // encima, que es exactamente el bug que esto arregla.
   var cancelado = false;
+  var t0 = Date.now();
   function cancelar() { cancelado = true; }
+  function fueraDeVista() {
+    return document.visibilityState !== 'visible' || document.hidden === true;
+  }
   document.addEventListener('visibilitychange', function () {
-    if (document.hidden) cancelar();
+    if (fueraDeVista()) cancelar();
   });
   window.addEventListener('pagehide', cancelar);
-  window.addEventListener('blur', cancelar);
 
   setTimeout(function () {
     if (cancelado) return;
+    if (fueraDeVista()) return;                 // (2) el evento pudo no llegar
+    if (Date.now() - t0 > ESPERA_MS + 400) return; // (3) el webview estuvo congelado
     msg.textContent = 'Parece que todavía no tenés la app. Descargala y volvé a abrir el link:';
     window.location.replace(tienda);
   }, ESPERA_MS);
