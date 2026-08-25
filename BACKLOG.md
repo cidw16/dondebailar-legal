@@ -43,7 +43,7 @@ ya apunta el footer del rediseño.
 
 ---
 
-## 2 · `robots.txt` y `sitemap.xml` — BLOQUEADOS hasta después del paso 5
+## 2 · `robots.txt` y `sitemap.xml` — ↑ AHORA VAN CON EL PASO 5, en D2
 
 **Origen.** Mismo discovery. **Lo medido:** no existe ninguno de los dos, y no
 hay una sola referencia a ellos en las seis páginas.
@@ -54,10 +54,15 @@ landing deja de ser `/app.html` y pasa a ser `/`, y `index.html` deja de ser la
 política. Un `sitemap.xml` escrito hoy listaría URLs que van a dejar de existir,
 y habría que rehacerlo entero.
 
-Hacerlo antes es trabajo que se tira. **Va después del paso 5, no antes.**
+Hacerlo antes es trabajo que se tira. **Va CON el paso 5, en la misma tanda**
+— ver D2, donde los dos se fundieron el 2026-08-25.
 
-Sin `robots.txt`, GitHub Pages devuelve 404 y los rastreadores asumen "todo
-permitido", que es lo que se quiere hoy. No hay urgencia.
+⚠ **Y LA ÚLTIMA LÍNEA DE ESTE ÍTEM ERA FALSA.** Decía: *"Sin `robots.txt`,
+GitHub Pages devuelve 404 y los rastreadores asumen «todo permitido»… No hay
+urgencia."* Lo primero es cierto y lo segundo no. Search Console, 2026-08-25:
+`app.html` y `soporte.html` son *"URL is unknown to Google"*, discovery **sin
+sitemap y sin página referente**. Que los rastreadores tengan permiso no sirve
+de nada si no saben que las URLs existen. Sí había urgencia.
 
 ---
 
@@ -130,37 +135,70 @@ tráfico en inglés hay. Se anota y se espera.
 
 # Que la landing se pueda ENCONTRAR
 
-Los cuatro ítems de arriba son de higiene del sitio. Esto es otra cosa: hoy
-**`dondebailar.net` no está indexado**. Una búsqueda del dominio no lo
-devuelve. Todo lo que sigue está en el orden en que hay que hacerlo, y las
-dependencias están escritas porque hacerlo al revés es tirar trabajo.
+Los cuatro ítems de arriba son de higiene del sitio. Esto es otra cosa.
+
+⚠ **ACTUALIZADO 2026-08-25 con lo medido en Search Console.** Lo que decía acá
+—"el sitio no está indexado"— era cierto cuando se escribió y ya no lo es, y la
+realidad resultó peor de lo que decía:
+
+```
+dondebailar.net/      INDEXADA  ← y lo que Google tiene ahí es la POLÍTICA
+                                   DE PRIVACIDAD, no la landing
+app.html              "URL is unknown to Google" · last crawl N/A
+soporte.html          "URL is unknown to Google" · last crawl N/A
+                      Discovery: sin sitemap y sin página referente
+```
+
+O sea: **el dominio SÍ está indexado, con la página equivocada, y la landing no
+existe para Google.** No es que falte visibilidad: la poca que hay apunta a un
+texto legal.
+
+Y el dato que cierra la discusión sobre el sitemap: **`soporte.html` está
+enlazada desde el footer de la política —una página que Google SÍ indexó— y aun
+así no la descubrió.** El enlace interno no alcanzó. Sin sitemap, el sitio es
+casi invisible.
 
 ## BLOQUEANTES — van primero
 
-### D1 · Alta en Google Search Console y solicitud de indexación
+### D1 · ✅ HECHO · Alta en Google Search Console
 
-**El sitio no está indexado. Sin esto, nada de lo demás sirve**: se puede
-tener el mejor `sitemap.xml`, el JSON-LD perfecto y las páginas más rápidas,
-y Google no las va a mirar porque no sabe que el dominio existe.
+La propiedad existe y responde: de ahí salen las mediciones del 2026-08-25 que
+encabezan esta sección. La raíz figura indexada.
 
-Es **gratis** y es de las pocas cosas de esta lista que no dependen de nada.
-No tiene excusa para no estar hecho.
+Lo que el alta NO resolvió, y por eso el resto de la sección sigue viva: Google
+indexó la raíz —que hoy sirve la política— y no descubrió ni `app.html` ni
+`soporte.html`.
 
-Dependencias: **ninguna**. Se puede hacer hoy.
+### D2 · Paso 5 **+ sitemap** — UN SOLO ÍTEM, no dos
 
-### D2 · Paso 5: la raíz pasa a servir la landing
+Estaban separados —el paso 5 acá y el sitemap más abajo, "después del paso 5"—
+y la medición del 2026-08-25 mostró que son la misma jugada. Se hacen juntos.
 
-Hoy `dondebailar.net` **es la política de privacidad**. Quien busque la marca
-y llegue a la raíz cae en un texto legal, no en la app.
+**La mitad del paso 5.** Hoy `dondebailar.net` **es la política de privacidad**.
+Quien busque la marca y llegue a la raíz cae en un texto legal, no en la app.
 
-Es el problema más caro de los que se pueden arreglar sin escribir código
-nuevo: no importa cuánto se optimice `app.html` si la puerta de entrada del
-dominio muestra otra cosa.
+Y ahora se sabe que **no es cosmético**, que es como estaba planteado: la raíz
+es **la única URL que Google tiene indexada**. Mudar `app.html` a la raíz no es
+"ordenar el sitio" — es hacer que la landing **herede la única indexación que
+existe**, en vez de nacer desconocida como está hoy `app.html`.
 
-**DEPENDE de que 0.7.14 esté publicada.** Los binarios que ya están en la
-calle llevan `PRIVACY_URL` clavado a la raíz: si la raíz deja de ser la
-política antes de que esos binarios se retiren, esos usuarios se quedan sin
-poder llegar a ella. No se adelanta.
+**La mitad del sitemap.** No existe `sitemap.xml` ni `robots.txt`, y el efecto
+está medido: `app.html` y `soporte.html` son *"URL is unknown to Google"*, sin
+un solo rastreo. `soporte.html` está enlazada desde el footer de la política
+—página que Google sí indexó— **y aun así no la descubrió**. El enlace interno
+no alcanza.
+
+**POR QUÉ VAN JUNTOS Y NO UNO DESPUÉS DEL OTRO.** El motivo por el que el
+sitemap estaba diferido era correcto: escrito antes del paso 5, listaría URLs
+que van a dejar de existir. Pero hacerlos en la misma tanda elimina esa
+dependencia —el sitemap se escribe con las URLs nuevas, que ya se conocen— y
+evita el peor de los dos órdenes: mudar la landing a la raíz sin sitemap la deja
+heredando la indexación de la raíz pero con el resto del sitio igual de invisible.
+
+**DEPENDE de que 0.7.14 esté publicada.** Los binarios que ya están en la calle
+llevan `PRIVACY_URL` clavado a la raíz: si la raíz deja de ser la política antes
+de que esos binarios se retiren, esos usuarios se quedan sin poder llegar a ella.
+No se adelanta. **Esa sigue siendo la única dependencia real de todo el bloque.**
 
 ### D9 · ✅ HECHO (2026-08-17) · Los links a la política, todos relativos
 
@@ -202,13 +240,11 @@ unifica el criterio de relativo vs absoluto en todo el sitio.
 
 ## DESPUÉS DEL PASO 5 — porque las URLs cambian
 
-Los dos que siguen describen URLs. Si se escriben antes del paso 5, listan
-direcciones que van a dejar de existir y hay que rehacerlos enteros.
+### D3 · ↑ FUNDIDO EN D2 (2026-08-25)
 
-### D3 · `robots.txt` y `sitemap.xml`
-
-**No existe ninguno de los dos.** Es el ítem 2 de arriba, con el detalle
-medido. Va acá en el orden porque su dependencia es el paso 5.
+`robots.txt` y `sitemap.xml` ya no son un ítem aparte: van con el paso 5, en la
+misma tanda. Ver **D2**. Se deja el encabezado para que quien venía siguiendo la
+numeración no lo busque abajo y concluya que se perdió.
 
 ### D4 · `llms.txt`
 
