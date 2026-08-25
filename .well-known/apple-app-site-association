@@ -5,11 +5,15 @@
       {
         "appID": "CK5M8XFWWA.cr.dondebailar.app",
         "appIDs": ["CK5M8XFWWA.cr.dondebailar.app"],
-        "paths": ["/evento.html"],
+        "paths": ["/evento.html", "/entidad.html"],
         "components": [
           {
             "/": "/evento.html",
             "comment": "detalle de un evento compartido; el uuid viaja en ?id="
+          },
+          {
+            "/": "/entidad.html",
+            "comment": "ficha de un salon, orquesta o academia; el uuid viaja en ?id="
           }
         ]
       }
