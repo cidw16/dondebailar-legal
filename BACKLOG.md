@@ -169,7 +169,37 @@ Lo que el alta NO resolvió, y por eso el resto de la sección sigue viva: Googl
 indexó la raíz —que hoy sirve la política— y no descubrió ni `app.html` ni
 `soporte.html`.
 
-### D2 · Paso 5 **+ sitemap** — UN SOLO ÍTEM, no dos
+### D2 · ✅ HECHO (2026-08-25) · Paso 5 **+ sitemap** — era UN SOLO ÍTEM
+
+**Hecho sin esperar el número de Play Console**, y el motivo queda escrito:
+25 instalaciones activas, app publicada hace tres semanas, 0.7.14 del 16-ago,
+actualizaciones automáticas por defecto. La población en versiones anteriores
+es marginal, y la mitigación estaba puesta desde antes: la landing lleva un
+link visible a la política, y —lo que más pesa— **`PRIVACY_URL` ya apuntaba a
+`/privacidad.html` y no a la raíz desde v0.7.14** (commit `11360bc`, presente
+en los tags v0.7.14 y v0.7.15). O sea que la app moderna no usaba la raíz
+para nada.
+
+Lo que se hizo: `index.html` pasa a servir la landing con canonical a `/`;
+`app.html` **se queda** sirviendo lo mismo con canonical a la raíz (no se
+renombró: `/app.html` está publicada y la enlazan `evento.html` y
+`entidad.html`, que ya circulan); `sitemap.xml` con las cuatro URLs finales y
+`robots.txt` apuntándolo.
+
+⚠ **DEUDA DE VERIFICACIÓN, anotada desde el día uno.** Que Google recoja el
+sitemap **no se ve al publicar**: se ve en Search Console días después. Y no
+hay que esperar a que lo descubra solo — **hay que ir a Search Console →
+Sitemaps y enviar `https://dondebailar.net/sitemap.xml` A MANO.** La evidencia
+de por qué: `soporte.html` está enlazada desde el pie de una página que Google
+SÍ indexó y aun así figura "URL is unknown to Google". El descubrimiento
+pasivo ya falló una vez acá.
+
+Lo que queda por confirmar, días después: que la raíz pase a mostrar la
+landing en el índice (hoy muestra la política), y que `app.html` y
+`soporte.html` dejen de ser "unknown".
+
+<details><summary>El planteo original, para contexto</summary>
+
 
 Estaban separados —el paso 5 acá y el sitemap más abajo, "después del paso 5"—
 y la medición del 2026-08-25 mostró que son la misma jugada. Se hacen juntos.
@@ -199,6 +229,8 @@ heredando la indexación de la raíz pero con el resto del sitio igual de invisi
 llevan `PRIVACY_URL` clavado a la raíz: si la raíz deja de ser la política antes
 de que esos binarios se retiren, esos usuarios se quedan sin poder llegar a ella.
 No se adelanta. **Esa sigue siendo la única dependencia real de todo el bloque.**
+
+</details>
 
 ### D9 · ✅ HECHO (2026-08-17) · Los links a la política, todos relativos
 
