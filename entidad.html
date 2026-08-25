@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Abriendo la ficha — DondeBailar</title>
+<meta name="description" content="Abrí esta ficha en la app de DondeBailar. Si todavía no la tenés, descargala gratis para iPhone o Android.">
+
+<!-- ═══ POR QUÉ EXISTE ESTA PÁGINA ═══════════════════════════════════════
+     Es el destino de los links que la app genera al compartir una ficha
+     (un salón, una orquesta o una academia):
+       https://dondebailar.net/entidad.html?id=<uuid>
+
+     Con la app instalada NUNCA se ve: el sistema la intercepta antes
+     (Universal Link en iOS vía .well-known/apple-app-site-association,
+     App Link en Android vía .well-known/assetlinks.json) y abre la app
+     directo. Esta página es lo que pasa cuando eso NO ocurre: sin la app,
+     desde una compu, o cuando el sistema decide abrir el navegador igual.
+
+     NO SE ENLAZA DESDE LA LANDING NI DESDE NINGUNA PÁGINA. No es
+     navegación: es el aterrizaje de un link que alguien recibió.
+
+     ⚠ LA URL ES PERMANENTE Y NO SE PUEDE MOVER. Queda grabada en los
+     binarios ya instalados y en los mensajes de WhatsApp que la gente ya
+     mandó. Cuando el paso 5 del backlog mueva la landing a la raíz, ESTE
+     archivo se queda exactamente donde está: /entidad.html. Renombrarlo
+     rompe links que ya circulan y que nadie puede editar.
+     Y el nombre tiene que seguir coincidiendo con el path declarado en
+     .well-known/apple-app-site-association ("/entidad.html") y en el
+     intentFilter de Android. Si cambia acá, cambia en los tres lados. -->
+
+<!-- El canonical va SIN el query a propósito: /entidad.html?id=A y ?id=B son
+     la misma página con distinto parámetro, y sin esto Google vería una URL
+     nueva por cada ficha compartida. Apuntando todas al archivo pelado, se
+     consolidan en una.
+     NO se usa <meta name="robots" content="noindex">, por el mismo motivo
+     que está escrito en app.html: es una línea que hay que acordarse de
+     sacar, y el canonical consigue lo que hace falta sin ese riesgo. -->
+<link rel="canonical" href="https://dondebailar.net/entidad.html">
+<meta name="theme-color" content="#0D0D11">
+
+<!-- OG GENÉRICO, y esto es una decisión tomada, no una omisión.
+     La tarjeta de WhatsApp va a ser la misma para todos los eventos. Un OG
+     por evento —título, fecha y poster reales— exige generar un HTML por
+     evento o poner un servidor delante del dominio, y GitHub Pages es
+     estático. Está anotado como fuera de alcance en el backlog 0.7.15 del
+     repo de la app, sección "Fuera de alcance · B", con el motivo.
+     Por eso el texto plano del mensaje que arma la app lleva título, fecha
+     y lugar: el mensaje no depende de esta tarjeta. -->
+<meta property="og:title" content="Un lugar en DondeBailar">
+<meta property="og:description" content="Mirá este salón, orquesta o academia en DondeBailar. Descargá la app gratis para iPhone o Android.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dondebailar.net/entidad.html">
+<meta property="og:image" content="https://dondebailar.net/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="DondeBailar — todos los eventos de baile latino de Costa Rica en una sola app">
+<meta property="og:locale" content="es_CR">
+<meta property="og:site_name" content="DondeBailar">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Un lugar en DondeBailar">
+<meta name="twitter:description" content="Mirá este salón, orquesta o academia en DondeBailar.">
+<meta name="twitter:image" content="https://dondebailar.net/og.png">
+
+<!-- SIN Google Fonts, a diferencia del resto del sitio, y a propósito.
+     El backlog de este repo (ítem 3) midió las dos familias en 75.7 KB, de
+     los cuales Unbounded sola son 50.9 KB. Esta página vive uno o dos
+     segundos antes de redirigir: pagar 76 KB y dos orígenes externos para
+     un cartel que casi nadie llega a leer es al revés de lo que conviene.
+     Los colores y el tamaño del wordmark sí son los del sitio. -->
+<style>
+  :root{
+    --bg:#0D0D11;
+    --surface:#16161D;
+    --border:#2A2A35;
+    --text:#ECECEF;
+    --text-strong:#FFFFFF;
+    --muted:#A8A8B3;
+    --primary:#FF4D5E;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--bg);
+    color:var(--text);
+    font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:420px;padding:40px 24px;text-align:center;}
+  .wordmark{
+    font-weight:700;
+    font-size:clamp(28px,8vw,38px);
+    letter-spacing:-0.02em;
+    line-height:1.05;
+    margin:0 0 20px;
+    color:var(--text-strong);
+  }
+  .wordmark .b{color:var(--primary);}
+  .msg{margin:0 0 28px;color:var(--muted);}
+  .tiendas{display:flex;flex-direction:column;gap:12px;}
+  .store{
+    display:block;
+    padding:14px 20px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    background:var(--surface);
+    color:var(--text-strong);
+    text-decoration:none;
+    font-weight:600;
+  }
+  .store:hover{border-color:var(--primary);}
+  .store:focus-visible{outline:2px solid var(--primary);outline-offset:3px;}
+  .landing{display:inline-block;margin-top:24px;color:var(--muted);font-size:15px;}
+  .landing:hover{color:var(--text);}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <p class="wordmark">Donde<span class="b">Bailar</span></p>
+
+  <!-- El texto por defecto es el del caso bueno (hay id válido y se está
+       intentando abrir la app). El script lo reemplaza si el link no trae
+       un evento. Nunca queda en blanco: sin JS, lo que se ve es esto más
+       los dos botones, que es exactamente lo que hace falta. -->
+  <p class="msg" id="msg">Abriendo la ficha en la app…</p>
+
+  <!-- Los dos destinos NO se inventan: son los mismos que ya están en
+       app.html, sección "Descargala". Si alguna vez cambia una ficha, hay
+       que cambiarla en los dos archivos. -->
+  <div class="tiendas">
+    <a class="store" id="ios" href="https://apps.apple.com/cr/app/dondebailar/id6790503762">Descargar para iPhone</a>
+    <a class="store" id="android" href="https://play.google.com/store/apps/details?id=cr.dondebailar.app">Descargar para Android</a>
+  </div>
+
+  <a class="landing" href="/app.html">Conocer DondeBailar</a>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var APP_STORE = 'https://apps.apple.com/cr/app/dondebailar/id6790503762';
+  var PLAY      = 'https://play.google.com/store/apps/details?id=cr.dondebailar.app';
+  var LANDING   = '/app.html';
+  var PAQUETE   = 'cr.dondebailar.app';
+  var ESPERA_MS = 1500;
+
+  var msg = document.getElementById('msg');
+
+  // El id se valida como UUID y NUNCA se escribe en el DOM. Lo único que se
+  // hace con él es meterlo en una URL de esquema propio, y solo después de
+  // que pasó esta comprobación: un ?id= arbitrario que llegue al HTML sería
+  // una inyección, y este archivo lo recibe de cualquiera que arme un link.
+  var UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+  var id = null;
+  try {
+    id = new URLSearchParams(window.location.search).get('id');
+  } catch (e) {
+    id = null; // navegador viejo sin URLSearchParams: cae al mismo lugar que un link sin id
+  }
+
+  // ── Link sin ficha: no se redirige a ninguna tienda. Alguien que llegó
+  //    acá por un link roto no quiere una ficha de App Store, quiere saber
+  //    qué es esto. Se le cambia el texto y se lo manda a la landing.
+  if (!id || !UUID.test(id)) {
+    msg.textContent = 'Este enlace no trae una ficha válida. Puede que esté incompleto o que ya no exista.';
+    document.querySelector('.landing').textContent = 'Ir a DondeBailar';
+    return;
+  }
+
+  var ua = navigator.userAgent || '';
+  // iPadOS 13+ se hace pasar por Mac: la única señal que queda es el touch.
+  var esIOS = /iPad|iPhone|iPod/.test(ua) ||
+              (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  var esAndroid = /Android/.test(ua);
+
+  // ── Escritorio: no se redirige a nada. Una ficha de tienda móvil abierta
+  //    en una compu no le sirve a nadie; los dos botones ya están a la vista.
+  if (!esIOS && !esAndroid) {
+    msg.textContent = 'Esta ficha se abre en la app de DondeBailar, que es para celular. Descargala en tu teléfono:';
+    return;
+  }
+
+  var tienda = esIOS ? APP_STORE : PLAY;
+  var deepLink = 'dondebailar://entidad/' + id;
+
+  // ── CANCELAR EL SALTO A LA TIENDA SI LA APP YA ABRIÓ ─────────────────
+  //
+  // No hay API que diga "la app abrió". El único indicio es que el navegador
+  // deja de estar al frente. La primera versión escuchaba visibilitychange,
+  // pagehide y blur, y NO ALCANZÓ: en iOS, con el link abierto desde el
+  // navegador embebido de WhatsApp, la app abría y ADEMÁS se abría el App
+  // Store. Reportado en device el 2026-08-23.
+  //
+  // Tres cambios, y el tercero es el que no depende de que dispare ningún
+  // evento:
+  //
+  // 1. `blur` SE FUE. Dispara también cuando iOS muestra un diálogo encima
+  //    —"Cannot Open Page" cuando el esquema propio no resuelve— y eso
+  //    cancelaba el salto justo para el usuario que SÍ necesita la tienda.
+  //    Era un falso cancelar, en el caso que más importa.
+  //
+  // 2. Al vencer el temporizador se vuelve a MIRAR el estado, no solo el
+  //    flag. Si la página ya no está visible, la app abrió, aunque el evento
+  //    nunca haya llegado.
+  //
+  // 3. Y se mide el TIEMPO TRANSCURRIDO. Cuando iOS pasa a otra app congela
+  //    los temporizadores del webview, así que el callback llega tarde. Un
+  //    retraso grande es prueba de que hubo otra app al frente, y es la
+  //    única señal que sigue funcionando dentro de un navegador embebido que
+  //    no reporta visibilidad.
+  //
+  // `cancelado` es de una sola vía: NADA lo vuelve a poner en false. Volver
+  // de la app pone la página visible otra vez, y eso NO debe rearmar el
+  // salto — si no, el usuario vuelve de la ficha y se encuentra la tienda
+  // encima, que es exactamente el bug que esto arregla.
+  var cancelado = false;
+  var t0 = Date.now();
+  function cancelar() { cancelado = true; }
+  function fueraDeVista() {
+    return document.visibilityState !== 'visible' || document.hidden === true;
+  }
+  document.addEventListener('visibilitychange', function () {
+    if (fueraDeVista()) cancelar();
+  });
+  window.addEventListener('pagehide', cancelar);
+
+  setTimeout(function () {
+    if (cancelado) return;
+    if (fueraDeVista()) return;                 // (2) el EVENTO DEL DOM pudo no llegar
+    if (Date.now() - t0 > ESPERA_MS + 400) return; // (3) el webview estuvo congelado
+    msg.textContent = 'Parece que todavía no tenés la app. Descargala y volvé a abrir el link:';
+    window.location.replace(tienda);
+  }, ESPERA_MS);
+
+  if (esAndroid) {
+    // Chrome de Android BLOQUEA los esquemas propios lanzados por JS, así que
+    // el location.href de abajo no alcanza ahí. La forma soportada es una URL
+    // intent:// con browser_fallback_url: si la app está, la abre; si no,
+    // Chrome mismo va a la ficha de Play sin depender del temporizador.
+    // El temporizador se queda igual, para los navegadores que no son Chrome.
+    window.location.href = 'intent://entidad/' + id +
+      '#Intent;scheme=dondebailar;package=' + PAQUETE +
+      ';S.browser_fallback_url=' + encodeURIComponent(PLAY) + ';end';
+  } else {
+    window.location.href = deepLink;
+  }
+})();
+</script>
+
+</body>
+</html>
