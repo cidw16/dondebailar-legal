@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  QUE ESTA Y QUE NO, y por que.
+
+  ESTAN las cuatro paginas que se quieren encontrar buscando. La raiz va
+  primera y con prioridad 1.0: desde el paso 5 es la landing, y es la unica URL
+  del sitio que Google ya tenia indexada.
+
+  NO ESTAN, y ninguna es un olvido:
+
+  · app.html  — sirve el mismo contenido que la raiz y su canonical apunta ahi.
+    Listar un duplicado en el sitemap es pedirle a Google que lo considere.
+  · evento.html y entidad.html — son destinos de deep link. Su canonical va sin
+    el `?id=`, asi que todas las variantes colapsan en una pagina que, sola, no
+    tiene nada que indexar: es una pantalla de "abriendo la app...".
+
+  ⚠ QUE ESTE ARCHIVO EXISTA NO ALCANZA. Hay que ENVIARLO A MANO en Search
+  Console -> Sitemaps. Medido el 2026-08-25: `soporte.html` esta enlazada desde
+  el pie de una pagina que Google SI indexo, y aun asi figura "URL is unknown to
+  Google", discovery "sin sitemap y sin pagina referente". El enlace interno no
+  alcanzo; esperar a que descubra el sitemap solo tampoco.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://dondebailar.net/</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://dondebailar.net/soporte.html</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dondebailar.net/privacidad.html</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dondebailar.net/eliminar-cuenta.html</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+</urlset>

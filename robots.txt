@@ -1,0 +1,12 @@
+# El valor de este archivo NO es el Allow: sin robots.txt, GitHub Pages
+# devuelve 404 y los rastreadores ya asumen "todo permitido". Lo que agrega es
+# la linea Sitemap, que es el punto entero.
+#
+# Sin Disallow a proposito: no hay nada en este sitio que no se quiera indexar.
+# `app.html`, `evento.html` y `entidad.html` se mantienen fuera del indice por
+# canonical, no por bloqueo — bloquearlas impediria que Google LEA el canonical
+# y el efecto seria el contrario del buscado.
+User-agent: *
+Allow: /
+
+Sitemap: https://dondebailar.net/sitemap.xml

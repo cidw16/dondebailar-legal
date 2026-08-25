@@ -4,8 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Política de Privacidad — DondeBailar</title>
-<!-- Esta es la URL canonica de la politica. index.html sirve exactamente
-     el mismo contenido -son identicos byte a byte- y apunta aca. -->
+<!-- ESTA ES LA URL CANONICA DE LA POLITICA DE PRIVACIDAD, y la unica que la
+     app usa: `PRIVACY_URL` en `src/constants/legal.ts` apunta exactamente aca,
+     al ARCHIVO y no a la raiz.
+
+     Eso importa mas de lo que parece. La raiz cambio de contenido en el paso 5
+     -hoy sirve la landing- y un link a `/` habria empezado a mostrar marketing
+     en lugar de la politica SIN dar error, que es el peor modo de falla: nada
+     se rompe y nadie se entera. Apuntar al archivo lo hace imposible.
+
+     Este comentario NO describe que hace ningun otro archivo, a proposito: la
+     version anterior afirmaba que index.html servia esto mismo, y dejo de ser
+     cierto el dia del paso 5. Un comentario que habla de otro archivo caduca
+     cuando ese otro cambia, y nadie se acuerda de venir a corregirlo. -->
 <link rel="canonical" href="https://dondebailar.net/privacidad.html">
 <meta property="og:url" content="https://dondebailar.net/privacidad.html">
 <meta property="og:title" content="Política de Privacidad — DondeBailar">

@@ -140,7 +140,7 @@
     <a class="store" id="android" href="https://play.google.com/store/apps/details?id=cr.dondebailar.app">Descargar para Android</a>
   </div>
 
-  <a class="landing" href="/app.html">Conocer DondeBailar</a>
+  <a class="landing" href="/">Conocer DondeBailar</a>
 </main>
 
 <script>
@@ -149,7 +149,10 @@
 
   var APP_STORE = 'https://apps.apple.com/cr/app/dondebailar/id6790503762';
   var PLAY      = 'https://play.google.com/store/apps/details?id=cr.dondebailar.app';
-  var LANDING   = '/app.html';
+  // NO SE USA hoy: declarada y nunca leida. Se deja apuntando a la raiz
+  // —que desde el paso 5 es la landing— para que no quede una URL vieja
+  // esperando a que alguien la conecte. Si sigue sin usarse, borrala.
+  var LANDING   = '/';
   var PAQUETE   = 'cr.dondebailar.app';
   var ESPERA_MS = 1500;
 
