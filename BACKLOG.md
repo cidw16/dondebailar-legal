@@ -389,6 +389,43 @@ mueve el ranking nunca se empieza porque no se parece a programar.
 
 ---
 
+# Volver a badges oficiales de tienda, cuando estén los dos en negro
+
+Anotado el 2026-08-27, al pasar la landing a la paleta clara.
+
+**Hoy los dos botones de tienda son botones de TEXTO**, simétricos: mismo
+fondo `#14141A`, mismo alto, mismo radio, y en cada uno una línea chica arriba
+("Descargalo en" / "Disponible en") con el nombre de la tienda abajo.
+
+No es preferencia estética. Es que sobre papel no había badge usable:
+
+- El de Apple que hay en `/badges/` es la variante **BLANCA**
+  (`Download_on_the_App_Store_Badge_ES_RGB_wht_100217`), pensada para fondo
+  oscuro. Sobre `#FBF7F2` es exactamente la equivocada.
+- **De Google Play nunca hubo badge.** Era una pastilla de texto.
+
+O sea que lo que había era un badge oficial al lado de una pastilla casera, y
+eso ya estaba mal antes de este cambio. Dos botones iguales es peor de marca y
+mejor de diseño, y sobre todo es coherente.
+
+### Qué hace falta para revertirlo
+
+1. Bajar de los recursos oficiales el badge de Apple en **negro**, en ES y en
+   US (`toolbox.marketingtools.apple.com`).
+2. Bajar el badge oficial de **Google Play**, en ES y en EN.
+3. Resolver la diferencia de forma que ya estaba anotada en el código: el de
+   Apple es monocromo 120×40 y el de Play es a color con proporción propia.
+   Ponerlos lado a lado sin resolver eso desbalancea los dos botones.
+
+⚠ **Los dos SVG de Apple siguen en `/badges/` y NO se borraron**, aunque hoy
+no los use nadie. Cuando se consigan los negros, esto se revierte a badges de
+verdad y esos archivos son el punto de partida.
+
+⚠ **No se redibujan ni se recolorean a mano.** Son marcas con lineamientos: la
+variante negra existe y se baja, no se fabrica invirtiendo la blanca.
+
+---
+
 # Descartado
 
 Lo que se evaluó y NO se va a hacer. Está acá para que no reaparezca como
