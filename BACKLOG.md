@@ -158,6 +158,11 @@ enlazada desde el footer de la política —una página que Google SÍ indexó�
 así no la descubrió.** El enlace interno no alcanzó. Sin sitemap, el sitio es
 casi invisible.
 
+> **Esta foto es el ANTES.** Es la medición que justificó D2, y se deja tal
+> cual porque es la línea base contra la que se va a comparar. El paso 5 y el
+> sitemap ya se hicieron y el sitemap **ya se envió** —ver D2—; lo que estas
+> tres líneas describen es lo que todavía **falta confirmar que cambió**.
+
 ## BLOQUEANTES — van primero
 
 ### D1 · ✅ HECHO · Alta en Google Search Console
@@ -186,17 +191,33 @@ renombró: `/app.html` está publicada y la enlazan `evento.html` y
 `entidad.html`, que ya circulan); `sitemap.xml` con las cuatro URLs finales y
 `robots.txt` apuntándolo.
 
-⚠ **DEUDA DE VERIFICACIÓN, anotada desde el día uno.** Que Google recoja el
-sitemap **no se ve al publicar**: se ve en Search Console días después. Y no
-hay que esperar a que lo descubra solo — **hay que ir a Search Console →
-Sitemaps y enviar `https://dondebailar.net/sitemap.xml` A MANO.** La evidencia
-de por qué: `soporte.html` está enlazada desde el pie de una página que Google
-SÍ indexó y aun así figura "URL is unknown to Google". El descubrimiento
-pasivo ya falló una vez acá.
+✅ **EL SITEMAP YA SE ENVIÓ A MANO — Search Console, 2026-08-25.**
 
-Lo que queda por confirmar, días después: que la raíz pase a mostrar la
-landing en el índice (hoy muestra la política), y que `app.html` y
-`soporte.html` dejen de ser "unknown".
+| campo | valor |
+| --- | --- |
+| URL enviada | `https://dondebailar.net/sitemap.xml` |
+| estado | **Success** |
+| páginas descubiertas | **4** |
+
+Cuatro es el número correcto: son exactamente las cuatro URLs que el archivo
+lista. Que diga "Success" y descubra 4 quiere decir que Google **leyó y
+entendió el XML**; no quiere decir todavía que las haya indexado.
+
+Se envió a mano y no se esperó al descubrimiento pasivo, por la evidencia que
+ya estaba medida: `soporte.html` está enlazada desde el pie de una página que
+Google SÍ indexó y aun así figuraba "URL is unknown to Google". El
+descubrimiento pasivo ya había fallado una vez acá.
+
+⚠ **LO QUE SIGUE PENDIENTE, y hay que ir a mirarlo — días después del envío.**
+El "Success" de arriba es sobre el ARCHIVO, no sobre las páginas. Lo que hay
+que confirmar en Search Console, con la herramienta de inspección de URL:
+
+- que **`app.html` y `soporte.html` dejen de ser "URL is unknown to Google"** —
+  esta es la que prueba que el sitemap sirvió para algo;
+- que la **raíz** pase a mostrar la landing en el índice, y no la política.
+
+Nadie avisa cuando ocurre. Si dentro de una o dos semanas siguen "unknown", el
+problema no es el sitemap y hay que volver a mirar esto con datos nuevos.
 
 <details><summary>El planteo original, para contexto</summary>
 
