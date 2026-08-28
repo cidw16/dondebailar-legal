@@ -29,7 +29,7 @@
      la landing invisible para Google. El canonical consigue lo mismo sin ese
      riesgo. -->
 <link rel="canonical" href="https://dondebailar.net/">
-<meta name="theme-color" content="#0D0D11">
+<meta name="theme-color" content="#FBF7F2">
 
 <!-- Los metadatos quedan FIJOS EN ESPAÑOL a propósito: Google y WhatsApp leen
      el HTML crudo, así que cambiarlos por JS no serviría de nada. El cambio de
@@ -98,38 +98,45 @@
 
 <style>
   /* ═══════════════════════════════════════════════════════════════════════
-     PALETA. Nombres NUEVOS con prefijo --v2- y --w1- a proposito.
-     El diseño viejo usaba --primary para el coral #FF4D5E y --accent para un
-     ambar que YA NO EXISTE: el sistema de color es W1 y esta descrito mas
-     abajo, donde se definen los halos. El coral queda reducido al wordmark y
-     es el unico color saturado de la pagina.
-     Reutilizar los nombres viejos con estos valores haria que el proximo que
-     lea el archivo crea que --primary sigue siendo el coral. NO se redefinen:
-     se reemplazan.
+     PALETA "PAPEL". La pagina paso de fondo casi negro a fondo claro.
+
+     LOS NOMBRES --v2-* SOBREVIVEN, Y ESO NO CONTRADICE LA REGLA QUE HABIA ACA.
+     Esa regla decia que no se reutiliza un nombre cuyo SIGNIFICADO cambio:
+     --primary significaba "el coral", y reusarlo para otra cosa habria
+     mentido. Estos nombres son SEMANTICOS —fondo, tinta, linea, acento— y su
+     significado es exactamente el mismo; lo unico que se dio vuelta es el
+     valor. Renombrarlos habria dado cien lineas de diff sin agregar una verdad.
+
+     Lo que SI desaparecio es el sistema de halos W1 (--w1-dorado / --w1-azul).
+     No se tradujo a claro: un resplandor existe porque hay oscuridad alrededor,
+     y sobre papel no hay nada que resplandezca. Traducirlo habria sido inventar
+     un efecto nuevo y llamarlo igual. La separacion entre secciones ahora la
+     dan una linea, un fondo apenas mas calido y aire.
      ═══════════════════════════════════════════════════════════════════════ */
   :root{
-    --v2-fondo:#08080A;
-    --v2-fondo-alt:#0C0C10;
-    --v2-tinta:#F2F2F5;
-    --v2-tinta-media:#B9B9C4;
-    --v2-tinta-tenue:#84848F;
-
-    /* Los dos colores de W1, en componentes RGB sueltos: asi cada seccion
-       compone su rgba() cambiando SOLO el alfa, que es lo unico que varia. */
-    --w1-dorado:240,169,60;
-    --w1-azul:58,102,200;
+    --v2-fondo:#FBF7F2;
+    /* Apenas mas calido que el fondo: 1.07:1 contra la pagina, o sea un
+       susurro. Es lo que separa las tarjetas sin dibujarles una caja. */
+    --v2-fondo-alt:#F5EFE7;
+    --v2-tinta:#14141A;
+    --v2-tinta-media:#5E5862;
+    /* 5.03:1 sobre el fondo. El valor que traia esta paleta era #8A828F y daba
+       3.47:1 —debajo de 4.5— y sus tres usos (wordmark, footer y enlaces del
+       footer) son todos texto CHICO, donde el minimo de texto grande no aplica.
+       Se subio a proposito. */
+    --v2-tinta-tenue:#6F6875;
 
     /* El coral sobrevive SOLO en el wordmark: es identidad de marca y es el
-       mismo rojo del splash de la app. No se usa en ningun otro lado. */
+       mismo rojo del splash de la app. Sobre papel da 3.04:1, que alcanza para
+       texto grande en negrita —que es lo que es— y NO alcanzaria para texto
+       corrido. Por eso no se usa en ningun otro lado. */
     --v2-coral:#FF4D5E;
 
-    /* Acento frio: la pildora del hero y el foco del boton de Apple. No es
-       un resplandor, es texto y contorno. */
-    --v2-acento:#9FBEF0;
+    /* Acento: la pildora del hero, el foco, y el CTA de la barra fija.
+       5.51:1 sobre el fondo. */
+    --v2-acento:#C2185B;
 
-    --v2-vidrio:rgba(255,255,255,.055);
-    --v2-vidrio-borde:rgba(255,255,255,.14);
-    --v2-linea:rgba(255,255,255,.10);
+    --v2-linea:#E4DCD3;
 
     --v2-ancho:1180px;
     --v2-radio:26px;
@@ -166,7 +173,7 @@
      fondo casi negro, sin borde la silueta se pierde. */
   .lang .bandera{
     width:16px;height:auto;flex:none;border-radius:2px;
-    box-shadow:0 0 0 1px rgba(255,255,255,.22);
+    box-shadow:0 0 0 1px rgba(20,20,26,.20);
   }
   /* La bandera del idioma que NO esta activo se atenua, igual que su texto. */
   .lang button:not(.on) .bandera{opacity:.55;}
@@ -176,69 +183,26 @@
   .lang .sep{opacity:.5;}
 
   /* ── Andamiaje de seccion ─────────────────────────────────────────────────
-     Cada seccion trae su propio resplandor con ::before. Van con z-index:0 y
-     el contenido con z-index:1, para que el blur nunca tape el texto. */
+     ACA VIVIA EL SISTEMA DE COLOR W1: dos halos por seccion (dorado arriba a
+     la izquierda, azul abajo a la derecha) compuestos con ::before y ::after,
+     de 1170px con blur de 250, y su juego equivalente para movil.
+
+     SE FUE ENTERO, y no se tradujo a la paleta clara. Un resplandor existe
+     porque hay oscuridad alrededor: sobre papel no hay nada que resplandezca,
+     asi que "traducirlo" habria sido inventar un efecto nuevo y darle el
+     nombre del viejo. Lo que separa las secciones ahora es una linea, un fondo
+     apenas mas calido y aire.
+
+     Si alguna vez la pagina vuelve a fondo oscuro, esto se recupera del
+     historial —no se reescribe de memoria: el comentario que se borro tenia el
+     criterio de dimensionado, que no es obvio y ya se habia equivocado una vez
+     escalando el movil por el ancho en vez de por el alto. */
   header.hero, main > section{
     position:relative;
     padding:clamp(64px,9vw,110px) 24px;
     overflow:hidden;
   }
   header.hero > *, main > section > *{position:relative;z-index:1;}
-  /* ═══════════════════════════════════════════════════════════════════════
-     SISTEMA DE COLOR W1
-
-     El color de fondo sigue un recorrido azul -> dorado en el centro -> azul
-     -> negro. Son DOS halos por seccion y no un color interpolado, porque
-     interpolar azul y dorado en RGB pasa por un gris verdoso; dos luces sobre
-     negro se suman y lo evitan. Si se agrega una seccion, se le asignan sus
-     dos opacidades siguiendo la curva, no se inventa un color nuevo.
-
-     El dorado va SIEMPRE arriba a la izquierda y el azul SIEMPRE abajo a la
-     derecha, con la misma geometria en todas las secciones. Lo unico que
-     cambia de una a otra es el alfa de cada uno. Cuando un alfa es .00 el
-     pseudo-elemento no se genera (content:none) en vez de quedar invisible:
-     asi no hay cajas fantasma en el arbol.
-     ═══════════════════════════════════════════════════════════════════════ */
-  /* EL CRITERIO DEL TAMAÑO: el halo se dimensiona contra la dimension MAYOR
-     de la seccion. No hay un factor fijo, y por eso los dos rangos no salen
-     de multiplicar uno por el otro.
-
-     En escritorio la seccion es mas ANCHA que alta —1366 x 597— asi que manda
-     el ancho: halo 1170 sobre 1366 = 0.86.
-     En movil se da vuelta —390 x 627— y manda el ALTO: halo 720 sobre 627 =
-     1.15, y de paso cruza todo el ancho del viewport, que es lo que hace falta
-     cuando la seccion es angosta y alta.
-
-     El error de las vueltas anteriores fue escalar el movil por el ANCHO: daba
-     300px, o sea 0.48 del alto, y el halo quedaba como una mancha en la
-     esquina en vez de iluminar la seccion.
-
-     Si cambian las proporciones de las secciones, se recalcula con este
-     criterio, no con el factor de la vez pasada. El blur SIEMPRE acompaña al
-     diametro: si se cambia uno sin el otro, el borde del circulo se hace
-     visible y deja de parecer luz. */
-  header.hero::before, main > section::before,
-  header.hero::after,  main > section::after{
-    content:'';position:absolute;z-index:0;pointer-events:none;
-    width:1170px;height:1170px;border-radius:50%;filter:blur(250px);
-  }
-  /* dorado, arriba a la izquierda */
-  header.hero::before, main > section::before{left:-430px;top:-470px;}
-  /* azul, abajo a la derecha */
-  header.hero::after,  main > section::after{right:-430px;bottom:-500px;}
-
-  /* Movil: dimensionado contra el ALTO, que es la dimension mayor acá. Va
-     pegado a la regla de escritorio y no al final del archivo, para que se
-     vean juntos los dos juegos: misma especificidad y este viene despues,
-     asi que gana en su rango. */
-  @media (max-width:900px){
-    header.hero::before, main > section::before,
-    header.hero::after,  main > section::after{
-      width:720px;height:720px;filter:blur(155px);
-    }
-    header.hero::before, main > section::before{left:-300px;top:-330px;}
-    header.hero::after,  main > section::after{right:-300px;bottom:-350px;}
-  }
 
   /* Rejilla de dos columnas, comun a "que es", "que hace" y "por que". */
   .dos-columnas{
@@ -255,9 +219,6 @@
   /* El mockup trae un arco decorativo y NO se implementa a proposito: con la
      foto sangrando al borde no le queda lienzo, y lo poco que asomaba chocaba
      con el toggle ES|EN de la esquina. No lo repongas mirando el PNG. */
-  /* Hero — dorado .00 (no se genera) · azul .30 */
-  header.hero::before{content:none;}
-  header.hero::after{background:rgba(var(--w1-azul),.30);}
   .hero-inner{
     max-width:var(--v2-ancho);margin:0 auto;
     display:grid;grid-template-columns:1fr 1.15fr;
@@ -265,22 +226,22 @@
   }
   .wordmark{
     font-size:clamp(21px,2.4vw,25px);font-weight:800;letter-spacing:-.8px;
-    line-height:1;margin:0;color:#FFF;
+    line-height:1;margin:0;color:var(--v2-tinta);
   }
   .wordmark .b{color:var(--v2-coral);}
   .smile{display:block;height:7px;width:min(132px,34vw);margin:7px 0 0;}
 
   .badge{
     display:inline-flex;align-items:center;gap:9px;margin:clamp(30px,5vw,48px) 0 22px;
-    border:1px solid rgba(120,160,235,.28);background:rgba(80,120,200,.07);
+    border:1px solid rgba(194,24,91,.30);background:rgba(194,24,91,.06);
     border-radius:999px;padding:7px 16px;font-size:12px;font-weight:700;
     color:var(--v2-acento);letter-spacing:.05em;
   }
   .pulse{
     width:7px;height:7px;border-radius:50%;background:var(--v2-acento);
-    box-shadow:0 0 0 0 rgba(159,190,240,.75);animation:p 2.2s infinite;
+    box-shadow:0 0 0 0 rgba(194,24,91,.55);animation:p 2.2s infinite;
   }
-  @keyframes p{70%{box-shadow:0 0 0 9px rgba(159,190,240,0)}100%{box-shadow:0 0 0 0 rgba(159,190,240,0)}}
+  @keyframes p{70%{box-shadow:0 0 0 9px rgba(194,24,91,0)}100%{box-shadow:0 0 0 0 rgba(194,24,91,0)}}
   @media (prefers-reduced-motion:reduce){.pulse{animation:none;}}
 
   /* El h1 se mide contra SU COLUMNA, no contra el viewport: .hero-texto es
@@ -306,7 +267,7 @@
      asi que la regla no llegaria a aplicarse nunca. */
   h1{
     font-size:clamp(27px,10cqw,53px);font-weight:700;line-height:1.06;
-    margin:0;color:#FFF;
+    margin:0;color:var(--v2-tinta);
   }
   /* La foto se sale del contenedor de 1180px hasta tocar el borde derecho
      del lienzo. El margen negativo es la distancia del borde derecho del
@@ -328,33 +289,43 @@
     border-radius:18px 0 0 18px;
   }
 
+  /* ── Subtitulo del hero ───────────────────────────────────────────────────
+     NO ES TEXTO NUEVO: es la meta-description que ya vivia en el <head>,
+     ahora tambien visible. Que sean la misma frase es deliberado — lo que
+     promete el resultado de busqueda y lo que dice la pagina no deberian
+     divergir, y con dos textos distintos divergen sin que nadie se entere. */
+  .hero-sub{
+    margin:18px 0 0;max-width:38ch;
+    color:var(--v2-tinta-media);
+    font-size:clamp(16px,1.4vw,18px);line-height:1.55;
+  }
+
   /* ══ 2 · ¿QUE ES ESTO? ════════════════════════════════════════════════ */
   .que-es{background:var(--v2-fondo);}
-  /* ¿Que es esto? — dorado .16 · azul .20 */
-  .que-es::before{background:rgba(var(--w1-dorado),.16);}
-  .que-es::after{background:rgba(var(--w1-azul),.20);}
-  /* Glassmorphism: fondo translucido + blur de lo que hay detras + borde
-     claro de un pixel + un resplandor interno arriba que simula el canto. */
+  /* ERA GLASSMORPHISM: translucido + backdrop-filter + borde blanco + una
+     sombra negra de 60px. Nada de eso sobrevive al papel — el vidrio se ve
+     porque hay luz detras, y aca lo que hay detras es la misma hoja.
+
+     Queda una tarjeta de papel: fondo apenas mas calido, la linea de 1px, y
+     una sombra MUY suave que sugiere que la hoja esta encima y no flotando a
+     medio metro. El backdrop-filter se va del todo: filtrar un fondo plano es
+     gastar GPU para no cambiar un pixel. */
   .tarjeta-glass{
-    background:var(--v2-vidrio);
-    -webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);
-    border:1px solid var(--v2-vidrio-borde);
+    background:var(--v2-fondo-alt);
+    border:1px solid var(--v2-linea);
     border-radius:var(--v2-radio);
     padding:clamp(30px,4vw,52px);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 24px 60px rgba(0,0,0,.45);
+    box-shadow:0 1px 2px rgba(20,20,26,.04);
   }
   .tarjeta-glass h2{
     font-size:clamp(30px,4vw,46px);font-weight:600;line-height:1.1;
-    margin:0 0 20px;color:#FFF;
+    margin:0 0 20px;color:var(--v2-tinta);
   }
   .tarjeta-glass p{margin:0;color:var(--v2-tinta-media);font-size:15.5px;line-height:1.7;}
   .que-es-foto{width:100%;border-radius:16px;}
 
   /* ══ 3 · QUE HACE ═════════════════════════════════════════════════════ */
   .que-hace{background:var(--v2-fondo);}
-  /* Que hace — dorado .30 · azul .06 */
-  .que-hace::before{background:rgba(var(--w1-dorado),.30);}
-  .que-hace::after{background:rgba(var(--w1-azul),.06);}
   /* Solo esta seccion: el panel se lleva mas ancho que el titulo. Las otras
      dos que usan .dos-columnas (que-es y por-que) siguen en 1fr 1fr.
 
@@ -370,95 +341,122 @@
     .que-hace .dos-columnas{grid-template-columns:1fr 1.35fr;}
   }
   .que-hace h2{
-    font-size:clamp(30px,4vw,46px);font-weight:600;margin:0;color:#FFF;
+    font-size:clamp(30px,4vw,46px);font-weight:600;margin:0;color:var(--v2-tinta);
   }
-  /* Borde luminoso: un gradiente vive en el padding-box y el panel real se
-     pinta encima con background-clip. Es un borde de 1px que cambia de color
-     a lo largo del recorrido, cosa que border-color solo no puede hacer. */
+  /* ERA UN "BORDE LUMINOSO": dos gradientes con background-clip, uno de ellos
+     un degradado de blancos que simulaba luz corriendo por el canto, sobre un
+     panel #0E1218 casi negro. Sobre papel un panel negro no es un acento: es
+     un agujero en la hoja.
+
+     Se resuelve con lo mismo que la tarjeta de al lado —fondo apenas mas
+     calido y la linea— para que las dos superficies de la pagina sean LA MISMA
+     superficie. Tener dos tratamientos distintos para dos paneles hermanos era
+     lo que justificaba el degradado; sin oscuridad, no lo justifica nada. */
   .panel-luminoso{
     position:relative;border-radius:var(--v2-radio);
     padding:clamp(28px,3.4vw,44px);
-    background:
-      linear-gradient(#0E1218,#0E1218) padding-box,
-      linear-gradient(140deg,rgba(255,255,255,.42),rgba(255,255,255,.05) 42%,rgba(111,182,240,.34)) border-box;
-    border:1px solid transparent;
-    box-shadow:0 24px 70px rgba(0,0,0,.5);
+    background:var(--v2-fondo-alt);
+    border:1px solid var(--v2-linea);
+    box-shadow:0 1px 2px rgba(20,20,26,.04);
     display:flex;flex-direction:column;gap:clamp(22px,2.6vw,32px);
   }
   .feature .ico{width:26px;height:26px;color:var(--v2-tinta);opacity:.9;margin-bottom:12px;}
-  .feature h3{font-size:17px;font-weight:600;margin:0 0 7px;color:#FFF;}
+  .feature h3{font-size:17px;font-weight:600;margin:0 0 7px;color:var(--v2-tinta);}
   .feature p{margin:0;color:var(--v2-tinta-media);font-size:14.5px;line-height:1.6;}
 
   /* ══ 4 · POR QUE EXISTE ═══════════════════════════════════════════════ */
   .por-que{background:var(--v2-fondo);}
-  /* Por que existe — dorado .14 · azul .20 */
-  .por-que::before{background:rgba(var(--w1-dorado),.14);}
-  .por-que::after{background:rgba(var(--w1-azul),.20);}
   .por-que-texto h2{
     font-size:clamp(30px,4vw,46px);font-weight:600;line-height:1.1;
-    margin:0 0 22px;color:#FFF;max-width:9ch;
+    margin:0 0 22px;color:var(--v2-tinta);max-width:9ch;
   }
   .por-que-texto p{margin:0 0 16px;color:var(--v2-tinta-media);font-size:15px;line-height:1.7;}
   .por-que-texto p:last-child{margin-bottom:0;}
   .por-que-foto{width:100%;border-radius:16px;}
 
-  /* ══ 5 · DESCARGALA ═══════════════════════════════════════════════════ */
-  .descargala{background:var(--v2-fondo);}
-  /* Descargala — dorado .04 · azul .26 */
-  .descargala::before{background:rgba(var(--w1-dorado),.04);}
-  .descargala::after{background:rgba(var(--w1-azul),.26);}
-  .descargala h2{
-    max-width:var(--v2-ancho);margin:0 auto clamp(28px,4vw,44px);
-    font-size:clamp(30px,4vw,46px);font-weight:600;color:#FFF;
-  }
+  /* ══ 5 · LOS DOS BOTONES DE TIENDA ════════════════════════════════════
+     VIVEN EN EL HERO. Antes eran dos tarjetas grandes de una seccion
+     "Descargala" al final de la pagina; esa seccion se fue entera y no quedan
+     dos juegos de botones.
+
+     ⚠ Y SON DOS BOTONES DE TEXTO, NO BADGES, A PROPOSITO.
+     El badge oficial de Apple que habia en /badges/ es la variante BLANCA
+     (Download_on_the_App_Store_Badge_..._wht_), pensada para fondo oscuro:
+     sobre papel es exactamente la equivocada. Y de Google Play nunca hubo
+     badge — era una pastilla de texto. O sea que lo que habia era un badge
+     oficial al lado de una pastilla casera, y eso ya estaba mal.
+
+     Dos botones iguales es PEOR de marca y MEJOR de diseño, y sobre todo es
+     coherente. Cuando esten los oficiales en negro de las dos tiendas, esto se
+     revierte a badges de verdad — esta anotado en BACKLOG.md. Los dos SVG de
+     Apple quedan en /badges/ sin usar, a proposito: no se borran. */
   .tiendas{
-    max-width:var(--v2-ancho);margin:0 auto;
-    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:clamp(16px,2vw,26px);
+    display:flex;flex-wrap:wrap;gap:12px;
+    margin:22px 0 0;
   }
   .store{
-    display:flex;flex-direction:column;justify-content:flex-end;
-    min-height:clamp(150px,17vw,200px);
-    background:linear-gradient(165deg,#15151B,#0B0B0F);
-    border:1px solid var(--v2-linea);
-    border-radius:20px;
-    padding:clamp(22px,2.6vw,32px);
-    color:var(--v2-tinta);text-decoration:none;
-    cursor:pointer;transition:border-color .18s,background .18s,transform .18s;
+    display:flex;flex-direction:column;justify-content:center;
+    min-height:56px;flex:1 1 200px;
+    background:var(--v2-tinta);
+    border:1px solid var(--v2-tinta);
+    border-radius:14px;
+    padding:9px 20px;
+    text-decoration:none;
+    cursor:pointer;transition:opacity .18s,transform .18s;
   }
-  .store-nombre{font-family:'Unbounded',sans-serif;font-size:17px;font-weight:600;color:#FFF;}
-  /* 120x40 es el tamaño nativo del SVG de Apple y respeta el minimo de su
-     guia. Los dos valores van EXPLICITOS y hace falta el align-self:
-     .store es un flex en columna con align-items:stretch por defecto, asi que
-     un img en block con width:auto se estiraba a todo el ancho de la tarjeta
-     —511px a 1366— y deformaba el badge. Deformarlo esta prohibido por la
-     guia de Apple, ademas de verse mal. */
-  .store-badge{display:block;width:120px;height:40px;align-self:flex-start;}
-  /* El badge mide 40px de alto y el titulo de texto de Google unos 22, asi que
-     sin esto la tarjeta de Apple quedaba 12px mas alta que la otra en movil,
-     donde no hay min-height que lo tape. Igualar la caja del titulo las deja
-     parejas en cualquier ancho. */
-  .store-nombre{min-height:40px;display:flex;align-items:center;}
-  .store-bajada{margin-top:8px;font-size:14px;color:var(--v2-tinta-media);}
-  /* Antes esto iba sobre a.store y no sobre .store, porque Google Play era un
-     <div> sin enlace y no debía parecer clicable. Los dos son <a> ahora, asi
-     que el prefijo sobra. Si vuelve a haber una tarjeta sin enlace, hay que
-     reponer la separación. */
-  .store:hover{
-    border-color:rgba(255,255,255,.28);
-    background:linear-gradient(165deg,#1B1B22,#101016);
-    transform:translateY(-2px);
+  /* La linea chica va ARRIBA y el nombre abajo, que es el orden en que se lee
+     un badge de tienda de verdad ("Descargalo en" / "App Store"). Que los dos
+     compartan esta estructura es lo que los hace simetricos: mismo alto, mismo
+     radio, misma caja. */
+  .store-bajada{
+    font-size:11px;line-height:1.3;letter-spacing:.02em;
+    color:var(--v2-fondo);opacity:.72;
   }
+  .store-nombre{
+    font-family:'Unbounded',sans-serif;font-size:16px;font-weight:600;
+    line-height:1.25;color:var(--v2-fondo);
+  }
+  .store:hover{opacity:.88;transform:translateY(-1px);}
   .store:focus-visible{outline:2px solid var(--v2-acento);outline-offset:3px;}
   @media (prefers-reduced-motion:reduce){.store{transition:none;}.store:hover{transform:none;}}
 
+  /* ══ BARRA FIJA DE DESCARGA — SOLO MOVIL ══════════════════════════════
+     Se muestra recien en el rango de telefono. En escritorio los botones del
+     hero se ven sin scroll y una barra fija seria una franja tapando contenido
+     para repetir algo que ya esta a la vista.
+
+     El padding-bottom del body lo compensa: sin el, la barra se come las
+     ultimas lineas del footer, que es donde estan los enlaces legales. */
+  .barra-descarga{display:none;}
+  @media (max-width:640px){
+    .barra-descarga{
+      display:flex;align-items:center;justify-content:space-between;gap:14px;
+      position:fixed;left:0;right:0;bottom:0;z-index:20;
+      padding:10px 20px calc(10px + env(safe-area-inset-bottom));
+      background:var(--v2-fondo);
+      border-top:1px solid var(--v2-linea);
+    }
+    .barra-texto{
+      font-size:13px;line-height:1.35;color:var(--v2-tinta-media);
+      min-width:0;
+    }
+    .barra-cta{
+      flex:none;background:var(--v2-acento);color:#FFFFFF;
+      font-family:'Unbounded',sans-serif;font-size:14px;font-weight:600;
+      text-decoration:none;border-radius:12px;padding:11px 20px;
+      transition:opacity .18s;
+    }
+    .barra-cta:hover{opacity:.9;}
+    .barra-cta:focus-visible{outline:2px solid var(--v2-tinta);outline-offset:3px;}
+    body{padding-bottom:76px;}
+  }
+  @media (prefers-reduced-motion:reduce){.barra-cta{transition:none;}}
+
   /* ══ 6 · CONTACTO ═════════════════════════════════════════════════════ */
   .contacto{background:var(--v2-fondo);}
-  /* Contacto — negro puro: los dos en .00, ninguno se genera. */
-  .contacto::before,.contacto::after{content:none;}
   .contacto h2{
     max-width:var(--v2-ancho);margin:0 auto;
-    font-size:clamp(30px,4vw,46px);font-weight:600;color:#FFF;
+    font-size:clamp(30px,4vw,46px);font-weight:600;color:var(--v2-tinta);
   }
   /* El bloque de Soporte arranca al 60% del ancho, como el mockup. El
      padding-left sobre el mismo contenedor de 1180px es lo que lo corre sin
@@ -468,10 +466,10 @@
     padding-left:45%;
     display:flex;flex-direction:column;gap:6px;
   }
-  .contacto-rotulo{font-family:'Unbounded',sans-serif;font-size:16px;font-weight:600;color:#FFF;}
+  .contacto-rotulo{font-family:'Unbounded',sans-serif;font-size:16px;font-weight:600;color:var(--v2-tinta);}
   .contacto-item a{
     color:var(--v2-tinta-media);text-decoration:none;font-size:15px;
-    border-bottom:1px solid rgba(185,185,196,.35);align-self:flex-start;
+    border-bottom:1px solid rgba(94,88,98,.35);align-self:flex-start;
   }
   .contacto-item a:hover{color:var(--v2-tinta);border-bottom-color:var(--v2-tinta);}
 
@@ -481,7 +479,7 @@
     padding:30px 24px 56px;border-top:1px solid var(--v2-linea);
     color:var(--v2-tinta-tenue);font-size:14px;line-height:1.9;
   }
-  footer a{color:var(--v2-tinta-tenue);text-decoration:none;border-bottom:1px solid rgba(132,132,143,.32);}
+  footer a{color:var(--v2-tinta-tenue);text-decoration:none;border-bottom:1px solid rgba(111,104,117,.35);}
   footer a:hover{color:var(--v2-tinta);border-bottom-color:var(--v2-tinta);}
   .mail{display:inline-block;margin-top:8px;}
 
@@ -539,8 +537,20 @@
   <div class="hero-inner">
     <div class="hero-texto">
     <p class="wordmark">Donde<span class="b">Bailar</span></p>
+    <!-- El ambar es #C98A1E y NO es un color de marca nuevo: es LA VARIANTE
+         PARA FONDO CLARO del mismo ambar. El valor original, #F5C04A, esta
+         pensado para el fondo casi negro que tenia esta pagina; sobre papel da
+         1.57:1 y desaparece — medido, no estimado.
+
+         Es decorativo y aria-hidden, asi que no hay umbral WCAG que cumplir:
+         lo unico que importa es que SE VEA. Entre las variantes que siguen
+         leyendose ambar se eligio la que menos desaparece (2.76:1); #E0A32C
+         daba 2.08:1, todavia al borde de lo invisible.
+
+         El ambar de la APP sigue siendo el suyo. Si algun dia hay manual de
+         marca, este es el valor de fondo claro y no un reemplazo. -->
     <svg class="smile" viewBox="0 0 210 9" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M3 4 Q105 12 207 4" stroke="#F5C04A" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M3 4 Q105 12 207 4" stroke="#C98A1E" stroke-width="3.2" stroke-linecap="round"/>
     </svg>
 
     <p class="badge"><span class="pulse"></span><span
@@ -552,6 +562,30 @@
          "Donde" interrogativo indirecto lleva tilde. No la saques. -->
     <h1 data-es="Dónde bailar en Costa Rica"
         data-en="Where to Dance in Costa Rica">Dónde bailar en Costa Rica</h1>
+
+    <p class="hero-sub"
+       data-es="Todos los eventos de baile latino de Costa Rica en una sola app. Salsa, bachata, socials y conciertos."
+       data-en="Every Latin dance event in Costa Rica in one app. Salsa, bachata, socials and live shows.">Todos los eventos de baile latino de Costa Rica en una sola app. Salsa, bachata, socials y conciertos.</p>
+
+    <!-- LOS BOTONES DE TIENDA VIVEN ACA, en el hero, y en ningun otro lado.
+         Antes estaban en una seccion "Descargala" al final; esa seccion se
+         fue. Si algun dia se repone, hay que sacar estos: dos juegos de
+         botones de descarga en una pagina de una sola pantalla es pedir dos
+         veces lo mismo.
+
+         Cada nodo lleva su par data-es / data-en, incluidos los rotulos
+         chicos: el modo de fallar de esta pagina es que un nodo nuevo se
+         quede en español cuando se cambia a ingles. -->
+    <div class="tiendas">
+      <a class="store" href="https://apps.apple.com/cr/app/dondebailar/id6790503762" target="_blank" rel="noopener">
+        <span class="store-bajada" data-es="Descargalo en" data-en="Download on the">Descargalo en</span>
+        <span class="store-nombre">App Store</span>
+      </a>
+      <a class="store" href="https://play.google.com/store/apps/details?id=cr.dondebailar.app" target="_blank" rel="noopener">
+        <span class="store-bajada" data-es="Disponible en" data-en="Get it on">Disponible en</span>
+        <span class="store-nombre">Google Play</span>
+      </a>
+    </div>
 
     </div>
 
@@ -640,60 +674,6 @@
   </section>
 
   <!-- ══ 5 · DESCARGALA ══════════════════════════════════════════════════ -->
-  <section id="descargala" class="descargala">
-    <h2 data-es="Descargala" data-en="Get the app">Descargala</h2>
-
-    <!-- LOS DOS BOTONES SON <a>. Ya no hay asimetría: la app está publicada
-         en las dos tiendas —iOS 1.0.1 y Android en producción, 13 países—.
-
-         Hasta ahora Google Play era un <div> sin enlace porque no había ficha
-         a la que apuntar, y el CSS distinguía a.store de .store para que ese
-         div no pareciera clicable. Esa distinción SE ELIMINÓ junto con el div:
-         no quedaba ningún .store que no fuera un <a>, así que el prefijo era
-         una condición que siempre se cumplía.
-
-         Si algún día vuelve a haber una tarjeta sin enlace —una tienda por
-         salir, por ejemplo— hay que reponer esa separación: un elemento con
-         cursor:pointer y hover promete un tap que no existe.
-
-         En el diseño viejo eran CUATRO botones en dos bloques, y ese fue el
-         motivo del commit ab9d2ab; este rediseño los reduce a DOS, en un solo
-         bloque. Ya no hay un par escondido al final de la página. -->
-    <div class="tiendas">
-      <!-- El badge OFICIAL de Apple, bajado de su API de marketing
-           (toolbox.marketingtools.apple.com) y hospedado acá: nada de hotlink.
-           Variante BLANCA porque el fondo es oscuro, que es lo que pide la
-           guia de Apple. NO se recrea ni se redibuja ni se le cambian los
-           colores: se usa el archivo tal cual viene.
-           El badge YA DICE "Descargalo en el App Store", asi que reemplaza al
-           titulo de texto en vez de sumarse: repetirlo seria redundante.
-           Tiene una version por idioma y el toggle le cambia el src. -->
-      <a class="store" href="https://apps.apple.com/cr/app/dondebailar/id6790503762" target="_blank" rel="noopener">
-        <img class="store-badge" src="badges/app-store-es.svg" width="120" height="40"
-             data-es-src="badges/app-store-es.svg" data-en-src="badges/app-store-en.svg"
-             alt="Descargalo en el App Store"
-             data-es-alt="Descargalo en el App Store"
-             data-en-alt="Download on the App Store">
-        <span class="store-bajada"
-              data-es="Para iPhone y iPad. Descarga gratuita."
-              data-en="For iPhone and iPad. Free download.">Para iPhone y iPad. Descarga gratuita.</span>
-      </a>
-
-      <!-- Sigue SIN el badge oficial de Google Play, y ahora es solo una
-           decision de diseño, no una restriccion: la app ya esta publicada y
-           el enlace apunta a su ficha, asi que poner el badge seria legitimo.
-           Se mantiene el titulo de texto porque el badge de Play es un PNG a
-           color con proporcion propia, y al lado del de Apple —monocromo,
-           120x40— desbalancea las dos tarjetas. Si algun dia se pone, hay que
-           resolver antes esa diferencia de forma. -->
-      <a class="store" href="https://play.google.com/store/apps/details?id=cr.dondebailar.app" target="_blank" rel="noopener">
-        <span class="store-nombre">Google Play</span>
-        <span class="store-bajada"
-              data-es="Para Android. Descarga gratuita."
-              data-en="For Android. Free download.">Para Android. Descarga gratuita.</span>
-      </a>
-    </div>
-  </section>
 
   <!-- ══ 6 · CONTACTO ════════════════════════════════════════════════════ -->
   <section id="contacto" class="contacto">
@@ -725,6 +705,25 @@
   <br>
   <a class="mail" href="mailto:support@novaaisolutionscr.com">support@novaaisolutionscr.com</a>
 </footer>
+
+<!-- BARRA FIJA DE DESCARGA — SOLO MOVIL (el CSS la esconde arriba de 640px).
+     Va DESPUES del footer en el orden del documento y no antes: quien navega
+     con teclado o con lector de pantalla recorre la pagina entera y recien al
+     final se encuentra este atajo, en vez de tropezarlo entre el hero y el
+     contenido. Visualmente queda fija abajo desde el primer scroll igual.
+
+     Apunta al App Store y no a Play porque hay que elegir uno: un solo boton
+     no puede llevar a dos tiendas, y en el hero estan las dos. Si alguna vez
+     hay dato de reparto por plataforma, esto se decide con ese dato y no con
+     una corazonada. -->
+<div class="barra-descarga">
+  <span class="barra-texto"
+        data-es="Gratis en iPhone y Android"
+        data-en="Free on iPhone and Android">Gratis en iPhone y Android</span>
+  <a class="barra-cta" href="https://apps.apple.com/cr/app/dondebailar/id6790503762"
+     target="_blank" rel="noopener"
+     data-es="Descargar" data-en="Download">Descargar</a>
+</div>
 
 <script>
 (function () {

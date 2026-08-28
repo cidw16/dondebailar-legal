@@ -389,6 +389,105 @@ mueve el ranking nunca se empieza porque no se parece a programar.
 
 ---
 
+# Volver a badges oficiales de tienda, cuando estén los dos en negro
+
+Anotado el 2026-08-27, al pasar la landing a la paleta clara.
+
+**Hoy los dos botones de tienda son botones de TEXTO**, simétricos: mismo
+fondo `#14141A`, mismo alto, mismo radio, y en cada uno una línea chica arriba
+("Descargalo en" / "Disponible en") con el nombre de la tienda abajo.
+
+No es preferencia estética. Es que sobre papel no había badge usable:
+
+- El de Apple que hay en `/badges/` es la variante **BLANCA**
+  (`Download_on_the_App_Store_Badge_ES_RGB_wht_100217`), pensada para fondo
+  oscuro. Sobre `#FBF7F2` es exactamente la equivocada.
+- **De Google Play nunca hubo badge.** Era una pastilla de texto.
+
+O sea que lo que había era un badge oficial al lado de una pastilla casera, y
+eso ya estaba mal antes de este cambio. Dos botones iguales es peor de marca y
+mejor de diseño, y sobre todo es coherente.
+
+### Qué hace falta para revertirlo
+
+1. Bajar de los recursos oficiales el badge de Apple en **negro**, en ES y en
+   US (`toolbox.marketingtools.apple.com`).
+2. Bajar el badge oficial de **Google Play**, en ES y en EN.
+3. Resolver la diferencia de forma que ya estaba anotada en el código: el de
+   Apple es monocromo 120×40 y el de Play es a color con proporción propia.
+   Ponerlos lado a lado sin resolver eso desbalancea los dos botones.
+
+⚠ **Los dos SVG de Apple siguen en `/badges/` y NO se borraron**, aunque hoy
+no los use nadie. Cuando se consigan los negros, esto se revierte a badges de
+verdad y esos archivos son el punto de partida.
+
+⚠ **No se redibujan ni se recolorean a mano.** Son marcas con lineamientos: la
+variante negra existe y se baja, no se fabrica invirtiendo la blanca.
+
+---
+
+# Ajustes de la paleta clara — variantes, no cambios de marca
+
+Anotado el 2026-08-28.
+
+Cuando la landing pasó a fondo `#FBF7F2`, dos colores de marca dejaron de
+funcionar sobre papel. **Ninguno de los dos se reemplazó: se les calculó su
+variante para fondo claro.** El color de la app sigue siendo el suyo.
+
+Si algún día hay manual de marca, esta sección es de dónde salen los valores
+de fondo claro.
+
+### El ámbar del subrayado del wordmark
+
+| | valor | contraste sobre `#FBF7F2` |
+|---|---|---|
+| fondo oscuro (original) | `#F5C04A` | **1,57:1** — desaparece |
+| fondo claro (en uso) | `#C98A1E` | **2,76:1** |
+
+Es decorativo y `aria-hidden`, así que **no hay umbral WCAG que cumplir**: lo
+único que importaba era que se viera. Entre las variantes que siguen leyéndose
+ámbar se eligió la que menos desaparece. `#E0A32C` daba 2,08:1 y seguía al
+borde de lo invisible.
+
+### El coral del wordmark — SIN cambiar, y anotado por si alguien lo mira
+
+`#FF4D5E` sobre `#FBF7F2` da **3,04:1**. Alcanza para texto grande en negrita,
+que es exactamente lo que es (21–25px, peso 800), y **no alcanzaría para texto
+corrido**. Por eso no se usa en ningún otro lado de la página.
+
+Si alguna vez alguien quiere usar el coral para un párrafo, un botón o un
+enlace: no se puede con este fondo, y hay que calcularle su variante como se
+hizo con el ámbar.
+
+---
+
+# `app.html` — decidir si se borra o se redirige
+
+Anotado el 2026-08-28. **Es cambio propio de Roberto**, porque el archivo está
+en Search Console y esa es la parte que no se ve desde el repo.
+
+Medido el 2026-08-27, los tres datos que hacen falta para decidir:
+
+1. **No lo enlaza NADIE.** Cero `<a href="app.html">` en todo el repo. Las 9
+   menciones que existen son todas comentarios de código.
+2. **No está en `sitemap.xml`.** El sitemap tiene 4 `<loc>`: la raíz,
+   `soporte.html`, `privacidad.html` y `eliminar-cuenta.html`.
+3. **`robots.txt` no lo bloquea.** Es `Allow: /` a secas.
+
+O sea: es un archivo huérfano de enlaces, servido pero no referenciado, con
+`canonical` apuntando a la raíz.
+
+⚠ El comentario del `<head>` de `index.html` dice que **no se borró a
+propósito**: `evento.html` y `entidad.html` publican links a `/app.html` que
+ya circulan en manos de la gente, y un 404 los rompería. Eso hay que
+re-verificarlo antes de decidir — si esos links ya no se publican, el motivo
+para conservarlo caducó.
+
+Las dos salidas son borrar, o dejar un redirect 301 a la raíz. La consolidación
+de indexación hoy la hace el `canonical`; el redirect la haría más explícita.
+
+---
+
 # Descartado
 
 Lo que se evaluó y NO se va a hacer. Está acá para que no reaparezca como
