@@ -537,8 +537,20 @@
   <div class="hero-inner">
     <div class="hero-texto">
     <p class="wordmark">Donde<span class="b">Bailar</span></p>
+    <!-- El ambar es #C98A1E y NO es un color de marca nuevo: es LA VARIANTE
+         PARA FONDO CLARO del mismo ambar. El valor original, #F5C04A, esta
+         pensado para el fondo casi negro que tenia esta pagina; sobre papel da
+         1.57:1 y desaparece — medido, no estimado.
+
+         Es decorativo y aria-hidden, asi que no hay umbral WCAG que cumplir:
+         lo unico que importa es que SE VEA. Entre las variantes que siguen
+         leyendose ambar se eligio la que menos desaparece (2.76:1); #E0A32C
+         daba 2.08:1, todavia al borde de lo invisible.
+
+         El ambar de la APP sigue siendo el suyo. Si algun dia hay manual de
+         marca, este es el valor de fondo claro y no un reemplazo. -->
     <svg class="smile" viewBox="0 0 210 9" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M3 4 Q105 12 207 4" stroke="#F5C04A" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M3 4 Q105 12 207 4" stroke="#C98A1E" stroke-width="3.2" stroke-linecap="round"/>
     </svg>
 
     <p class="badge"><span class="pulse"></span><span
