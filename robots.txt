@@ -2,10 +2,12 @@
 # devuelve 404 y los rastreadores ya asumen "todo permitido". Lo que agrega es
 # la linea Sitemap, que es el punto entero.
 #
-# Sin Disallow a proposito: no hay nada en este sitio que no se quiera indexar.
-# `app.html`, `evento.html` y `entidad.html` se mantienen fuera del indice por
-# canonical, no por bloqueo — bloquearlas impediria que Google LEA el canonical
-# y el efecto seria el contrario del buscado.
+# Sin Disallow a proposito. `app.html`, `evento.html` y `entidad.html` se
+# mantienen fuera del indice por canonical, no por bloqueo — bloquearlas
+# impediria que Google LEA el canonical y el efecto seria el contrario del
+# buscado. `invitacion.html` (ciclo 5) SI lleva <meta name="robots" noindex>
+# porque su query es un secreto de un solo uso; tampoco se bloquea aca, por el
+# mismo motivo: Google tiene que poder leer la directiva.
 User-agent: *
 Allow: /
 

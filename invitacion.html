@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invitación de puerta — DB Organizadores</title>
+<meta name="description" content="Aceptá tu invitación de portero en la app DB Organizadores.">
+
+<!-- ═══ POR QUÉ EXISTE ESTA PÁGINA ═══════════════════════════════════════
+     Es el destino del enlace que la app del ORGANIZADOR genera al invitar a
+     un portero (ciclo 5):
+       https://dondebailar.net/invitacion.html?token=<uuid>
+
+     El organizador lo comparte por WhatsApp. Y WhatsApp solo hace tocable
+     un enlace http(s): un `dondebailarorganizadores://…` llegaría como texto
+     plano y el portero tendría que copiarlo a mano, que es justo el flujo que
+     esto evita. Esta página es el rebote: recibe el https y salta al esquema
+     propio de la app de puerta.
+
+     ⚠ A DIFERENCIA DE evento.html, ESTA PÁGINA SIEMPRE SE VE. La app del
+     organizador NO tiene App Links (Android) ni Universal Links (iOS):
+     .well-known/assetlinks.json y apple-app-site-association nombran solo a
+     cr.dondebailar.app, la app de consumo. No es que falte: NO SE PUEDE hasta
+     que DB Organizadores esté en las tiendas y firmada con el cert de Play
+     (la huella que va en assetlinks.json) y con su Team ID + bundle en el
+     AASA, más intentFilters/associatedDomains en su app.json (build nativa).
+     Hasta entonces el sistema no intercepta el https, abre el navegador, y
+     desde acá se rebota por esquema. Para este flujo alcanza.
+
+     NO SE ENLAZA DESDE LA LANDING NI DESDE NINGUNA PÁGINA, y NO ESTÁ EN EL
+     SITEMAP. No es navegación: es el aterrizaje de un enlace que alguien
+     recibió, y lleva un secreto en la query.
+
+     ⚠ LA URL ES PERMANENTE: /invitacion.html. Queda en los mensajes de
+     WhatsApp ya mandados (24 h de vida cada uno) y en el código de la app.
+     El path del esquema (`invitacion`) tiene que coincidir con la ruta de la
+     app (src/app/invitacion.tsx). Si cambia acá, cambia allá. -->
+
+<!-- ═══ NOINDEX, Y POR QUÉ ESTA PÁGINA SÍ Y evento.html NO ═════════════════
+     evento.html y entidad.html decidieron NO usar noindex: son destinos que
+     pueden aparecer en Google legítimamente (un evento compartido), y el
+     canonical sin query les alcanza. Esta página es otra cosa: el token de
+     la query es un SECRETO de un solo uso. No tiene que indexarse jamás,
+     ni con canonical ni sin él. Por eso lleva noindex ADEMÁS del canonical
+     sin query. No unificar el criterio: son dos casos distintos.
+     robots.txt NO la bloquea, a propósito: bloquearla impediría que Google
+     LEA esta directiva. -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://dondebailar.net/invitacion.html">
+<meta name="theme-color" content="#0D0D11">
+
+<!-- OG mínimo y genérico: sin él, WhatsApp muestra la URL pelada. Nunca el
+     token: la tarjeta la ve cualquiera que tenga el chat abierto. -->
+<meta property="og:title" content="Invitación de puerta — DB Organizadores">
+<meta property="og:description" content="Te invitaron a operar la puerta de un local en DB Organizadores. Abrí el enlace en tu teléfono.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dondebailar.net/invitacion.html">
+<meta property="og:image" content="https://dondebailar.net/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="es_CR">
+<meta property="og:site_name" content="DondeBailar">
+
+<!-- SIN Google Fonts, sin analítica, sin dependencias externas: igual que
+     evento.html, y por el mismo motivo (vive uno o dos segundos). -->
+<style>
+  :root{
+    --bg:#0D0D11;
+    --surface:#16161D;
+    --border:#2A2A35;
+    --text:#ECECEF;
+    --text-strong:#FFFFFF;
+    --muted:#A8A8B3;
+    --primary:#FF4D5E;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--bg);
+    color:var(--text);
+    font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:420px;padding:40px 24px;text-align:center;}
+  .wordmark{
+    font-weight:700;
+    font-size:clamp(28px,8vw,38px);
+    letter-spacing:-0.02em;
+    line-height:1.05;
+    margin:0 0 6px;
+    color:var(--text-strong);
+  }
+  .wordmark .b{color:var(--primary);}
+  .sub{margin:0 0 24px;color:var(--muted);font-size:15px;letter-spacing:0.04em;text-transform:uppercase;}
+  .msg{margin:0 0 20px;color:var(--text);}
+  .msg strong{color:var(--text-strong);display:block;margin-bottom:6px;}
+  .abrir{
+    display:none;
+    padding:14px 20px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    background:var(--surface);
+    color:var(--text-strong);
+    text-decoration:none;
+    font-weight:600;
+  }
+  .abrir.visible{display:block;}
+  .abrir:hover{border-color:var(--primary);}
+  .abrir:focus-visible{outline:2px solid var(--primary);outline-offset:3px;}
+  .nota{margin:22px 0 0;color:var(--muted);font-size:14px;}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <p class="wordmark">Donde<span class="b">Bailar</span></p>
+  <p class="sub">Organizadores</p>
+
+  <!-- El texto por defecto es el del caso bueno (token válido, se está
+       abriendo la app). El script lo reemplaza según el caso. Sin JS se ve
+       esto y el botón de abajo queda oculto: no hay a dónde mandar. -->
+  <p class="msg" id="msg">Abriendo la invitación en la app…</p>
+
+  <!-- Botón para volver a intentar el salto a mano (iOS con el navegador
+       embebido de WhatsApp puede pedir confirmación o no saltar solo). El
+       href lo pone el script, solo después de validar el token. -->
+  <a class="abrir" id="abrir" href="#">Abrir en DB Organizadores</a>
+
+  <p class="nota" id="nota"></p>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  // ═══ SIN TIENDAS, Y ES DELIBERADO — LEER ANTES DE "ARREGLARLO" ═══════════
+  // DB Organizadores NO está publicada: hoy es un dev build interno (APK por
+  // EAS en Android; iOS ad hoc, solo con el dispositivo registrado). No hay
+  // ficha de Play ni de App Store a la que mandar, y un enlace a la build de
+  // EAS cambia con cada build y en iOS no instala. Por eso, a diferencia de
+  // evento.html:
+  //   · el intent:// de Android NO lleva S.browser_fallback_url;
+  //   · en iOS NO hay salto al App Store al vencer el temporizador;
+  //   · al vencer, lo que se hace es CAMBIAR EL TEXTO: "pedile a quien te
+  //     mandó este enlace que te pase la app".
+  // EL DÍA QUE EXISTAN LAS FICHAS DE TIENDA, lo que hay que tocar es:
+  //   1. PLAY / APP_STORE: poner las URLs reales (hoy null).
+  //   2. En el intent://, sumar ';S.browser_fallback_url=' + encodeURIComponent(PLAY).
+  //   3. Al vencer el temporizador en iOS, window.location.replace(APP_STORE)
+  //      como hace evento.html (con la misma lógica de cancelación).
+  //   4. Y recién ahí, App Links / AASA (ver el comentario del <head>).
+  var PLAY      = null;
+  var APP_STORE = null;
+  var ESQUEMA   = 'dondebailarorganizadores';
+  var PAQUETE   = 'cr.dondebailar.organizadores';
+  var ESPERA_MS = 1500;
+
+  var msg   = document.getElementById('msg');
+  var abrir = document.getElementById('abrir');
+  var nota  = document.getElementById('nota');
+
+  function sinApp() {
+    msg.innerHTML = '<strong>Todavía no tenés la app</strong>' +
+      'Pedile a quien te mandó este enlace que te pase la app de DB Organizadores. ' +
+      'Después volvé a abrir este mismo enlace.';
+    nota.textContent = 'El enlace sirve durante 24 horas desde que lo generaron.';
+  }
+
+  // El token se valida como UUID y NUNCA se escribe en el DOM. Lo único que se
+  // hace con él es meterlo en la URL del esquema propio, y solo después de esta
+  // comprobación: un ?token= arbitrario que llegue al HTML sería una inyección.
+  var UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+  var token = null;
+  try {
+    token = new URLSearchParams(window.location.search).get('token');
+  } catch (e) {
+    token = null;
+  }
+
+  // ── Enlace sin token válido: no hay nada que abrir.
+  if (!token || !UUID.test(token)) {
+    msg.innerHTML = '<strong>Este enlace no está completo</strong>' +
+      'Puede que se haya cortado al copiarlo. Pedile a quien te lo mandó que lo vuelva a compartir.';
+    return;
+  }
+
+  var ua = navigator.userAgent || '';
+  // iPadOS 13+ se hace pasar por Mac: la única señal que queda es el touch.
+  var esIOS = /iPad|iPhone|iPod/.test(ua) ||
+              (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  var esAndroid = /Android/.test(ua);
+
+  // ── Escritorio: la app es de teléfono. Se le dice qué hacer, sin saltar.
+  if (!esIOS && !esAndroid) {
+    msg.innerHTML = '<strong>Abrilo en tu teléfono</strong>' +
+      'Esta invitación se acepta desde la app DB Organizadores, que es para celular. ' +
+      'Abrí este mismo enlace en el teléfono donde tengas la app.';
+    return;
+  }
+
+  var deepLink = ESQUEMA + '://invitacion?token=' + token;
+  var intent = 'intent://invitacion?token=' + token +
+    '#Intent;scheme=' + ESQUEMA + ';package=' + PAQUETE + ';end';
+
+  // El botón manual apunta al mismo destino que el salto automático.
+  abrir.href = esAndroid ? intent : deepLink;
+  abrir.className = 'abrir visible';
+
+  // ⚠ LA INSTRUCCIÓN DEL CASO SIN APP SE MUESTRA DESDE EL PRINCIPIO, no solo
+  // al vencer el temporizador. Un portero nuevo NO tiene la app: es el caso
+  // normal, y no puede depender de una heurística de visibilidad que en
+  // algún navegador embebido puede cancelarse (medido en emulación: un
+  // intent:// sin app instalada disparó pagehide y el temporizador nunca
+  // llegó a cambiar el texto). Al vencer, sinApp() solo lo sube al título.
+  nota.textContent = '¿No tenés la app? Pedile a quien te mandó este enlace que te pase ' +
+    'la app de DB Organizadores y después volvé a abrir este mismo enlace. ' +
+    'Sirve durante 24 horas desde que lo generaron.';
+
+  // ── SABER SI LA APP ABRIÓ — la misma lógica que evento.html, con la misma
+  //    historia detrás (medida en device el 2026-08-23): no hay API; el
+  //    indicio es que el navegador deje de estar al frente. Se mira la
+  //    visibilidad al vencer el temporizador, y también el TIEMPO transcurrido
+  //    (iOS congela los temporizadores del webview cuando otra app pasa al
+  //    frente). `cancelado` es de una sola vía: volver de la app no rearma
+  //    nada. `blur` no se escucha: dispara con el diálogo "Cannot Open Page"
+  //    justo para el que NO tiene la app.
+  //
+  //    ⚠ RIESGO ANOTADO, A VERIFICAR EN EL iPHONE (parte B del ciclo 5): sin
+  //    Universal Links, el salto depende de que el navegador embebido de
+  //    WhatsApp (WKWebView) acepte un location.href a un esquema propio. Suele
+  //    pedir confirmación "¿Abrir en DB Organizadores?"; si no abre, el botón
+  //    de arriba y "Abrir en Safari" son la salida. No se resolvió por
+  //    adelantado: se mide.
+  var cancelado = false;
+  var t0 = Date.now();
+  function cancelar() { cancelado = true; }
+  function fueraDeVista() {
+    return document.visibilityState !== 'visible' || document.hidden === true;
+  }
+  document.addEventListener('visibilitychange', function () {
+    if (fueraDeVista()) cancelar();
+  });
+  window.addEventListener('pagehide', cancelar);
+
+  setTimeout(function () {
+    if (cancelado) return;
+    if (fueraDeVista()) return;                    // el evento pudo no llegar
+    if (Date.now() - t0 > ESPERA_MS + 400) return; // el webview estuvo congelado
+    // Sin tienda a la que saltar (ver arriba): se cambia el texto y se deja
+    // el botón por si el salto automático fue bloqueado y la app SÍ está.
+    sinApp();
+  }, ESPERA_MS);
+
+  if (esAndroid) {
+    // Chrome bloquea los esquemas propios lanzados por JS; el intent:// es la
+    // forma soportada. SIN browser_fallback_url: no hay ficha de Play (ver el
+    // bloque de arriba). Sin la app, Chrome se queda en esta página y el
+    // temporizador pone el texto de "todavía no tenés la app".
+    window.location.href = intent;
+  } else {
+    window.location.href = deepLink;
+  }
+})();
+</script>
+
+</body>
+</html>
