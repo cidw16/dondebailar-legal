@@ -1,99 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pago en proceso — DondeBailar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#0D0D11">
-<!-- PAGINA PUENTE DE PAGO (tarjeta 464). Destino al que Onvo devuelve a la
-     persona. URL EXACTA, sin barra final y sin .html: https://dondebailar.net/pago/listo
-     (supabase/functions/onvo-pago/logic.ts, URLS_VUELTA). Por eso el archivo es
-     pago/listo.html y no pago/listo/index.html: Pages sirve /pago/listo con 200
-     directo; con index.html haria 301 a /pago/listo/.
-     SIN JAVASCRIPT, sin scripts ni fuentes de terceros, sin analitica. NO lee ni
-     pinta la query ni el hash: Onvo puede mandar ids ahi. No esta en el sitemap.
-     El boton es un enlace normal al esquema de la app: un toque de la persona
-     lo abre (sin gesto, los navegadores bloquean los esquemas propios).
-     Idiomas: los dos a la vista, uno debajo del otro (sin conmutador, no hace
-     falta JS). -->
+<meta name="color-scheme" content="dark">
+<title>Pago en proceso — DondeBailar</title>
 <style>
-  :root{
-    --bg:#0D0D11;
-    --surface:#16161D;
-    --border:#2A2A35;
-    --text:#ECECEF;
-    --text-strong:#FFFFFF;
-    --muted:#A8A8B3;
-    --primary:#FF4D5E;
-    --accent:#F5C04A;
+  :root {
+    --fondo: #0C0C10; --texto: #F2F2F5; --texto-2: #B9B9C4; --texto-3: #8E8E9A; --borde: #26262F;
+    --acento: #FF5A66; --oro: #F5B935;
+    --papel: #F2EEE6; --tinta: #16161D; --tinta-2: #4A4A55; --tinta-3: #6A6A75; --ambar: #8A5A00; --troquel: #C9C2B4; --riel: #E1DACB;
   }
-  *{box-sizing:border-box;}
-  html{-webkit-text-size-adjust:100%;}
-  body{
-    margin:0;
-    min-height:100vh;
-    background:var(--bg);
-    color:var(--text);
-    font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
-    font-size:17px;
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--fondo); color: var(--texto);
+    font-family: "Nunito Sans", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+    min-height: 100vh; min-height: 100dvh;
   }
-  .wrap{max-width:480px;margin:0 auto;padding:48px 20px 64px;text-align:center;}
-  .wordmark{font-weight:700;font-size:clamp(28px,8vw,38px);letter-spacing:-0.02em;line-height:1.05;margin:0 0 4px;color:var(--text-strong);}
-  .wordmark .b{color:var(--primary);}
-  .smile{display:block;height:10px;width:150px;margin:6px auto 28px;}
-  h1{font-size:22px;line-height:1.3;color:var(--text-strong);margin:0 0 10px;}
-  p{margin:0 0 14px;}
-  .abrir{
-    display:block;
-    margin:18px 0 14px;
-    padding:14px 20px;
-    border-radius:14px;
-    background:var(--primary);
-    color:#0D0D11;
-    font-weight:700;
-    text-decoration:none;
+  .pagina {
+    max-width: 420px; min-height: 100vh; min-height: 100dvh; margin: 0 auto;
+    padding: max(40px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(32px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+    display: flex; flex-direction: column; gap: 28px;
   }
-  .abrir:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
-  .resp{color:var(--muted);font-size:14px;margin:0;}
-  .resp code{
-    display:inline-block;
-    margin-top:4px;
-    padding:2px 8px;
-    border:1px solid var(--border);
-    border-radius:8px;
-    background:var(--surface);
-    color:var(--text-strong);
-    font-size:15px;
-    user-select:all;
-    -webkit-user-select:all;
+  .marca { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .marca b { font-family: Nunito, "Segoe UI", system-ui, sans-serif; font-weight: 900; font-size: 30px; letter-spacing: -0.5px; }
+  .marca b span { color: var(--acento); }
+  .marca i { width: 120px; height: 3px; border-radius: 3px; background: var(--oro); }
+  .entrada { margin-top: 8px; background: var(--papel); color: var(--tinta); border-radius: 18px; overflow: hidden; }
+  .entrada .arriba { padding: 24px 22px 20px; display: flex; flex-direction: column; gap: 8px; }
+  .etiqueta { font-size: 12px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--ambar); }
+  h1 { margin: 0; font-family: Nunito, "Segoe UI", system-ui, sans-serif; font-weight: 800; font-size: 26px; line-height: 1.15; text-wrap: balance; }
+  .entrada p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--tinta-2); }
+  .troquel { position: relative; height: 22px; display: flex; align-items: center; }
+  .troquel::before, .troquel::after { content: ""; position: absolute; width: 22px; height: 22px; border-radius: 50%; background: var(--fondo); }
+  .troquel::before { left: -11px; } .troquel::after { right: -11px; }
+  .troquel hr { flex: 1; margin: 0 18px; border: 0; border-top: 2px dashed var(--troquel); }
+  .entrada .abajo { padding: 18px 22px 24px; display: flex; flex-direction: column; gap: 12px; }
+  .estado { display: flex; justify-content: space-between; font-size: 13px; color: var(--tinta-3); }
+  .estado strong { color: var(--ambar); }
+  .riel { height: 8px; border-radius: 8px; background: var(--riel); overflow: hidden; }
+  .riel div { width: 40%; height: 100%; border-radius: 8px; background: var(--acento); animation: barrido 1.8s ease-in-out infinite; }
+  @keyframes barrido { 0% { transform: translateX(-100%); } 100% { transform: translateX(250%); } }
+  @media (prefers-reduced-motion: reduce) { .riel div { animation: none; transform: translateX(60%); } }
+  .nota { font-size: 13px; line-height: 1.5; color: var(--tinta-3); }
+  .acciones { margin-top: auto; display: flex; flex-direction: column; gap: 12px; }
+  .boton {
+    display: flex; align-items: center; justify-content: center; min-height: 54px; border-radius: 14px;
+    background: var(--acento); color: var(--fondo); font-weight: 800; font-size: 17px; text-decoration: none;
   }
-  .sec + .sec{margin-top:36px;padding-top:32px;border-top:1px solid var(--border);}
-  @media (max-width:360px){.wrap{padding:36px 16px 48px;}}
+  .boton:focus-visible { outline: 3px solid var(--oro); outline-offset: 3px; }
+  .ayuda { margin: 0; text-align: center; font-size: 13px; line-height: 1.5; color: var(--texto-3); }
+  details { border-top: 1px solid var(--borde); padding-top: 14px; font-size: 14px; color: var(--texto-2); }
+  summary { cursor: pointer; font-weight: 700; color: var(--texto); }
+  details p { margin: 10px 0 0; line-height: 1.5; }
 </style>
 </head>
 <body>
-<main class="wrap">
-  <p class="wordmark">Donde<span class="b">Bailar</span></p>
-  <svg class="smile" viewBox="0 0 170 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M2 4 Q85 12 168 4" stroke="#F5C04A" stroke-width="2.6" stroke-linecap="round"/>
-  </svg>
+<main class="pagina">
+  <div class="marca" aria-label="DondeBailar"><b>Donde<span>Bailar</span></b><i aria-hidden="true"></i></div>
 
-  <section class="sec" lang="es">
-    <h1>Estamos confirmando tu pago</h1>
-    <p>Volvé a DondeBailar para ver tu entrada.</p>
-    <a class="abrir" href="dondebailar://">Volver a DondeBailar</a>
-    <p class="resp">Si no se abre, abrí la app DondeBailar desde tu teléfono.</p>
+  <section class="entrada" aria-labelledby="titulo">
+    <div class="arriba">
+      <div class="etiqueta">Entrada</div>
+      <h1 id="titulo">Tu entrada está en camino</h1>
+      <p>Estamos confirmando el pago con el banco. En cuanto se confirme, la vas a ver en la app.</p>
+    </div>
+    <div class="troquel" aria-hidden="true"><hr></div>
+    <div class="abajo">
+      <div class="estado"><span>Estado</span><strong>Confirmando…</strong></div>
+      <div class="riel" aria-hidden="true"><div></div></div>
+      <div class="nota">En la puerta mostrás el QR desde «Tus entradas».</div>
+    </div>
   </section>
 
-  <section class="sec" lang="en">
-    <h1>We are confirming your payment</h1>
-    <p>Go back to DondeBailar to see your ticket.</p>
-    <a class="abrir" href="dondebailar://">Back to DondeBailar</a>
-    <p class="resp">If it doesn't open, open the DondeBailar app on your phone.</p>
-  </section>
+  <div class="acciones">
+    <a class="boton" href="dondebailar://">Abrir DondeBailar</a>
+    <p class="ayuda">Si no se abre, abrí la app DondeBailar desde tu teléfono.</p>
+  </div>
+
+  <details lang="en">
+    <summary>English</summary>
+    <p>Your ticket is on its way. We are confirming your payment with the bank; once it is confirmed, you will see it in the app. If the button doesn't open it, open the DondeBailar app on your phone.</p>
+  </details>
 </main>
 </body>
 </html>
