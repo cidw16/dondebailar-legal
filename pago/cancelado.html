@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="dark">
-<title>Pago no completado — DondeBailar</title>
+<title>Volviendo a DondeBailar</title>
 <style>
   :root {
     --fondo: #0C0C10; --texto: #F2F2F5; --texto-2: #B9B9C4; --texto-3: #8E8E9A; --borde: #26262F;
     --acento: #FF5A66; --oro: #F5B935;
-    --papel: #F2EEE6; --tinta: #16161D; --tinta-2: #4A4A55; --tinta-3: #6A6A75; --gris: #5C5C66; --troquel: #C9C2B4;
+    --papel: #F2EEE6; --tinta: #16161D; --tinta-2: #4A4A55;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; }
@@ -30,17 +30,9 @@
   .marca i { width: 120px; height: 3px; border-radius: 3px; background: var(--oro); }
   .entrada { margin-top: 8px; background: var(--papel); color: var(--tinta); border-radius: 18px; overflow: hidden; }
   .entrada .arriba { padding: 24px 22px 20px; display: flex; flex-direction: column; gap: 8px; }
-  .etiqueta { font-size: 12px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--gris); }
   h1 { margin: 0; font-family: Nunito, "Segoe UI", system-ui, sans-serif; font-weight: 800; font-size: 26px; line-height: 1.15; text-wrap: balance; }
+  .acciones[hidden] { display: none; }
   .entrada p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--tinta-2); }
-  .troquel { position: relative; height: 22px; display: flex; align-items: center; }
-  .troquel::before, .troquel::after { content: ""; position: absolute; width: 22px; height: 22px; border-radius: 50%; background: var(--fondo); }
-  .troquel::before { left: -11px; } .troquel::after { right: -11px; }
-  .troquel hr { flex: 1; margin: 0 18px; border: 0; border-top: 2px dashed var(--troquel); }
-  .entrada .abajo { padding: 18px 22px 24px; display: flex; flex-direction: column; gap: 10px; }
-  .estado { display: flex; justify-content: space-between; font-size: 13px; color: var(--tinta-3); }
-  .estado strong { color: var(--gris); }
-  .nota { font-size: 13px; line-height: 1.5; color: var(--tinta-3); }
   .acciones { margin-top: auto; display: flex; flex-direction: column; gap: 12px; }
   .boton {
     display: flex; align-items: center; justify-content: center; min-height: 54px; border-radius: 14px;
@@ -48,9 +40,6 @@
   }
   .boton:focus-visible { outline: 3px solid var(--oro); outline-offset: 3px; }
   .ayuda { margin: 0; text-align: center; font-size: 13px; line-height: 1.5; color: var(--texto-3); }
-  details { border-top: 1px solid var(--borde); padding-top: 14px; font-size: 14px; color: var(--texto-2); }
-  summary { cursor: pointer; font-weight: 700; color: var(--texto); }
-  details p { margin: 10px 0 0; line-height: 1.5; }
 </style>
 </head>
 <body>
@@ -59,26 +48,36 @@
 
   <section class="entrada" aria-labelledby="titulo">
     <div class="arriba">
-      <div class="etiqueta">Pago no completado</div>
-      <h1 id="titulo">El pago no se completó</h1>
-      <p>Tu reserva queda apartada por un tiempo limitado. Si llegaste a pagar, tu entrada aparece igual en la app.</p>
-    </div>
-    <div class="troquel" aria-hidden="true"><hr></div>
-    <div class="abajo">
-      <div class="estado"><span>Estado</span><strong>Sin confirmar</strong></div>
-      <div class="nota">Podés volver a intentarlo desde el evento en la app, con el mismo botón de compra. Si no pagás antes de que venza, el cupo se libera.</div>
+      <h1 id="titulo" role="status">Volviendo a DondeBailar…</h1>
+      <p lang="en">Returning to DondeBailar…</p>
     </div>
   </section>
 
-  <div class="acciones">
+  <div class="acciones" id="acciones" hidden>
     <a class="boton" href="dondebailar://">Volver a DondeBailar</a>
-    <p class="ayuda">Si no se abre, abrí la app DondeBailar desde tu teléfono.</p>
+    <p class="ayuda">Si no se abre, abrí la app DondeBailar desde tu teléfono.<br><span lang="en">If it doesn't open, open the DondeBailar app on your phone.</span></p>
   </div>
-
-  <details lang="en">
-    <summary>English</summary>
-    <p>The payment was not completed. Your reservation is held for a limited time; you can try again from the event in the app. If you did pay, your ticket will still show up in the app. If the button doesn't open it, open the DondeBailar app on your phone.</p>
-  </details>
+  <noscript>
+    <div class="acciones">
+      <a class="boton" href="dondebailar://">Volver a DondeBailar</a>
+      <p class="ayuda">Si no se abre, abrí la app DondeBailar desde tu teléfono.<br><span lang="en">If it doesn't open, open the DondeBailar app on your phone.</span></p>
+    </div>
+  </noscript>
 </main>
+<script>
+(function () {
+  var RUTA = "pago/cancelado";
+  var ua = (navigator.userAgent || "");
+  var url = /Android/i.test(ua)
+    ? "intent://" + RUTA + "#Intent;scheme=dondebailar;package=cr.dondebailar.app;end"
+    : "dondebailar://" + RUTA;
+  window.location.assign(url);
+  setTimeout(function () {
+    if (document.visibilityState === "visible") {
+      document.getElementById("acciones").hidden = false;
+    }
+  }, 1500);
+})();
+</script>
 </body>
 </html>
